@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo Base_Company?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css">
+<link href="../adm_html/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />
+<link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
+<script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+
+<script type='text/javascript' src='../adm_html/scripts/ledger.js?v=1.2'></script>
+
+</script>
+</head>
+
+<body>
+<?php include_once( "../adm_html/header.html");?>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190px" valign="top"><?php include_once( "../adm_html/menu.html")?></td>
+    <td valign="top"><div class="pageheader">
+        <h2>發票管理</h2>
+      </div>
+      <div class="contentpanel">
+        <form id="form1" name="form1" method="post" action="admin.php?func=invoice&attr=Export" target="_blank">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              <label>
+              搜尋: 
+              &nbsp;&nbsp;
+              <input name='Keyword' type='text' class="form-control" id="Keyword" maxlength="50" style="width:150px;" placeholder="特店代號 特店名稱" />
+&nbsp;日期</label>
+              <label for="Year"></label>
+              <select name="Year" id="Year" class="form-control" style="width:auto !important;" >
+                <option value="2015">2015</option>
+                <option value="2016">2016</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+                <option value="2029">2029</option>
+                <option value="2030">2030</option>
+              </select>
+              年
+              <select name="Month" id="Month" class="form-control" style="width:auto !important;" >
+                <option value="01">01</option>
+                <option value="02">02</option>
+                <option value="03">03</option>
+                <option value="04">04</option>
+                <option value="05">05</option>
+                <option value="06">06</option>
+                <option value="07">07</option>
+                <option value="08">08</option>
+                <option value="09">09</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+              </select>
+              月
+              <label>
+  <input type="button" name="button" id="button" class="pull btn btn-info btn"  value=" 查 詢 " />
+  <input name="送出" type="submit" class="pull2 btn btn-info Export" id="CaseReq" style="margin-left:5px; margin-right:5px;" value="匯出Excel" rel="tooltip">
+              </label>
+              <!--<?php if ($AdminLevel == "1" || $AdminLevel == "2") {?>
+              <div class="cnavbar" style="float:right;"> <span class="pull-right btn btn-info btn" rel="tooltip" title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER[" PHP_SELF "] ?>?func=Added');"> <i class="icon-edit"></i> 新增廠商資料</span> </div>
+              <?php }?>-->
+            </div>
+          </div>
+        </form>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row bu_title_bar clearfix">
+              <h4 class="pull-left">共 <span id="lStore_SysInfoTotal" class="searchresults_count"><?php echo count($Html)?></span> 筆</h4>
+            </div>
+            <div class="row clearfix">
+              <div class="col-xs-12">
+                <table class="table table-condensed table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th class="nowrap">特店代號</th>
+                      <th class="nowrap">特店名稱</th>
+                      <th class="nowrap">計算期間</th>
+                      <th class="nowrap">請款金額</th>
+                      <th class="nowrap">發票金額</th>
+                      <th class="nowrap">發票格式</th>
+                      <th class="nowrap">發票抬頭</th>
+                      <th class="nowrap">統一編號</th>  
+                      <th class="nowrap"></th>                      
+                    </tr>
+                  </thead>
+                  <tbody>
+                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div></td>
+  </tr>
+</table>
+</body>
+</html>

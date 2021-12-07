@@ -1,0 +1,126 @@
+<script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../jquery/ui/i18n/jquery.ui.datepicker-zh-TW.js"></script>
+
+<script type="text/javascript" src="../box/jquery.jBox-2.3.min.js"></script>
+<script type="text/javascript" src="../box/jquery.jBox-zh-CN.js"></script>
+<link type="text/css" rel="stylesheet" href="../box/GrayCool/jbox.css"/>
+
+<script type="text/javascript" src="../box/jBox.min.js"></script>
+<script type="text/javascript" src="../box/jBox.js"></script>
+<link type="text/css" rel="stylesheet" href="../box/jBox.css"/>
+
+<link href="../adm_html/css/bootstrap-switch.css" rel="stylesheet">
+
+<script type='text/javascript' src='../adm_html/scripts/bootstrap-switch.js'></script>
+<script type='text/javascript' src='../adm_html/scripts/jquery.marquee.js'></script>
+<script src="../jquery/moment.min.js"></script>
+<script type="text/javascript">
+$(function () {	
+	//$("input[id='SmsSwitch']").bootstrapSwitch();
+	$("input[id='SmsSwitch']").on('change.bootstrapSwitch', function (Event) {
+		//console.log(1);
+		if(this.checked) {
+			$.post("../firm/admin.php?func=UpdateSmsSwitch","Switch=1",function (data){
+			});
+			//console.error('A1');
+		}else {
+			$.post("../firm/admin.php?func=UpdateSmsSwitch","Switch=0",function (data){
+			});
+			//console.error('A0');
+		}
+	});
+});
+function jBox3(url) 
+{
+	$.jBox("iframe:"+url, {
+		top:5,
+		id: 'user',
+		title: null,		
+		iframeScrolling: 'yes',
+    	showScrolling: true,
+		width: 625,
+		height: 420,
+		buttons: {}
+	});
+}
+function GetPoints() {
+	$.post("../firm/admin.php?func=GetPoints","",function (data){
+		$('span[id="Points"]').html(data);
+			//$('#divLoading').hide();
+		  	//console.log(data);
+			//eval(data);
+		});
+	setTimeout("GetPoints()", 5000);
+}
+function GetSmsSwitch() {
+	$.post("../firm/admin.php?func=GetSmsSwitch","",function (data){
+		console.log(data);
+		if (data == 1) {
+			$("input[id='SmsSwitch']").bootstrapSwitch('state',true);
+		}else {
+			$("input[id='SmsSwitch']").bootstrapSwitch('state',false);
+		}
+	});
+}
+function GetNoLooked() {
+	$.post("../firm/admin.php?func=GetNoLooked","",function (data){
+			//$('span[id="Points"]').html(data);
+			//$('#divLoading').hide();
+		  	//console.log('GetNoLooked'+data);
+			//eval(data);
+			if (data >= 1) {
+				$('.marquee').show();
+			}else {
+				$('.marquee').hide();
+			}
+		});
+	setTimeout("GetNoLooked()", 5000);
+}
+</script>
+<header class="header">
+        <div class="logopanel">
+            <h1><?php echo Base_Company?></h1>
+			<span class="header_points">可提領點數&nbsp;<span id="Points">0</span>&nbsp;點</span>
+			<script>
+				GetPoints();
+			</script>
+        </div>
+		<?php if (CSession::getVar("Boss") == "1") {?>
+	
+			<div  style="float: left; margin-top: 30px; width:30%; "><div class="marquee" data-duplicated='true' style="width: 100%; overflow: hidden; border: 0px solid #ccc;"><a href="../firm/admin.php?func=WithdrawManage" style="color: #B40003">目前有新的給付需求</a></div></div>
+			<script>
+			$('.marquee').marquee({
+				//speed in milliseconds of the marquee
+				duration: 5000,
+				//gap in pixels between the tickers
+				gap: 50,
+				//time in milliseconds before the marquee will start animating
+				delayBeforeStart: 0,
+				//'left' or 'right'
+				direction: 'left',
+				//true or false - should the marquee be duplicated to show an effect of continues flow
+				duplicated: false
+			});
+			GetNoLooked();
+			</script>
+		<?php }?>
+        <div class="header-right">
+            <ul class="headermenu">
+                <li>
+                  <p>客服專線：04-1234567</p></li>
+            </ul>
+			<?php if (CSession::getVar("Boss") == "1") {?>
+			<ul class="headermenu" style="margin-top: -20px;">
+				<li style="color: #FFFFFF">簡訊接收<input name="SmsSwitch" type="checkbox" id="SmsSwitch" value="1" data-size="mini"></li>
+            </ul>
+			<script>
+				GetSmsSwitch();
+			</script>
+			<?php }?>
+        </div>
+        <div class="header-right" style="padding:16px 0 0 0;">
+            <a href="../Bulletin/admin.php" target="_parent" class="btn btn-danger-alt width80">回首頁</a>
+        </div> 
+    </header>

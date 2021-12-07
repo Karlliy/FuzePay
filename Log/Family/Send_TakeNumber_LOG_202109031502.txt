@@ -1,0 +1,14 @@
+ ---------------- Send_TakeNumber開始 ---------------- 
+$TakeNumberURL =>https://tw.news.yahoo.com/%E7%BE%8E%E5%A8%81%E8%84%85%E6%96%B7%E8%88%AA-%E4%B8%AD%E5%9C%8B%E7%A7%92%E8%AE%93%E6%AD%A5-%E9%99%B8%E7%B6%B2%E5%8F%8B%E5%82%BB%E7%9C%BC-091549095.html
+key =>RtnCode  val=>1
+key =>RtnMessage  val=>取號成功
+key =>MerTradeID  val=>2190359176
+key =>MerProductID  val=>B100
+key =>MerUserID  val=>UserID14973
+key =>Amount  val=>100
+key =>ExpireDatetime  val=>2021-09-04 23:59:59
+key =>Store  val=>Family
+key =>CodeNo  val=>1230J9700A9303
+key =>Validate  val=>e6fac8c3ee1f24df83ad0c3418b698c3
+$strReturn =>Invalid page accessed.. redirecting...
+$curlerror =>Request OK(0):

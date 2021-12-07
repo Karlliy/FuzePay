@@ -1,0 +1,280 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>線上繳款</title>
+
+    <link href="https://fuze-pay.com/ATMPay/global.css" rel="stylesheet" type="text/css">
+    <link href="https://fuze-pay.com/ATMPay/responsive.css" rel="stylesheet" type="text/css">
+    <link href="https://fuze-pay.com/ATMPay/reset.css" rel="stylesheet" type="text/css">
+    <link href="./ATMPay/seller_pay.css?0.4" rel="stylesheet" type="text/css">
+
+    <script async src="https://fuze-pay.com/ATMPay/analytics.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.superslides.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.sticky.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.unobtrusive-ajax.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/custom.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/index.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/cufon-yui.js"></script>
+    <style type="text/css">
+        cufon {
+            text-indent: 0 !important;
+        }
+
+        @media screen,
+        projection {
+            cufon {
+                display: inline !important;
+                display: inline-block !important;
+                position: relative !important;
+                vertical-align: middle !important;
+                font-size: 1px !important;
+                line-height: 1px !important;
+            }
+
+            cufon cufontext {
+                display: -moz-inline-box !important;
+                display: inline-block !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                text-indent: -10000in !important;
+            }
+
+            cufon canvas {
+                position: relative !important;
+            }
+        }
+
+        @media print {
+            cufon {
+                padding: 0 !important;
+            }
+
+            cufon canvas {
+                display: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/highlight.pack.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.cookie.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.accordion.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/page.js?<?php echo rand()?>"></script>
+    <script type="text/javascript" src="./ATMPay/page.js?<?php echo rand()?>"></script>
+    <style type="text/css">
+        .nav-section-inner h3 {
+            font-weight: bold;
+        }
+    </style>
+
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- header -->
+        
+        <!-- End:header -->
+        <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.PrintArea.js"></script>
+        <style type="text/css">
+            .payInfo {
+                font-family: '微軟正黑體';
+                line-height: 18px;
+                font-size: 14px;
+            }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                //### 信用卡3D驗證
+                $('.dialog-Box').hide();
+            });
+
+            //### Disable F5 key.
+            document.onkeydown = function (e) {
+                e = e || window.event;
+                if (e.keyCode === 116) {
+                    e.keyCode = 0;
+                    if (e.preventDefault) e.preventDefault();
+                    else e.returnValue = false;
+                    return false;
+                }
+            }
+
+            //### 信用卡3D驗證
+            function openDemo() {
+                $('.dialog-Box').show();
+                $(".dialog-overlay").show();
+                $('html, body').scrollTop(0);
+            }
+
+            //### 信用卡3D驗證
+            function closeDemo() {
+                $('.dialog-Box').hide();
+                $(".dialog-overlay").hide();
+            }
+
+            function PrintResultBlock() {
+                var printBody = $(".printContainer");
+                printBody.find(".showcase").hide();
+                $(printBody).printArea();
+                printBody.find(".showcase").show();
+            }
+        </script>
+        <!--非儲值-->
+        <div class="main part">
+            <div class="container printContainer">
+                <div class="pay_content payment_content">
+                    <div class="order">
+                        <h2>
+                            刷卡交易成功
+                        </h2>
+                    </div>
+                    <div class="info">
+                        <p>
+                            本次交易明細如下 :                        </p>
+                    </div>
+                    <div class="pay_box">
+                        <p class="blue right">
+                            單位：新台幣 (元)
+                        </p>
+                        <table border="0" align="center" cellpadding="0" cellspacing="0" class="boxA">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="75%">
+                            </colgroup>
+                            <tbody>
+                                <tr>
+                                    <td class="blue">
+                                        訂單編號
+                                    </td>
+                                    <td>
+                                        <?php echo $OrderNo?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        商店編號
+                                    </td>
+                                    <td>
+                                        <?php echo $MerProductID?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        消費者ID
+                                    </td>
+                                    <td>
+                                        <?php echo $MerUserID?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        實際刷卡金額<br>
+                                    </td>
+                                    <td>
+                                        <span style="display: inline-block;">
+                                            <b class="red">
+                                                <?php echo $Amount?>
+                                            </b>
+                                            元
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">刷卡授權碼</td>
+                                    <td>
+                                        <?php echo $Auth_Code?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        刷卡結果
+                                    </td>
+                                    <td>
+                                        <b class="red">付款成功</b>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        刷卡時間
+                                    </td>
+                                    <td class="red">
+                                        <?php echo $_PaymentDate?>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--<div class="message margin_t30">
+                        <h4>
+                            注意事項：</h4>
+
+                        <ol>
+                            <li style="color:#FF0000 ">請依訂單金額繳納，切勿重複繳款，謝謝合作</li>
+                            <li>晚上 12 點至凌晨 1 點之間為銀行固定維護時間，如於此期間進行轉帳，將於凌晨 1 點後入帳。</li>
+                            <li>若使用ATM櫃員機，可選擇轉帳 / 轉出 ( 繳費單筆上限3萬元 ) 或繳費 ( 無上限3萬元限制 ) 之功能按鈕；若為使用第一銀行ATM櫃員機，請選擇「繳費」按鈕。</li>
+                            <li>適用【繳費】功能之銀行ATM櫃員機：玉山銀行、臺灣銀行、中國信託、土地銀行、富邦銀行、第一銀行、華南銀行、台新銀行、彰化銀行。(無上限3萬元限制)</li>
+
+                        </ol>
+                    </div>-->
+                    <div class="print">
+                        <a class="btn blue_button" onClick="PrintResultBlock();">列印本頁</a>
+					</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="dialog-overlay" style="display: none">
+        </div>
+
+        <div class="dialog-Box" style="width: 600px; display: none">
+            <div class="popbox">
+                <div class="close-button">
+                    <a style="cursor: pointer" onClick="closeDemo();"></a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- footer -->
+        <div class="footer sell_footer">
+            <div class="container">
+            </div>
+        </div>
+        <!-- End: footer -->
+    </div>
+    <!-- End: wrapper -->
+
+    <style type="text/css">
+    .offscreen {
+        position: absolute;
+        left: -999em;
+    }
+    </style>
+
+    <script type="text/javascript">
+    $('input[id="copybutton"]').click(function(event) {
+        CopyToClipboard('VatmAccount');
+    });
+
+    function CopyToClipboard(containerid) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select().createTextRange();
+            document.execCommand("copy");
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            alert("已複製好，可貼粘")
+        }
+        }
+    </script>
+</body>
+
+</html>

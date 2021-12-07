@@ -1,0 +1,402 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="UTF-8">
+    <title>線上繳款</title>
+
+    <link href="https://fuze-pay.com/ATMPay/global.css" rel="stylesheet" type="text/css">
+    <link href="https://fuze-pay.com/ATMPay/responsive.css" rel="stylesheet" type="text/css">
+    <link href="https://fuze-pay.com/ATMPay/reset.css" rel="stylesheet" type="text/css">
+    <link href="./ATMPay/seller_pay.css?0.4" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
+    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://js.tappaysdk.com/tpdirect/v5.7.0"></script>
+    <style type="text/css">
+        cufon {
+            text-indent: 0 !important;
+        }
+
+        @media screen,
+        projection {
+            cufon {
+                display: inline !important;
+                display: inline-block !important;
+                position: relative !important;
+                vertical-align: middle !important;
+                font-size: 1px !important;
+                line-height: 1px !important;
+            }
+
+            cufon cufontext {
+                display: -moz-inline-box !important;
+                display: inline-block !important;
+                width: 0 !important;
+                height: 0 !important;
+                overflow: hidden !important;
+                text-indent: -10000in !important;
+            }
+
+            cufon canvas {
+                position: relative !important;
+            }
+        }
+
+        @media print {
+            cufon {
+                padding: 0 !important;
+            }
+
+            cufon canvas {
+                display: none !important;
+            }
+        }
+    </style>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.blockUI.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/highlight.pack.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.cookie.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.accordion.js"></script>
+    <script type="text/javascript" src="https://fuze-pay.com/ATMPay/page.js?<?php echo rand()?>"></script>
+    <script type="text/javascript" src="./ATMPay/page.js?<?php echo rand()?>"></script>
+    <style type="text/css">
+        .nav-section-inner h3 {
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        TPDirect.setupSDK(122044, 'app_K4WQHILxBGGgM1UR5lDaU9fZmdirBtyX5CKqrnhmeweMBRrljaAh1tAaWU34', 'sandbox')
+    </script>
+    <style>
+        #tappay-iframe {
+            font-family: Lato,'Helvetica Neue',Arial,Helvetica,sans-serif;
+            margin: 0;
+            outline: 0;
+            -webkit-appearance: none;
+            tap-highlight-color: rgba(255,255,255,0);
+            line-height: 1.21428571em;
+            padding: .578571em 1em;
+            font-size: 1em;
+            background: #fff;
+            border: 1px solid rgba(34,36,38,.15);
+            color: rgba(0,0,0,.87);
+            border-radius: .28571429rem;
+            box-shadow: 0 0 0 0 transparent inset;
+            -webkit-transition: color .1s ease,border-color .1s ease;
+            transition: color .1s ease,border-color .1s ease;
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="wrapper">
+        <!-- header -->
+        
+        <!-- End:header -->
+        <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.PrintArea.js"></script>
+        <style type="text/css">
+            .payInfo {
+                font-family: '微軟正黑體';
+                line-height: 18px;
+                font-size: 14px;
+            }
+        </style>
+        <script type="text/javascript">
+            $(function () {
+                //### 信用卡3D驗證
+                $('.dialog-Box').hide();
+            });
+
+            //### Disable F5 key.
+            document.onkeydown = function (e) {
+                e = e || window.event;
+                if (e.keyCode === 116) {
+                    e.keyCode = 0;
+                    if (e.preventDefault) e.preventDefault();
+                    else e.returnValue = false;
+                    return false;
+                }
+            }
+
+            //### 信用卡3D驗證
+            function openDemo() {
+                $('.dialog-Box').show();
+                $(".dialog-overlay").show();
+                $('html, body').scrollTop(0);
+            }
+
+            //### 信用卡3D驗證
+            function closeDemo() {
+                $('.dialog-Box').hide();
+                $(".dialog-overlay").hide();
+            }
+
+            function PrintResultBlock() {
+                var printBody = $(".printContainer");
+                printBody.find(".showcase").hide();
+                $(printBody).printArea();
+                printBody.find(".showcase").show();
+            }
+        </script>
+        <!--非儲值-->
+        <div class="main part">
+            <div class="container printContainer">
+                <div class="pay_content payment_content">
+                    <div class="order">
+                        <h2>
+                            信用卡 線上刷卡付款
+                        </h2>
+                    </div>
+                    <div class="info">
+                        <p>
+                            請於時間內使用您選擇的付款方式進行付款！
+                        </p>
+                        <p>
+                            本次交易明細如下 :
+                        </p>
+                    </div>
+                    <div class="pay_box">
+                        <p class="blue right">
+                            單位：新台幣 (元)
+                        </p>
+                        <table border="0" align="center" cellpadding="0" cellspacing="0" class="boxA">
+                            <colgroup>
+                                <col width="25%">
+                                <col width="75%">
+                            </colgroup>
+                            <tbody>
+                                <form name="data" method="post">
+                                <tr>
+                                    <td class="blue">
+                                        商店訂單編號
+                                    </td>
+                                    <td>
+                                        <?php echo $MerTradeID?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        商品代號
+                                    </td>
+                                    <td>
+                                        <?php echo $MerProductID?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        消費者ID
+                                    </td>
+                                    <td>
+                                        <?php echo $MerUserID?>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        實際繳費金額<br>
+                                    </td>
+                                    <td>
+                                        <span style="display: inline-block;">
+                                            <b class="red">
+                                                <?php echo $Amount?>
+                                            </b>
+                                            元
+                                        </span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        信用卡
+                                    </td>
+                                    <td>
+                                        <div id="tappay-iframe"></div>
+                                        <!-- <pre class="ui error message" id="message" style="overflow-x: auto"></pre> -->
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        信用卡姓名
+                                    </td>
+                                    <td>
+                                        <input id="Name" class="input" type="tel" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="Name" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false">
+                                        <?php while (list ($key, $val) = each ($_POST)) {
+                                            echo '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
+                                        }?>
+                                        <input id="Prime" name="Prime" class="input" type="hidden">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="blue">
+                                        手機號碼
+                                    </td>
+                                    <td style="font-weight: bold;">
+                                        <input id="Mobile" class="input" type="tel" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="Mobile" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false"></div>
+                                    </td>
+                                </tr>
+                                </form>
+                            </tbody>
+                        </table>
+                    </div>
+                    <!--<div class="message margin_t30">
+                        <h4>
+                            注意事項：</h4>
+
+                        <ol>
+                            <li style="color:#FF0000 ">請依訂單金額繳納，切勿重複繳款，謝謝合作</li>
+                            <li>晚上 12 點至凌晨 1 點之間為銀行固定維護時間，如於此期間進行轉帳，將於凌晨 1 點後入帳。</li>
+                            <li>若使用ATM櫃員機，可選擇轉帳 / 轉出 ( 繳費單筆上限3萬元 ) 或繳費 ( 無上限3萬元限制 ) 之功能按鈕；若為使用第一銀行ATM櫃員機，請選擇「繳費」按鈕。</li>
+                            <li>適用【繳費】功能之銀行ATM櫃員機：玉山銀行、臺灣銀行、中國信託、土地銀行、富邦銀行、第一銀行、華南銀行、台新銀行、彰化銀行。(無上限3萬元限制)</li>
+
+                        </ol>
+                    </div>-->
+                    <div class="print">
+                        <a class="btn blue_button" id="submit"> 確定支付</a>
+					</div>
+
+                </div>
+            </div>
+        </div>
+        <div class="dialog-overlay" style="display: none">
+        </div>
+
+        <div class="dialog-Box" style="width: 600px; display: none">
+            <div class="popbox">
+                <div class="close-button">
+                    <a style="cursor: pointer" onClick="closeDemo();"></a>
+                </div>
+            </div>
+        </div>
+
+
+
+        <!-- footer -->
+        <div class="footer sell_footer">
+            <div class="container">
+            </div>
+        </div>
+        <!-- End: footer -->
+    </div>
+    <!-- End: wrapper -->
+
+    <style type="text/css">
+    .offscreen {
+        position: absolute;
+        left: -999em;
+    }
+    </style>
+
+    <script type="text/javascript">
+    $('input[id="copybutton"]').click(function(event) {
+        CopyToClipboard('VatmAccount');
+    });
+
+    function CopyToClipboard(containerid) {
+        if (document.selection) {
+            var range = document.body.createTextRange();
+            range.moveToElementText(document.getElementById(containerid));
+            range.select().createTextRange();
+            document.execCommand("copy");
+        } else if (window.getSelection) {
+            var range = document.createRange();
+            range.selectNode(document.getElementById(containerid));
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+            alert("已複製好，可貼粘")
+        }
+        }
+    </script>
+     <script>
+        var statusTable = {
+            '0': '欄位已填好，並且沒有問題',
+            '1': '欄位還沒有填寫',
+            '2': '欄位有錯誤，此時在 CardView 裡面會用顯示 errorColor',
+            '3': '使用者正在輸入中',
+        }
+        var defaultCardViewStyle = {
+            color: 'rgb(0,0,0)',
+            fontSize: '15px',
+            lineHeight: '24px',
+            fontWeight: '300',
+            errorColor: 'red',
+            placeholderColor: ''
+        }
+        var config = { 
+            isUsedCcv: false 
+        }
+        TPDirect.card.setup('#tappay-iframe', defaultCardViewStyle, config)
+        TPDirect.card.onUpdate(function (update) {
+
+            var submitButton = document.querySelector('#submit')
+            var cardViewContainer = document.querySelector('#tappay-iframe')
+
+            if (update.canGetPrime) {
+                submitButton.removeAttribute('disabled')
+            } else {
+                submitButton.setAttribute('disabled', true)
+            }
+
+            /*var message = document.querySelector('#message')
+
+            message.innerHTML = `
+                canGetPrime: ${update.canGetPrime} \n
+                cardNumberStatus: ${statusTable[update.status.number]} \n
+                cardExpiryStatus: ${statusTable[update.status.expiry]} \n
+                cvcStatus: ${statusTable[update.status.cvc]}
+            `.replace(/    /g, '')
+
+            if (update.hasError) {
+                message.classList.add('error')
+                message.classList.remove('info')
+            } else {
+                message.classList.remove('error')
+                message.classList.add('info')
+            }*/
+        })
+        document.querySelector('#submit').addEventListener('click', function(event) {
+            TPDirect.card.getPrime(function(result) {
+                if (result.status != 0) {
+                    alert('請輸入信用卡卡號和有效月年');
+                    console.log(result);
+                    return false;
+                }
+                //document.querySelector('#result').innerHTML  = JSON.stringify(result, null, 4)
+                console.log(result);
+                console.log(result.card);
+
+                document.querySelector('#prime').value = result.card.prime;
+
+                var result = { };
+                $.each($('form[name="data"]').serializeArray(), function() {
+                    result[this.name] = this.value;
+                });
+                //console.log(result);
+                post_to_url('\CreditNotify', result);
+
+                /*var command = `
+                Use following command to send to server \n\n
+                curl -X POST https://sandbox.tappaysdk.com/tpc/payment/pay-by-prime \\
+                -H 'content-type: application/json' \\
+                -H 'x-api-key: partner_6ID1DoDlaPrfHw6HBZsULfTYtDmWs0q0ZZGKMBpp4YICWBxgK97eK3RM' \\
+                -d '{
+                    "partner_key": "partner_6ID1DoDlaPrfHw6HBZsULfTYtDmWs0q0ZZGKMBpp4YICWBxgK97eK3RM",
+                    "prime": "${result.card.prime}",
+                    "amount": "1",
+                    "merchant_id": "GlobalTesting_CTBC",
+                    "details": "Some item",
+                    "cardholder": {
+                        "phone_number": "+886923456789",
+                        "name": "王小明",
+                        "email": "LittleMing@Wang.com",
+                        "zip_code": "100",
+                        "address": "台北市天龍區芝麻街1號1樓",
+                        "national_id": "A123456789"
+                    }
+                }'`.replace(/                /g, '')
+
+                document.querySelector('#curl').innerHTML = command*/
+            })
+        })
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <title><?php echo Base_Company?></title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />   
+    <script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+    <script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+    <script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+    <script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+    <script type='text/javascript' src='../adm_html/scripts/jquery.floatThead.js'></script>
+    <script type='text/javascript' src='../adm_html/scripts/jquery.floatThead-slim.js'></script>
+    <script type='text/javascript' src='../adm_html/scripts/ledger.js?v=1.03'></script>
+    <script type="text/javascript">
+        $.datepicker.regional['zh-TW'] = {
+            clearText: '清除', clearStatus: '清除已選日期',
+            closeText: '關閉', closeStatus: '取消選擇',
+            prevText: '<上一月', prevStatus: '顯示上個月',
+            nextText: '下一月>', nextStatus: '顯示下個月',
+            currentText: '今天', currentStatus: '顯示本月',
+            monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+                '七月', '八月', '九月', '十月', '十一月', '十二月'],
+            monthNamesShort: ['一', '二', '三', '四', '五', '六',
+                '七', '八', '九', '十', '十一', '十二'],
+            monthStatus: '選擇月份', yearStatus: '選擇年份',
+            weekHeader: '周', weekStatus: '',
+            dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+            dayStatus: '設定每周第一天', dateStatus: '選擇 m月 d日, DD',
+            dateFormat: 'yy-mm-dd', firstDay: 1,
+            initStatus: '請選擇日期', isRTL: false
+        };
+
+
+        $(document).ready(function (e) {
+            $("#StartTime").datepicker({
+                dateFormat: "yy-mm-dd",
+                yearRange: "-20:+20",
+                changeYear: true,
+                changeMonth: true,
+                timeText: '時間',
+                hourText: '小時',
+                minuteText: '分鐘',
+                currentText: '今天',
+                closeText: "確定",
+                regional: 'zh-TW',
+                showButtonPanel: true
+            });
+        })
+        $(document).ready(function (e) {
+            $("#EndTime").datepicker({
+                dateFormat: "yy-mm-dd",
+                yearRange: "-20:+20",
+                changeYear: true,
+                changeMonth: true,
+                timeText: '時間',
+                hourText: '小時',
+                minuteText: '分鐘',
+                currentText: '今天',
+                closeText: "確定",
+                regional: 'zh-TW',
+                showButtonPanel: true
+            });
+        })
+        $.datepicker.setDefaults($.datepicker.regional['zh-TW']);
+    </script>
+</head>
+
+<body id="page-top">
+
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <?php include_once( "../adm_html/menu.html");?>
+        <!-- End of Sidebar -->
+
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+                    <h4 style="color: #0f7c5e;font-weight:900;">交易單管理</h4>
+                </nav>
+                <div class="container-fluid">
+                    <!-- DataTales Example -->
+                    <div class="card shadow mb-4">
+                        <form id="form1" name="form1" method="post" action="">
+                            <input type='hidden' name='CurrentPage' id="CurrentPage">
+                            <div class="card-header py-3">
+                                <label>
+                                    <select name="QueryDate" id="Sequence" class="form-control"
+                                        style="width:auto;">
+                                        <option value="CreationDate"
+                                            <?php echo (($_POST["QueryDate"] == "CreationDate") ? "selected" : "" )?>>
+                                            交易日期</option>
+                                        <option value="ExpectedRecordedDate"
+                                            <?php echo (($_POST["QueryDate"] == "ExpectedRecordedDate") ? "selected" : "" )?>>
+                                            撥款日期</option>
+                                    </select>
+                                    <input name='StartTime' type='text' class="form-control" id="StartTime"
+                                        placeholder="開始時間" style="width:150px;" value="<?php echo $_POST["StartTime"]?>"
+                                        maxlength="50" />
+                                    至
+                                    <input name='EndTime' type='text' class="form-control" id="EndTime"
+                                        placeholder="結束時間" style="width:150px;" value="<?php echo $_POST["EndTime"]?>"
+                                        maxlength="50" />
+                                    排序
+                                    <select name="Sequence" id="Sequence" class="form-control" style="width:auto;">
+                                        <option value="CreationDate"
+                                            <?php echo (($_POST["Sequence"] == "CreationDate") ? "selected" : "" )?>>
+                                            訂單生成時間</option>
+                                        <option value="PaymentDate"
+                                            <?php echo (($_POST["Sequence"] == "PaymentDate") ? "selected" : "" )?>>
+                                            客戶繳費時間</option>
+                                    </select>
+                                    <P></P>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode1" value="1"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(1 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode1" class="rulelist2">虛擬轉帳</label>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode2" value="2"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(2 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode2" class="rulelist2">超商付款</label>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode3" value="3"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(3 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode3" class="rulelist2">7-11</label>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode4" value="4"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(4 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode43" class="rulelist2">全家</label>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode5" value="5"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(5 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode5" class="rulelist2">OK</label>
+                                    <input type="checkbox" name="PaymentCode[]" id="PaymentCode7" value="7"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["PaymentCode"]) && is_numeric(array_search(7 , $_POST["PaymentCode"]))) { echo "checked"; }?> />
+                                    <label for="PaymentCode7" class="rulelist2">信用卡</label>
+                                    <P></P>
+                                    <input type="checkbox" name="Condition[]" id="radio10" value="FirmCode"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("FirmCode" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio10" class="rulelist2">特店代號</label>
+                                    <input name='FirmCodeKeyword' type='text' class="form-control" id="FirmCodeKeyword"
+                                        placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["FirmCodeKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio13" value="CashFlowID"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("CashFlowID" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio13" class="rulelist2">訂單編號</label>
+                                    <input name='CashFlowIDKeyword' type='text' class="form-control"
+                                        id="CashFlowIDKeyword" placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["CashFlowIDKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio2" value="OrderID"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("OrderID" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio2" class="rulelist2">授權單號</label>
+                                    <input name='OrderIDKeyword' type='text' class="form-control" id="OrderIDKeyword"
+                                        placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["OrderIDKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio3" value="CardNumber"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("CardNumber" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio3" class="rulelist2">信用卡號</label>
+                                    <input name='CardNumberKeyword' type='text' class="form-control"
+                                        id="FirmCodeKeyword" placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["CardNumberKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio4" value="Total"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("Total" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio4" class="rulelist2">交易金額</label>
+                                    <input name='TotalKeyword' type='text' class="form-control" id="FirmCodeKeyword"
+                                        placeholder="" style="width:100px;" value="<?php echo $_POST["TotalKeyword"]?>"
+                                        maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio5" value="VatmAccount"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("VatmAccount" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio5" class="rulelist2">繳款帳號/代碼</label>
+                                    <input name='VatmAccountKeyword' type='text' class="form-control"
+                                        id="VatmAccountKeyword" placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["VatmAccountKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio6" value="MerTradeID"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("MerTradeID" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio6" class="rulelist2">特店訂單編號</label>
+                                    <input name='MerTradeIDKeyword' type='text' class="form-control"
+                                        id="FirmCodeKeyword" placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["MerTradeIDKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio7" value="MerProductID"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("MerProductID" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio7" class="rulelist2">特店商品代號</label>
+                                    <input name='MerProductIDKeyword' type='text' class="form-control"
+                                        id="FirmCodeKeyword" placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["MerProductIDKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio8" value="MerUserID"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("MerUserID" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio8" class="rulelist2">消費者ID</label>
+                                    <input name='MerUserIDKeyword' type='text' class="form-control" id="FirmCodeKeyword"
+                                        placeholder="" style="width:100px;"
+                                        value="<?php echo $_POST["MerUserIDKeyword"]?>" maxlength="30" />
+                                    <input type="checkbox" name="Condition[]" id="radio9" value="Remark"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("Remark" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio9" class="rulelist2">備註字串</label>
+                                    <input name='RemarkKeyword' type='text' class="form-control" id="FirmCodeKeyword"
+                                        placeholder="" style="width:100px;" value="<?php echo $_POST["RemarkKeyword"]?>"
+                                        maxlength="30" />
+                                    <input type="checkbox" name="State[]" id="radio11" value="Success"
+                                        class="css-checkbox"
+                                        <?php echo (@in_array("Success", $_POST['State'])) ? "checked" : ""?> />
+                                    <label for="radio11" class="rulelist2">交易成功</label>
+                                    <input type="checkbox" name="State[]" id="radio12" value="Refund"
+                                        class="css-checkbox"
+                                        <?php echo (@in_array("Refund", $_POST['State'])) ? "checked" : ""?> />
+                                    <label for="radio12" class="rulelist2">退款交易</label>
+
+                                    <input type="checkbox" name="State[]" id="radio14" value="Block"
+                                        class="css-checkbox"
+                                        <?php echo (@in_array("Block", $_POST['State'])) ? "checked" : ""?> />
+                                    <label for="radio14" class="rulelist2">圈存</label>
+                                    &nbsp;&nbsp;
+                                    <input type="submit" name="button" id="button" class="pull btn btn-info btn"
+                                        value=" 查 詢 "
+                                        onclick="$('#form1').attr('action', 'admin.php'); $('#form1').attr('target', '');" />
+                                    <input name="送出" type="submit" class="pull2 btn btn-info Export" id="CaseReq"
+                                        style="margin-left:5px; margin-right:5px;" value="匯出Excel" rel="tooltip"
+                                        onclick="$('#form1').attr('action', 'admin.php?attr=Export'); $('#form1').attr('target', '_blank'); ">
+                                </label>
+                                <!--<?php if ($AdminLevel == "1" || $AdminLevel == "2") {?>
+                                        <div class="cnavbar" style="float:right;"> <span class="pull-right btn btn-info btn" rel="tooltip" title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER[" PHP_SELF "] ?>?func=Added');"> <i class="icon-edit"></i> 新增廠商資料</span> </div>
+                                        <?php }?>-->
+
+                            </div>
+                        </form>
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="row bu_title_bar clearfix">
+                                    <h6 class="pull-left">共 <span id="lStore_SysInfoTotal"
+                                            class="searchresults_count"><?php echo $index?></span> 筆｜成功交易共 <span
+                                            id="lStore_SysInfoTotal"
+                                            class="searchresults_count"><?php echo $SuccessCount?></span> 筆｜成功交易金額共
+                                        <span id="lStore_SysInfoTotal2"
+                                            class="searchresults_count"><?php echo number_format($SuccessAmount)?>
+                                            元</span>｜圈存共 <span
+                                            id="lStore_SysInfoTotal"
+                                            class="searchresults_count"><?php echo $BlockCount?></span> 筆｜圈存金額共
+                                            <span id="lStore_SysInfoTotal2"
+                                            class="searchresults_count"><?php echo number_format($BlockAmount)?>
+                                            元</span>｜退款交易共 <span id="lStore_SysInfoTotal3"
+                                            class="searchresults_count"><?php echo $RefundCount?></span> 筆｜退款金額共 <span
+                                            id="lStore_SysInfoTotal4"
+                                            class="searchresults_count"><?php echo number_format($RefundAmount)?>
+                                            元</span> ｜手續費金額共 <span id="lStore_SysInfoTotal5"
+                                            class="searchresults_count"><?php echo number_format($FeeAmount, 2)?>
+                                            元</span></h6>
+                                </div>
+                                <div class="row clearfix">
+                                    <div class="table-responsive">
+                                            <table class="table table-bordered dataTable">
+                                            <thead>
+                                                <tr>
+                                                    <th class="nowrap" style="text-align:center">
+                                                        訂單編號/<br />授權單號/<br />交易編號</th>
+                                                    <th class="nowrap" style="width: 5% !important;">
+                                                        交易日期<br /><br />付款日期</th>
+                                                    <th class="nowrap" style="min-width: 50px !important;">付款管道</th>
+                                                    <th class="nowrap" style="width: 5%;">特店代號</th>
+                                                    <th class="nowrap" style="min-width: 50px !important;">特店商品代號</th>
+                                                    <th class="nowrap" style="min-width: 50px !important;">消費者ID</th>
+                                                    <th class="nowrap" style="min-width: 80px !important;">
+                                                        特店訂單編號<br />卡號<br />繳款帳號/代碼</th>
+                                                    <th class="nowrap" style="width: 5%;">手機驗證</th>
+                                                    <th class="nowrap" style="width: 5%;">交易金額</th>
+                                                    <th class="nowrap" style="width: 5%;">結帳金額</th>
+                                                    <th class="nowrap" style="width: 5%;">手續費</th>
+                                                    <!--<th class="nowrap" style="width: 5%;">授權碼</th>-->
+                                                    <th class="nowrap" style="width: 5%;">回應碼</th>
+                                                    <th class="nowrap" style="width: 5%;">交易信息</th>
+                                                    <th class="nowrap" style="width: 5%;">圈存時間</th>
+                                                    <th class="nowrap" style="width: 5%;">退款申請</th>
+                                                    <th class="nowrap"
+                                                        style="min-width: 80px !important; word-break: break-all;">追蹤碼
+                                                    </th>
+                                                    <!--<th class="nowrap">eci</th>-->
+                                                    <th class="nowrap">交易重發</th>
+                                                    <?php if ($AdminLevel == 1) {?>
+                                                    <th class="nowrap">訂單修改</th>
+                                                    <th class="nowrap">訂單補單</th>
+                                                    <?php }?>
+                                                    <th class="nowrap">備註</th>
+                                                </tr>
+                                            </thead>
+
+                                            <tbody id="Store_SysInfoList">
+
+                                                <?php
+                                            $current = 1;
+                                            if(isset($_POST['CurrentPage']) && $_POST['CurrentPage'] != '')
+                                            {
+                                              $current = $_POST['CurrentPage'];
+                                            }
+                                            
+                                            $totalItems = $index;
+                                            $pageSize = 50;
+                                            $start = 1 + ($pageSize * $current) - $pageSize;
+                                            $end = $pageSize * $current;
+                        
+                                            $totalPage = (int)($totalItems / $pageSize) ;
+                                            if($totalItems % $pageSize != 0)
+                                                $totalPage++;
+                        
+                                            $RowIndex = 1;
+                                            foreach ((array)$Html as $key=> $value)
+                                            {
+                                                if(1)
+                                                {
+                                            ?>
+                                                <tr>
+                                                    <td class="nowrap"
+                                                        style="min-width:100px; text-align:center; word-break:break-all; <?php echo $value["background"]?>">
+                                                        <?php echo $value["CashFlowID"]?>/<br /><?php echo $value["AuthorizeNumber"]?>/<br /><?php echo $value["OrderID"]?>
+                                                    </td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["CreationDate"]?><br /><br /><?php echo $value["PaymentDate"]?>
+                                                    </td>
+                                                    <td class="nowrap"
+                                                        style="min-width: 50px !important;<?php echo $value["background"]?>">
+                                                        <?php echo $value["PaymentName"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["FirmCode"]?></td>
+                                                    <td class="nowrap"
+                                                        style="min-width: 50px !important; word-break: break-all;<?php echo $value["background"]?>">
+                                                        <?php echo $value["MerProductID"]?></td>
+                                                    <td class="nowrap"
+                                                        style="min-width: 50px !important; word-break: break-all;<?php echo $value["background"]?>">
+                                                        <?php echo $value["MerUserID"]?></td>
+                                                    <td class="nowrap"
+                                                        style="text-align:center;min-width: 80px !important;word-break: break-all;<?php echo $value["background"]?>">
+                                                        <?php echo $value["MerTradeID"]?><br /><?php echo $value["CardNumber"]?><br /><?php echo $value["VatmAccount"]?>
+                                                    </td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["Mobile"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["Total"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["ClosingTotal"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["_Fee"]?></td>
+                                                    <!--<td class="nowrap"
+                                                        style="word-break: break-all; width:150px;<?php echo $value["background"]?>">
+                                                        <?php echo $value["AuthCode"]?></td>-->
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["ResultCode"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["StateStr"]?></td>
+                                                        <td class="nowrap" style="<?php echo $value["background"]?>"><?php echo $value["BlockDate"]?></td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <?php echo $value["Refund"]?></td>
+                                                    <td class="nowrap"
+                                                        style="min-width: 80px !important; word-break: break-all;<?php echo $value["background"]?>">
+                                                        <?php echo $value["IP"]?></td>
+                                                    <!--<td class="nowrap" style="<?php echo $value["background"]?>"></td>-->
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <input type="button" id="ResendButton" name="" value="重發"
+                                                            class="btn btn-info btn-small" data-confirm='您確定要進行重發?'
+                                                            onClick="Resend(<?php echo $value["Sno"]?>)">
+                                                    </td>
+                                                    <?php if ($AdminLevel == 1) {?>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <input type="button" id="AlterButton" name="IncreaseButton"
+                                                            value="修改" class="btn btn-info btn-small"
+                                                            onclick="javascript:jBox2('<?php echo $_SERVER["PHP_SELF"]?>?func=Alter&Sno=<?php echo $value["Sno"]?>');">
+                                                    </td>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>">
+                                                        <input type="button" id="IncreaseButton" name="IncreaseButton"
+                                                            value="補單" class="btn btn-info btn-small"
+                                                            onclick="javascript:jBox2('<?php echo $_SERVER["PHP_SELF"]?>?func=Increase&Sno=<?php echo $value["Sno"]?>');">
+                                                    </td>
+                                                    <?php }?>
+                                                    <td class="nowrap" style="<?php echo $value["background"]?>"><a
+                                                            href="javascript:;" class="btn btn-info btn-small"
+                                                            id="EditJBox"
+                                                            onclick="javascript:jBox2('<?php echo $_SERVER["PHP_SELF"]?>?func=SetRemark&Sno=<?php echo $value["Sno"]?>');">備註</a>
+                                                    </td>
+                                                </tr>
+                                                <?php }
+                                                $RowIndex++;
+                                              ?>
+                                                <?php }?>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div id="content_set">
+                                    <?PHP
+                                      echo '<center>';              
+                                      if($totalPage > 1)
+                                      {
+                                          // echo '<a href="javascript:void(0);" class="btn btn-primary btn-circle" onclick="page(1)">&nbsp; 第一頁 &nbsp;</a>';
+                                          // echo '<a href="javascript:void(0);" class="btn btn-primary btn-circle" onclick="page('. ($current-1) .')">&nbsp; 上一頁 &nbsp;</a>';
+                                          for($i = 1 ;$i <= $totalPage ;$i++)
+                                          {
+                                              if($i >= $current - 9 && $i <= $current + 9)
+                                              {
+                                                  if($i == $current)
+                                                      echo '&nbsp;<a href="javascript:void(0);" class="btn btn-warning btn-circle">'.$i.'</a>&nbsp;';
+                                                  else
+                                                      echo '<a href="javascript:void(0);" class="btn btn-primary btn-circle" onclick="page('.$i.')">&nbsp;'.$i.'&nbsp;</a>';
+                                              }
+                                          }
+                                          //echo '<a href="javascript:void(0);" class="btn btn-primary btn-circle" onclick="page('. ($current+1) .')">&nbsp; 下一頁 &nbsp;</a>';
+                                          //echo '<a href="javascript:void(0);" class="btn btn-primary btn-circle" onclick="page('.$totalPage.')">&nbsp;最後頁&nbsp;</a>';                 
+                                      }
+                                      echo '</center>';              
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="mA_SysInfo" style="display: none;">
+                            <div class="row bu_title_bar clearfix">
+                                <h3 class="pull-left">共 <span id="lmA_SysInfoTotal" class="searchresults_count">0</span>
+                                    筆</h3>
+                            </div>
+                            <div class="row clearfix">
+                                <div class="col-xs-12">
+                                    <table class="table table-condensed table-striped table-bordered table-hover">
+                                        <thead>
+                                            <tr>
+                                                <th class="nowrap" style="width: 50px">編號</th>
+                                                <th class="nowrap" style="width: 50px">類別</th>
+                                                <th class="nowrap" style="width: 100px">更新日期</th>
+                                                <th class="text-left">標題</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="mA_SysInfoList">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- End of Main Content -->
+
+            <!-- Footer -->
+            <?php include_once( "../adm_html/footer.html");?>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+    </div>
+    <!-- End of Page Wrapper -->
+
+</body>
+
+</html>
+
+
+<script>
+    function page(page) {
+        $("#CurrentPage").val(page);
+        $("#form1").submit();
+    }
+</script>

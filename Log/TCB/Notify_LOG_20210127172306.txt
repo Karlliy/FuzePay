@@ -1,0 +1,96 @@
+ ---------------- 開始POST ---------------- 
+key =><?xml_version  val=>"1.0" encoding="UTF-8"?>
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+        <SOAP-ENV:Header>
+            <ns:PartyInfo xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns="http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd" xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/">
+                <from xmlns="">
+                    <name xmlns="">BANK006    </name>
+                </from>
+                <to xmlns="">
+                    <name xmlns="">TCB</name>
+                </to>
+                <operationID xmlns="">BankColl/1.0/BankCollStatusAdvise</operationID>
+                <operationType xmlns="">syncRequestResponse</operationType>
+                <transactionID xmlns="">20210108943328115202</transactionID>
+            </ns:PartyInfo>
+        </SOAP-ENV:Header>
+        <SOAP-ENV:Body>
+            <ns0:BankCollStatusAdviseRq xmlns:ns0="http://ns.tcb.com.tw/XSD/TCB/BC/Message/BankCollStatusAdviseRq/01">
+                <ns0:SeqNo>00000000</ns0:SeqNo>
+                <ns0:TxnCode>PYWEIR   127606 </ns0:TxnCode>
+                <ns0:RqUID>20210108943328115202</ns0:RqUID>
+                <ns0:BillId>1276061015288762</ns0:BillId>
+                <ns0:BillNum></ns0:BillNum>
+                <ns0:TrnSign> </ns0:TrnSign>
+                <ns0:CollInfo>
+                    <ns0:CollId>006    </ns0:CollId>
+                    <ns0:CollSubId>0000341717111659</ns0:CollSubId>
+                    <ns0:PostedDt>2021-01-08</ns0:PostedDt>
+                    <ns0:CurAmt>
+                        <ns0:Amt>14000.0</ns0:Amt>
+                        <ns0:CurCode>TWD</ns0:CurCode>
+                    </ns0:CurAmt>
+                    <ns0:OrigDt>2021-01-08</ns0:OrigDt>
+                    <ns0:OrigTm>00:05:19</ns0:OrigTm>
+                    <ns0:CSPRefId>9433281152000001</ns0:CSPRefId>
+                    <ns0:TrnType>2</ns0:TrnType>
+                    <ns0:TrnSrc>1</ns0:TrnSrc>
+                    <ns0:TrnDesc></ns0:TrnDesc>
+                </ns0:CollInfo>
+                <ns0:SettlementInfo>
+                    <ns0:SettlementId>9433281153          </ns0:SettlementId>
+                    <ns0:CustAcctId>700700201122**1296*</ns0:CustAcctId>
+                    <ns0:CustName></ns0:CustName>
+                    <ns0:Memo></ns0:Memo>
+                </ns0:SettlementInfo>
+            </ns0:BankCollStatusAdviseRq>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>
+ ---------------- 開始php://input ----------------
+XmlFile =><?xml version="1.0" encoding="UTF-8"?>
+    <SOAP-ENV:Envelope xmlns:SOAP-ENV="http://schemas.xmlsoap.org/soap/envelope/">
+        <SOAP-ENV:Header>
+            <ns:PartyInfo xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ns="http://www.tibco.com/namespaces/bc/2002/04/partyinfo.xsd" xmlns:ns0="http://schemas.xmlsoap.org/soap/envelope/">
+                <from xmlns="">
+                    <name xmlns="">BANK006    </name>
+                </from>
+                <to xmlns="">
+                    <name xmlns="">TCB</name>
+                </to>
+                <operationID xmlns="">BankColl/1.0/BankCollStatusAdvise</operationID>
+                <operationType xmlns="">syncRequestResponse</operationType>
+                <transactionID xmlns="">20210108943328115202</transactionID>
+            </ns:PartyInfo>
+        </SOAP-ENV:Header>
+        <SOAP-ENV:Body>
+            <ns0:BankCollStatusAdviseRq xmlns:ns0="http://ns.tcb.com.tw/XSD/TCB/BC/Message/BankCollStatusAdviseRq/01">
+                <ns0:SeqNo>00000000</ns0:SeqNo>
+                <ns0:TxnCode>PYWEIR   127606 </ns0:TxnCode>
+                <ns0:RqUID>20210108943328115202</ns0:RqUID>
+                <ns0:BillId>1276061015288762</ns0:BillId>
+                <ns0:BillNum></ns0:BillNum>
+                <ns0:TrnSign>+</ns0:TrnSign>
+                <ns0:CollInfo>
+                    <ns0:CollId>006    </ns0:CollId>
+                    <ns0:CollSubId>0000341717111659</ns0:CollSubId>
+                    <ns0:PostedDt>2021-01-08</ns0:PostedDt>
+                    <ns0:CurAmt>
+                        <ns0:Amt>14000.0</ns0:Amt>
+                        <ns0:CurCode>TWD</ns0:CurCode>
+                    </ns0:CurAmt>
+                    <ns0:OrigDt>2021-01-08</ns0:OrigDt>
+                    <ns0:OrigTm>00:05:19</ns0:OrigTm>
+                    <ns0:CSPRefId>9433281152000001</ns0:CSPRefId>
+                    <ns0:TrnType>2</ns0:TrnType>
+                    <ns0:TrnSrc>1</ns0:TrnSrc>
+                    <ns0:TrnDesc></ns0:TrnDesc>
+                </ns0:CollInfo>
+                <ns0:SettlementInfo>
+                    <ns0:SettlementId>9433281153          </ns0:SettlementId>
+                    <ns0:CustAcctId>700700201122**1296*</ns0:CustAcctId>
+                    <ns0:CustName></ns0:CustName>
+                    <ns0:Memo></ns0:Memo>
+                </ns0:SettlementInfo>
+            </ns0:BankCollStatusAdviseRq>
+        </SOAP-ENV:Body>
+    </SOAP-ENV:Envelope>

@@ -1,0 +1,52 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>WebATM</title>
+</head>
+
+<body>
+<h2>易沛WebATM金流測試</h2>
+<form id="form1" name="form1" method="post" action="http://payflow.mycash.asia/WebATMPayment.php">
+  商家HashKey：
+  <input name="HashKey" type="text" id="HashKey" style="width:450px" value="K9HB5JSWPBWYR3KLDD3MB9S" />
+  <br />
+  商家HashIV:
+  <input name="HashIV" type="text" id="HashIV" style="width:450px" value="G4LRD4NYWRQCNBYLH86XPGRX" />
+  <br />
+  店家交易編號:
+  <input name="MerTradeID" type="text" id="MerTradeID" value="20171020" />(編號不得小於6個字元；不得重複)
+  <br />
+  店家商品代號:
+  <input name="MerProductID" type="text" id="MerProductID" value="epay0001" />
+  <br />
+  店家消費者ID:
+  <input name="MerUserID" type="text" id="MerUserID" value="NG5543" />
+  <br />
+  超商代碼/條碼：
+  <select name="ChoosePayment" id="ChoosePayment">
+    <option value="WebATM">WebATM</option>
+  </select>
+  <br />
+  商品名稱:
+  <input name="ItemName" type="text" id="ItemName" value="手錶" />
+  <br />
+  商品名稱:
+  <input name="TradeDesc" type="text" id="TradeDesc" value="手錶" />
+  <br />
+  金額:
+  <input name="Amount" type="text" id="Amount" value="55" />
+  <!--<br />
+  交易描述:
+  <input name="TradeDesc" type="text" id="TradeDesc" value="易沛金流" />
+  <br />
+  商品名稱:
+  <input name="ItemName" type="text" id="ItemName" value="手錶" />-->
+  (最少35元)<br />
+  <br />
+  <br />
+  <input type="submit" name="button" id="button" value="送出" />
+</form>
+<h2>&nbsp;</h2>
+</body>
+</html>

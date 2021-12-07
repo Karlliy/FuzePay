@@ -1,0 +1,547 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!-- saved from url=(0047)https://www.allpay.com.tw/Service/pay_way_cvpay -->
+<html xmlns="http://www.w3.org/1999/xhtml" class="cufon-active cufon-ready"><!-- InstanceBegin template="/Templates/index_template.dwt" codeOutsideHTMLIsLocked="false" --><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!-- SiteMap -->
+    <meta charset="UTF-8">
+    <!-- InstanceBeginEditable name="doctitle" -->
+    <title>付款方式</title>
+    <!-- CSS -->
+    <link href="./PayMode_Files/reset.css" rel="stylesheet" type="text/css">
+    <link href="./PayMode_Files/global.css" rel="stylesheet" type="text/css">
+    <link href="./PayMode_Files/responsive.css" rel="stylesheet" type="text/css">
+    <link href="./PayMode_Files/subpage.css" rel="stylesheet" type="text/css">
+    <!-- InstanceEndEditable -->
+    <!-- InstanceBeginEditable name="head_js" -->
+    <!-- js -->
+    <script async="" src="./PayMode_Files/async-ads.js"></script><script type="text/javascript" async="" src="./PayMode_Files/cse.js"></script><script async="" src="./PayMode_Files/analytics.js"></script><script id="facebook-jssdk" src="./PayMode_Files/all.js"></script><script src="./PayMode_Files/jquery-1.7.2.min.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/jquery.superslides.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/jquery.sticky.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/custom.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/index.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/cufon-yui.js" type="text/javascript"></script><style type="text/css">cufon{text-indent:0!important;}@media screen,projection{cufon{display:inline!important;display:inline-block!important;position:relative!important;vertical-align:middle!important;font-size:1px!important;line-height:1px!important;}cufon cufontext{display:-moz-inline-box!important;display:inline-block!important;width:0!important;height:0!important;overflow:hidden!important;text-indent:-10000in!important;}cufon canvas{position:relative!important;}}@media print{cufon{padding:0!important;}cufon canvas{display:none!important;}}</style>
+    <script src="./PayMode_Files/jquery.placeholder.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/jquery.cookie.js" type="text/javascript"></script>
+    <script src="./PayMode_Files/jquery.smint.js" type="text/javascript"></script>
+    <!--[if IE 8]>
+<link href="../../Content/themes/WebStyle20131201/css/ie_layout.css" rel="stylesheet" type="text/css"/> 
+<![endif]-->
+    <script type="text/javascript">
+        Cufon.replace('ul.oe_menu div a', { hover: true });
+        Cufon.replace('h1,h2,.oe_heading');
+    </script>
+    <script type="text/javascript">
+        $(function () {
+
+            var check = $.cookie('checkBrowser');
+
+            if (!$.browser.msie) {
+                check = 1;
+            }
+
+            if (check == '1') {
+                $('#ie-tip').hide();
+            }
+
+            $(".go_top").click(function () {
+                $("html,body").animate({ scrollTop: 0 }, 500);
+                return false;
+            });
+
+            $('#CheckBrowser').click(function () {
+
+                //            
+                var date = new Date();
+                date.setTime(date.getTime() + (90 * 24 * 60 * 60 * 1000));
+
+                $.cookie('checkBrowser', '1', { path: '/', expires: date });
+
+                $('#ie-tip').hide();
+
+            });
+        });
+
+    </script>
+    <!-- End: js -->
+    <!-- InstanceBeginEditable name="js" -->
+    <script src="./PayMode_Files/slippry.js" type="text/javascript"></script>
+    <script>
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s); js.id = id;
+            js.src = "//connect.facebook.net/zh_TW/all.js#xfbml=1&appId=227722980573241";
+            fjs.parentNode.insertBefore(js, fjs);
+        } (document, 'script', 'facebook-jssdk'));</script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var type = '付款方式';
+
+            //取得目前網站地圖路徑.
+            var navTitle = [];
+            $('div.bread').each(function () {
+                var title = $(this).text().replace(/\s/g, '').replace('　', '');
+                var arr = title.split('>');
+                for (i = 0; i < arr.length; i++) {
+                    if (arr[i] && arr[i] != '') navTitle.push(arr[i]);
+                }
+
+            });
+            if (navTitle.length > 0) {
+                //取得左方副選單項目.
+                var navLi = [];
+                $('div.sidebar li').each(function () {
+                    navLi.push($(this));
+                });
+
+                if (type != null) {
+                    for (j = 0; j < navLi.length; j++) {
+                        var aText = navLi[j].find('a').text().replace(' ', '').replace('　', '');
+                        if (type == aText) {
+                            navLi[j].addClass('current');
+                            break;
+                        }
+                    }
+                }
+
+                //標示被選中的副選單項目.
+                var isFound = false;
+                for (i = navTitle.length - 1; i >= 0; i--) {
+                    if (isFound) {
+                        break;
+                    } else {
+                        for (j = 0; j < navLi.length; j++) {
+                            var aText = navLi[j].find('a').text().replace(' ', '').replace('　', '');
+                            if (aText != '' && aText == navTitle[i]) {
+                                navLi[j].addClass('current');
+                                isFound = true;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+</script>
+    <!-- InstanceEndEditable -->
+    <!--Google Analytics-->
+    <script language="javascript" type="text/javascript">
+        (function (i, s, o, g, r, a, m) {
+            i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            }, i[r].l = 1 * new Date(); a = s.createElement(o),
+            m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+        })(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+
+        ga('create', 'UA-41247606-1', 'allpay.com.tw');
+		ga('require', 'displayfeatures');
+        ga('send', 'pageview');
+    </script>
+<script src="./PayMode_Files/jsapi" type="text/javascript"></script><link type="text/css" href="./PayMode_Files/default+zh_TW.css" rel="stylesheet"><link type="text/css" href="./PayMode_Files/default.css" rel="stylesheet"><script type="text/javascript" src="./PayMode_Files/default+zh_TW.I.js"></script><style type="text/css">
+.gsc-control-cse {
+font-family: Arial, sans-serif;
+border-color: #FFFFFF;
+background-color: #FFFFFF;
+}
+.gsc-control-cse .gsc-table-result {
+font-family: Arial, sans-serif;
+}
+input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
+border-color: #D9D9D9;
+}
+input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:focus {
+border-color: #666666;
+background-color: #CECECE;
+background-image: none;
+filter: none;
+}
+.gsc-tabHeader.gsc-tabhInactive {
+border-color: #E9E9E9;
+background-color: #E9E9E9;
+}
+.gsc-tabHeader.gsc-tabhActive {
+border-color: #FF9900;
+border-bottom-color: #FFFFFF;
+background-color: #FFFFFF;
+}
+.gsc-tabsArea {
+border-color: #FF9900;
+}
+.gsc-webResult.gsc-result,
+.gsc-results .gsc-imageResult {
+border-color: #FFFFFF;
+background-color: #FFFFFF;
+}
+.gsc-webResult.gsc-result:hover,
+.gsc-imageResult:hover {
+border-color: #FFFFFF;
+background-color: #FFFFFF;
+}
+.gs-webResult.gs-result a.gs-title:link,
+.gs-webResult.gs-result a.gs-title:link b,
+.gs-imageResult a.gs-title:link,
+.gs-imageResult a.gs-title:link b {
+color: #0000CC;
+}
+.gs-webResult.gs-result a.gs-title:visited,
+.gs-webResult.gs-result a.gs-title:visited b,
+.gs-imageResult a.gs-title:visited,
+.gs-imageResult a.gs-title:visited b {
+color: #0000CC;
+}
+.gs-webResult.gs-result a.gs-title:hover,
+.gs-webResult.gs-result a.gs-title:hover b,
+.gs-imageResult a.gs-title:hover,
+.gs-imageResult a.gs-title:hover b {
+color: #0000CC;
+}
+.gs-webResult.gs-result a.gs-title:active,
+.gs-webResult.gs-result a.gs-title:active b,
+.gs-imageResult a.gs-title:active,
+.gs-imageResult a.gs-title:active b {
+color: #0000CC;
+}
+.gsc-cursor-page {
+color: #0000CC;
+}
+a.gsc-trailing-more-results:link {
+color: #0000CC;
+}
+.gs-webResult .gs-snippet,
+.gs-imageResult .gs-snippet,
+.gs-fileFormatType {
+color: #000000;
+}
+.gs-webResult div.gs-visibleUrl,
+.gs-imageResult div.gs-visibleUrl {
+color: #008000;
+}
+.gs-webResult div.gs-visibleUrl-short {
+color: #008000;
+}
+.gs-webResult div.gs-visibleUrl-short {
+display: none;
+}
+.gs-webResult div.gs-visibleUrl-long {
+display: block;
+}
+.gs-promotion div.gs-visibleUrl-short {
+display: none;
+}
+.gs-promotion div.gs-visibleUrl-long {
+display: block;
+}
+.gsc-cursor-box {
+border-color: #FFFFFF;
+}
+.gsc-results .gsc-cursor-box .gsc-cursor-page {
+border-color: #E9E9E9;
+background-color: #FFFFFF;
+color: #0000CC;
+}
+.gsc-results .gsc-cursor-box .gsc-cursor-current-page {
+border-color: #FF9900;
+background-color: #FFFFFF;
+color: #0000CC;
+}
+.gsc-webResult.gsc-result.gsc-promotion {
+border-color: #336699;
+background-color: #FFFFFF;
+}
+.gsc-completion-title {
+color: #0000CC;
+}
+.gsc-completion-snippet {
+color: #000000;
+}
+.gs-promotion a.gs-title:link,
+.gs-promotion a.gs-title:link *,
+.gs-promotion .gs-snippet a:link {
+color: #0000CC;
+}
+.gs-promotion a.gs-title:visited,
+.gs-promotion a.gs-title:visited *,
+.gs-promotion .gs-snippet a:visited {
+color: #0000CC;
+}
+.gs-promotion a.gs-title:hover,
+.gs-promotion a.gs-title:hover *,
+.gs-promotion .gs-snippet a:hover {
+color: #0000CC;
+}
+.gs-promotion a.gs-title:active,
+.gs-promotion a.gs-title:active *,
+.gs-promotion .gs-snippet a:active {
+color: #0000CC;
+}
+.gs-promotion .gs-snippet,
+.gs-promotion .gs-title .gs-promotion-title-right,
+.gs-promotion .gs-title .gs-promotion-title-right * {
+color: #000000;
+}
+.gs-promotion .gs-visibleUrl,
+.gs-promotion .gs-visibleUrl-short {
+color: #008000;
+}</style><style type="text/css">.gscb_a{display:inline-block;font:27px/13px arial,sans-serif}.gsst_a .gscb_a{color:#a1b9ed;cursor:pointer}.gsst_a:hover .gscb_a,.gsst_a:focus .gscb_a{color:#36c}.gsst_a{display:inline-block}.gsst_a{cursor:pointer;padding:0 4px}.gsst_a:hover{text-decoration:none!important}.gsst_b{font-size:16px;padding:0 2px;position:relative;user-select:none;-webkit-user-select:none;white-space:nowrap}.gsst_e{opacity:0.55;}.gsst_a:hover .gsst_e,.gsst_a:focus .gsst_e{opacity:0.72;}.gsst_a:active .gsst_e{opacity:1;}.gsst_f{background:white;text-align:left}.gsst_g{background-color:white;border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);margin:-1px -3px;padding:0 6px}.gsst_h{background-color:white;height:1px;margin-bottom:-1px;position:relative;top:-1px}.gsib_a{width:100%;padding:4px 6px 0}.gsib_a,.gsib_b{vertical-align:top}.gssb_c{border:0;position:absolute;z-index:989}.gssb_e{border:1px solid #ccc;border-top-color:#d9d9d9;box-shadow:0 2px 4px rgba(0,0,0,0.2);-webkit-box-shadow:0 2px 4px rgba(0,0,0,0.2);cursor:default}.gssb_f{visibility:hidden;white-space:nowrap}.gssb_k{border:0;display:block;position:absolute;top:0;z-index:988}.gsdd_a{border:none!important}.gsq_a{padding:0}.gscsep_a{display:none}.gssb_a{padding:0 7px}.gssb_a,.gssb_a td{white-space:nowrap;overflow:hidden;line-height:22px}#gssb_b{font-size:11px;color:#36c;text-decoration:none}#gssb_b:hover{font-size:11px;color:#36c;text-decoration:underline}.gssb_g{text-align:center;padding:8px 0 7px;position:relative}.gssb_h{font-size:15px;height:28px;margin:0.2em;-webkit-appearance:button}.gssb_i{background:#eee}.gss_ifl{visibility:hidden;padding-left:5px}.gssb_i .gss_ifl{visibility:visible}a.gssb_j{font-size:13px;color:#36c;text-decoration:none;line-height:100%}a.gssb_j:hover{text-decoration:underline}.gssb_l{height:1px;background-color:#e5e5e5}.gssb_m{color:#000;background:#fff}.gsfe_a{border:1px solid #b9b9b9;border-top-color:#a0a0a0;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.1);}.gsfe_b{border:1px solid #4d90fe;outline:none;box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-moz-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);-webkit-box-shadow:inset 0px 1px 2px rgba(0,0,0,0.3);}.gssb_a{padding:0 9px}.gsib_a{padding-right:8px;padding-left:8px}.gsst_a{padding-top:3px}.gssb_e{border:0}.gssb_l{margin:5px 0}.gssb_c .gsc-completion-container{position:static}.gssb_c{z-index:5000}.gsc-completion-container table{background:transparent;font-size:inherit;font-family:inherit}.gssb_c > tbody > tr,.gssb_c > tbody > tr > td,.gssb_d,.gssb_d > tbody > tr,.gssb_d > tbody > tr > td,.gssb_e,.gssb_e > tbody > tr,.gssb_e > tbody > tr > td{padding:0;margin:0;border:0}.gssb_a table,.gssb_a table tr,.gssb_a table tr td{padding:0;margin:0;border:0}</style><style type="text/css">.fb_hidden{position:absolute;top:-10000px;z-index:10001}.fb_reposition{overflow-x:hidden;position:relative}.fb_invisible{display:none}.fb_reset{background:none;border:0;border-spacing:0;color:#000;cursor:auto;direction:ltr;font-family:"lucida grande", tahoma, verdana, arial, sans-serif;font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;letter-spacing:normal;line-height:1;margin:0;overflow:visible;padding:0;text-align:left;text-decoration:none;text-indent:0;text-shadow:none;text-transform:none;visibility:visible;white-space:normal;word-spacing:normal}.fb_reset>div{overflow:hidden}.fb_link img{border:none}
+.fb_dialog{background:rgba(82, 82, 82, .7);position:absolute;top:-10000px;z-index:10001}.fb_reset .fb_dialog_legacy{overflow:visible}.fb_dialog_advanced{padding:10px;-moz-border-radius:8px;-webkit-border-radius:8px;border-radius:8px}.fb_dialog_content{background:#fff;color:#333}.fb_dialog_close_icon{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 0 transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif);cursor:pointer;display:block;height:15px;position:absolute;right:18px;top:17px;width:15px}.fb_dialog_mobile .fb_dialog_close_icon{top:5px;left:5px;right:auto}.fb_dialog_padding{background-color:transparent;position:absolute;width:1px;z-index:-1}.fb_dialog_close_icon:hover{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -15px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_close_icon:active{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yq/r/IE9JII6Z1Ys.png) no-repeat scroll 0 -30px transparent;_background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yL/r/s816eWC-2sl.gif)}.fb_dialog_loader{background-color:#f6f7f8;border:1px solid #606060;font-size:25px;padding:20px}.fb_dialog_top_left,.fb_dialog_top_right,.fb_dialog_bottom_left,.fb_dialog_bottom_right{height:10px;width:10px;overflow:hidden;position:absolute}.fb_dialog_top_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 0;left:-10px;top:-10px}.fb_dialog_top_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -10px;right:-10px;top:-10px}.fb_dialog_bottom_left{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -20px;bottom:-10px;left:-10px}.fb_dialog_bottom_right{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ye/r/8YeTNIlTZjm.png) no-repeat 0 -30px;right:-10px;bottom:-10px}.fb_dialog_vert_left,.fb_dialog_vert_right,.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{position:absolute;background:#525252;filter:alpha(opacity=70);opacity:.7}.fb_dialog_vert_left,.fb_dialog_vert_right{width:10px;height:100%}.fb_dialog_vert_left{margin-left:-10px}.fb_dialog_vert_right{right:0;margin-right:-10px}.fb_dialog_horiz_top,.fb_dialog_horiz_bottom{width:100%;height:10px}.fb_dialog_horiz_top{margin-top:-10px}.fb_dialog_horiz_bottom{bottom:0;margin-bottom:-10px}.fb_dialog_iframe{line-height:0}.fb_dialog_content .dialog_title{background:#6d84b4;border:1px solid #3a5795;color:#fff;font-size:15px;font-weight:bold;margin:0}.fb_dialog_content .dialog_title>span{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yd/r/Cou7n-nqK52.gif) no-repeat 5px 50%;float:left;padding:5px 0 7px 26px}body.fb_hidden{-webkit-transform:none;height:100%;margin:0;overflow:visible;position:absolute;top:-10000px;left:0;width:100%}.fb_dialog.fb_dialog_mobile.loading{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/ya/r/3rhSv5V8j3o.gif) white no-repeat 50% 50%;min-height:100%;min-width:100%;overflow:hidden;position:absolute;top:0;z-index:10001}.fb_dialog.fb_dialog_mobile.loading.centered{width:auto;height:auto;min-height:initial;min-width:initial;background:none}.fb_dialog.fb_dialog_mobile.loading.centered #fb_dialog_loader_spinner{width:100%}.fb_dialog.fb_dialog_mobile.loading.centered .fb_dialog_content{background:none}.loading.centered #fb_dialog_loader_close{color:#fff;display:block;padding-top:20px;clear:both;font-size:19px}#fb-root #fb_dialog_ipad_overlay{background:rgba(0, 0, 0, .45);position:absolute;left:0;top:0;width:100%;min-height:100%;z-index:10000}#fb-root #fb_dialog_ipad_overlay.hidden{display:none}.fb_dialog.fb_dialog_mobile.loading iframe{visibility:hidden}.fb_dialog_content .dialog_header{-webkit-box-shadow:white 0 1px 1px -1px inset;background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#738ABA), to(#2C4987));border-bottom:1px solid;border-color:#1d4088;color:#fff;font:14px Helvetica, sans-serif;font-weight:bold;text-overflow:ellipsis;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0;vertical-align:middle;white-space:nowrap}.fb_dialog_content .dialog_header table{-webkit-font-smoothing:subpixel-antialiased;height:43px;width:100%}.fb_dialog_content .dialog_header td.header_left{font-size:13px;padding-left:5px;vertical-align:middle;width:60px}.fb_dialog_content .dialog_header td.header_right{font-size:13px;padding-right:5px;vertical-align:middle;width:60px}.fb_dialog_content .touchable_button{background:-webkit-gradient(linear, 0% 0%, 0% 100%, from(#4966A6), color-stop(.5, #355492), to(#2A4887));border:1px solid #2f477a;-webkit-background-clip:padding-box;-webkit-border-radius:3px;-webkit-box-shadow:rgba(0, 0, 0, .117188) 0 1px 1px inset, rgba(255, 255, 255, .167969) 0 1px 0;display:inline-block;margin-top:3px;max-width:85px;line-height:18px;padding:4px 12px;position:relative}.fb_dialog_content .dialog_header .touchable_button input{border:none;background:none;color:#fff;font:12px Helvetica, sans-serif;font-weight:bold;margin:2px -12px;padding:2px 6px 3px 6px;text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog_content .dialog_header .header_center{color:#fff;font-size:17px;font-weight:bold;line-height:18px;text-align:center;vertical-align:middle}.fb_dialog_content .dialog_content{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat 50% 50%;border:1px solid #555;border-bottom:0;border-top:0;height:150px}.fb_dialog_content .dialog_footer{background:#f6f7f8;border:1px solid #555;border-top-color:#ccc;height:40px}#fb_dialog_loader_close{float:left}.fb_dialog.fb_dialog_mobile .fb_dialog_close_button{text-shadow:rgba(0, 30, 84, .296875) 0 -1px 0}.fb_dialog.fb_dialog_mobile .fb_dialog_close_icon{visibility:hidden}#fb_dialog_loader_spinner{animation:rotateSpinner 1.2s linear infinite;background-color:transparent;background-image:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/yD/r/t-wz8gw1xG1.png);background-repeat:no-repeat;background-position:50% 50%;height:24px;width:24px}@keyframes rotateSpinner{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
+.fb_iframe_widget{display:inline-block;position:relative}.fb_iframe_widget span{display:inline-block;position:relative;text-align:justify}.fb_iframe_widget iframe{position:absolute}.fb_iframe_widget_fluid_desktop,.fb_iframe_widget_fluid_desktop span,.fb_iframe_widget_fluid_desktop iframe{max-width:100%}.fb_iframe_widget_fluid_desktop iframe{min-width:220px;position:relative}.fb_iframe_widget_lift{z-index:1}.fb_hide_iframes iframe{position:relative;left:-10000px}.fb_iframe_widget_loader{position:relative;display:inline-block}.fb_iframe_widget_fluid{display:inline}.fb_iframe_widget_fluid span{width:100%}.fb_iframe_widget_loader iframe{min-height:32px;z-index:2;zoom:1}.fb_iframe_widget_loader .FB_Loader{background:url(https://fbstatic-a.akamaihd.net/rsrc.php/v2/y9/r/jKEcVPZFk-2.gif) no-repeat;height:32px;width:32px;margin-left:-16px;position:absolute;left:50%;z-index:4}</style><link rel="stylesheet" type="text/css" href="./PayMode_Files/twca.css"><script type="text/javascript" charset="utf-8" src="./PayMode_Files/QueryServerCertStatus5"></script></head>
+<body>
+    <div id="fb-root" class=" fb_reset">
+    <div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fb_xdm_frame_https" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" title="Facebook Cross Domain Communication Frame" aria-hidden="true" tabindex="-1" id="fb_xdm_frame_https" src="./PayMode_Files/xd_arbiter.html" style="border: none;"></iframe></div></div><div style="position: absolute; top: -10000px; height: 0px; width: 0px;"><div><iframe name="fbb23a5dc" frameborder="0" allowtransparency="true" allowfullscreen="true" scrolling="no" src="./PayMode_Files/ping.html" style="display: none;"></iframe></div></div></div>
+    <!--[if IE 7]>
+  <div id="ie-tip">
+    <div class="tip-wrapper">
+      <div class="declare">
+        <p>
+          目前已不支援
+          <span>
+            IE8 以下
+          </span>
+          的瀏覽器版本，需要更好的瀏覽體驗可下載：
+          <a href="http://www.google.com/intl/zh-TW/chrome/" target="_blank" title="來去下載 Google 瀏覽器">
+            Google Chrome 瀏覽器
+          </a>，
+          <a href="http://moztw.org/firefox/" target="_blank" title="來去下載 Firefox 瀏覽器">
+            Firefox 瀏覽器
+          </a>，
+          <a href="http://www.apple.com/tw/safari/" target="_blank" title="來去下載 Safari 瀏覽器">
+            Safari 瀏覽器
+          </a>，
+          <a href="http://www.microsoft.com/zh-tw/download/internet-explorer-8-details.aspx" target="_blank" title="來去下載 IE8 以上的瀏覽器">
+          IE8 以上的瀏覽器
+          </a>
+        </p>
+      </div>
+      <div class="decision">
+        <form>
+          <p>
+            不要再顯示訊息囉!
+          </p>
+          <input class="button" id="CheckBrowser" name="dont-alert" type="button" value="我知道了">
+        </form>
+      </div>
+    </div>
+  </div>
+<![endif]-->
+    
+    <div class="wrapper">
+<!-- google 自訂搜尋start -->
+<script src="./PayMode_Files/jsapi.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+    (function () {
+        var cx = '010020018173282343918:zsli94n2sj0';
+        var gcse = document.createElement('script');
+        gcse.type = 'text/javascript';
+        gcse.async = true;
+        gcse.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') +
+            '//cse.google.com/cse.js?cx=' + cx;
+        var s = document.getElementsByTagName('script')[0];
+        s.parentNode.insertBefore(gcse, s);
+    })();
+
+</script>
+
+<style type="text/css">
+    .gsc-control-cse
+    {
+        font-family: Arial, sans-serif;
+        width: 200px;
+        padding: 0 0 0 0;
+        height: 28px;
+    }
+    .gsc-control-cse .gsc-table-result
+    {
+        font-family: Arial, sans-serif;
+    }
+    input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus
+    {
+        width: 200px;
+        padding: 0 0 0 0;
+        border: 1px solid #A0A0A0;
+        border-radius: 5px;
+        height: 28px;
+        text-shadow: 0 1px 0 #d6d6d6;
+        box-shadow: 0 0 0 1px 0 #d6d6d6;
+        -moz-box-shadow: 0 1px 0 rgba(255,255,255,.15),0 2px 2px rgba(0,0,0,0.2) inset;
+    }
+    
+    input.gsc-search-button, input.gsc-search-button:hover, input.gsc-search-button:focus
+    {
+        border-color: #5c5c5e;
+        background-color: #CECECE;
+        background-image: none;
+        filter: none;
+        display: none;
+    }
+</style>
+
+        <div class="part">
+ <hr>
+            <div class="container subpage">
+  <div class="sidebar">
+  </div>
+
+   <link href="./PayMode_Files/smalltab.css" rel="stylesheet" type="text/css">
+    <script language="javascript" type="text/javascript">
+        $(function () {
+                setSmallTab("cell1");
+            $(".cvpaytab").click(function () {
+                var currentId = $(this).attr('id');
+                setLargeTab(currentId);
+                setSmallTab(currentId);
+            })
+            $('.cvpaytab').hover(
+              function () {
+                if (!$(this).hasClass("activity")) {                   
+                  $(this).css("cursor", "pointer");
+                  $(this).css("background-color", "#227CBB");
+                  $(this).css("color", "#fff");
+                 }
+              }
+              , function () {
+                 if (!$(this).hasClass("activity")) {           
+                  $(this).css("border", "none");
+                  $(this).css("cursor", "pointer");
+                  $(this).css("background-color", "#fff");
+                  $(this).css("color", "#227CBB");
+                  }
+              }
+            )
+        })
+
+        function setLargeTab(idName) {             
+             var showTab= "#d"+ idName.toString().replace("cell","");              
+            $(".marketTab").css("display", "none");
+            $(showTab).css("display", "block");           
+        }
+
+        function setSmallTab(idName) {
+            $(".cvpaytab").removeClass('activity');
+            $(".cvpaytab").addClass('inactive');
+            $(".cvpaytab").css("border", "none");
+            $(".cvpaytab").css("cursor", "pointer");
+            $(".cvpaytab").css("background-color", "#fff");
+            $(".cvpaytab").css("color", "#227CBB");
+         
+            $("#" + idName).addClass('activity');
+            $("#" + idName).css("color", "#fff");
+            $("#" + idName).css("background-color", "#227CBB");
+        }  
+   
+    </script>
+
+    <div class="content">
+              <!--付款方式連結 start-->
+
+   <script language="javascript" type="text/javascript">
+       $(function () {
+           var activeTabID = "cvpay"
+           setActiveTab(activeTabID);
+
+           $("#tab_pay_way_cvpay").click(function () {
+                
+               location.href='/Service/pay_way_cvpay';
+           });
+
+           
+           $("#tab_pay_way_cvcde").click(function () {
+                
+               location.href='/Service/pay_way_cvpay';
+           });
+
+       })
+       function setActiveTab(idName) {
+           var tabName = "#tab_pay_way_" + idName;          
+           $(tabName).addClass('active');
+           $(tabName).css("color", "#fff");
+           $(tabName).css("background-color", "#227CBB");
+       }     
+    </script>
+    
+<h2 class="margin_b30">付款方式</h2>
+          <h3 class="text_large blue margin_b30 margin_l0"><b>各大超商代碼繳費流程</b></h3>          
+          <ul class="mass clearfix margin_b20">
+            <li class="inactive  cvpaytab activity" id="cell3" style="border: none; cursor: pointer; color: rgb(34, 124, 187); background-color: rgb(255, 255, 255);">萊爾富Life-ET</li>
+            <li class="inactive  cvpaytab" id="cell4" style="border: none; cursor: pointer; color: rgb(34, 124, 187); background-color: rgb(255, 255, 255);">OK‧go</li>
+          </ul>
+           		          
+          <div id="d3" class="layer align_l margin_b40  marketTab" style="display: block;">
+          	<p class="margin_b10 margin_l0 text_larger"><b>萊爾富Life-ET 代碼繳費流程</b></p>
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">1.</span>點選代收繳款。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-32.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">2.</span>點選網路交易。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-33.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">3.</span>點選紅陽科技代碼繳費。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-34.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">4.</span>點選同意下一頁。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-35.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">5.</span>輸入繳費代碼及點選確認。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-36.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">6.</span>點選列印繳費單。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-37.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">7.</span>點選列印繳費單。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-38.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">8.</span>繳費單列印中。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-39.png" alt="">
+          </div>
+          
+          <div id="d4" class="layer align_l margin_b40   marketTab" style="display: none;">
+          	<p class="margin_b10 margin_l0 text_larger"><b>OK‧go 代碼繳費流程</b></p>
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">1.</span>點選繳費。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-42.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">2.</span>點選網路交易。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-43.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">3.</span>點選代碼繳費。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-44.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">4.</span>點選同意，我接受。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-45.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">5.</span>輸入繳費代碼及點選資料確認。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-46.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">6.</span>確認繳費代碼及點選正確。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-47.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">7.</span>點選正確，我要繳款。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-48.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">8.</span>繳費單處理中。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-49.png" alt="">
+                <p class="margin_b10 margin_l10">
+                    <span class="text_larger text_blue margin_r10 text_bold">9.</span>抽取繳費單。</p>
+                <img class="margin_b50 border_gray" src="./PayMode_Files/user-10-50.png" alt="">
+          </div>
+    </div>
+                <!-- 右側內容 end -->
+            </div>
+        </div>
+    </div>      
+<!-- End: footer -->
+  <script type="text/javascript" charset="utf-8">
+      var twca_cn = "*.allpay.com.tw";
+  </script> 
+  <script type="text/javascript" src="./PayMode_Files/twcaseal_v3.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+    $(function () {
+
+        $('.accordion').find('h2:first').trigger('click');
+
+    });
+
+</script>
+
+<table cellspacing="0" cellpadding="0" class="gstl_50 gssb_c" style="width: 202px; display: none; top: 88px; position: absolute; left: 1266px;"><tbody><tr><td class="gssb_f"></td><td class="gssb_e" style="width: 100%;"></td></tr></tbody></table><style type="text/css">.txt-rotate > .wrap { border-right: 1px solid #fff }</style></body></html>

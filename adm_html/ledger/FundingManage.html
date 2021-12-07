@@ -1,0 +1,182 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+  <title><?php echo Base_Company?></title>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />
+  <script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+  <script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+  <script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+  <script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+  <script type='text/javascript' src='../adm_html/scripts/ledger.js?<?php echo rand()?>'></script>
+  <script type="text/javascript">
+    $.datepicker.regional['zh-TW'] = {
+        clearText: '清除', clearStatus: '清除已選日期',
+        closeText: '關閉', closeStatus: '取消選擇',
+        prevText: '<上一月', prevStatus: '顯示上個月',
+        nextText: '下一月>', nextStatus: '顯示下個月',
+        currentText: '今天', currentStatus: '顯示本月',
+        monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+            '七月', '八月', '九月', '十月', '十一月', '十二月'],
+        monthNamesShort: ['一', '二', '三', '四', '五', '六',
+            '七', '八', '九', '十', '十一', '十二'],
+        monthStatus: '選擇月份', yearStatus: '選擇年份',
+        weekHeader: '周', weekStatus: '',
+        dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+        dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+        dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+        dayStatus: '設定每周第一天', dateStatus: '選擇 m月 d日, DD',
+        dateFormat: 'yy-mm-dd', firstDay: 1,
+        initStatus: '請選擇日期', isRTL: false
+    };
+
+    $(document).ready(function (e) {
+        $("#StartTime").datepicker({
+            dateFormat: "yy-mm-dd",
+            yearRange: "-20:+20",
+            changeYear: true,
+            changeMonth: true,
+            timeText: '時間',
+            hourText: '小時',
+            minuteText: '分鐘',
+            currentText: '今天',
+            closeText: "確定",
+            regional: 'zh-TW',
+            showButtonPanel: true
+        });
+    })
+    $(document).ready(function (e) {
+        $("#EndTime").datepicker({
+            dateFormat: "yy-mm-dd",
+            yearRange: "-20:+20",
+            changeYear: true,
+            changeMonth: true,
+            timeText: '時間',
+            hourText: '小時',
+            minuteText: '分鐘',
+            currentText: '今天',
+            closeText: "確定",
+            regional: 'zh-TW',
+            showButtonPanel: true
+        });
+    })
+    $.datepicker.setDefaults($.datepicker.regional['zh-TW']);
+</script>
+</head>
+
+<body id="page-top">
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <?php include_once( "../adm_html/menu.html");?>
+    <!-- End of Sidebar -->
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <!-- Main Content -->
+      <div id="content">
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <!-- Sidebar Toggle (Topbar) -->
+          <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+            <i class="fa fa-bars"></i>
+          </button>
+          <!-- Topbar Search -->
+          <h4 style="color: #0f7c5e;font-weight:900;">撥款管理</h4>
+          <!-- Topbar Navbar -->
+        </nav>
+        <div class="container-fluid">
+          <div class="card shadow mb-4">
+            <div class="card-header py-3">
+              <form action="admin.php?func=funding&attr=Export" method="post" name="fundingform" target="_blank"
+                id="fundingform">
+                <div class="panel panel-default">
+                  <div class="panel-body">
+                    <label>
+                      <!--<input name="DateType" type="radio" class="css-checkbox" id="radio" value="1" checked="checked" />
+                      <label for="radio" class="rulelist2">撥款日期</label>-->
+                      <input name="DateType" type="radio" class="css-checkbox" id="radio2" value="2"
+                        checked="checked" />
+                      <label for="radio2" class="rulelist2">預計撥款日期</label>
+                      <input type="radio" name="DateType" id="radio3" value="3" class="css-checkbox" />
+                      <label for="radio3" class="rulelist2">實際撥款日期</label>
+                      交易日期：
+                      <input name='StartTime' type='text' class="form-control" id="StartTime" maxlength="50" autocomplete="off"
+                        style="width:150px;" placeholder="開始時間" />
+                      至
+                      <input name='EndTime' type='text' class="form-control" id="EndTime" maxlength="50" autocomplete="off"
+                        style="width:150px;" placeholder="結束時間" />
+                      &nbsp;
+                      <select name="State" id="State" class="field form-control" style="width: auto;">
+                        <option value="-1" selected="selected">全部</option>
+                        <option value="1">已撥款</option>
+                        <option value="0">未撥款</option>
+                      </select>
+                      搜尋:
+                      &nbsp;&nbsp;
+                      <input name='Keyword' type='text' class="form-control" id="Keyword" maxlength="50" 
+                        style="width:150px;" placeholder="特店代號、特店名稱、交易編號、結帳區間、金額" />
+                      &nbsp;
+                      <input type="button" name="button" id="button" class="pull btn btn-info btn" value=" 查 詢 " />
+                      <input name="送出" type="submit" class="pull2 btn btn-info Export" id="CaseReq"
+                        style="margin-left:5px; margin-right:5px;" value="匯出Excel" rel="tooltip">
+                    </label>
+                    <!--<?php if ($AdminLevel == "1" || $AdminLevel == "2") {?>
+              <div class="cnavbar" style="float:right;"> <span class="pull-right btn btn-info btn" rel="tooltip" title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER[" PHP_SELF "] ?>?func=Added');"> <i class="icon-edit"></i> 新增廠商資料</span> </div>
+              <?php }?>-->
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                <div class="row bu_title_bar clearfix">
+                  <h4 class="pull-left">共 <span id="lStore_SysInfoTotal"
+                      class="searchresults_count"><?php echo count($Html)?></span> 筆</h4>
+                </div>
+                <div class="row clearfix">
+                  <div class="table-responsive">
+                    <table class="table table-bordered dataTable">
+                      <thead>
+                        <tr>
+                          <th class="nowrap">特店代號</th>
+                          <th class="nowrap">特店名稱</th>
+                          <th class="nowrap">撥款編號</th>
+                          <th class="nowrap">結帳區間</th>
+                          <th class="nowrap">撥款金額</th>
+                          <th class="nowrap">預計撥款日期</th>
+                          <th class="nowrap">實際撥款日期</th>
+                          <th class="nowrap">撥款狀態</th>
+                          <th class="nowrap">備註</th>
+                          <?php if ($AdminLevel == "1" || $AdminLevel == "2") {?>
+                          <th class="nowrap">明細</th>
+                          <?php }?>
+                          <th class="nowrap"></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- End of Main Content -->
+      <!-- Footer -->
+      <?php include_once( "../adm_html/footer.html");?>
+      <!-- End of Footer -->
+    </div>
+    <!-- End of Content Wrapper -->
+  </div>
+  <!-- End of Page Wrapper -->
+</body>
+
+</html>

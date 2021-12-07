@@ -1,0 +1,225 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title><?php echo Base_Company?></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
+        <script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+        <script type="text/javascript" src="../jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+        <script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+        <script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+        <link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css">
+        <script type="text/javascript" src="../box/jBox.min.js"></script>
+        <script type="text/javascript" src="../box/jBox.js"></script>
+        <link type="text/css" rel="stylesheet" href="../box/jBox.css"/>
+        <script type='text/javascript' src='../adm_html/scripts/ledger.js?v=1.12'></script>	
+        <script type="text/javascript">
+            jQuery.browser = {};
+            (function () {
+            	jQuery.browser.msie = false;
+            	jQuery.browser.version = 0;
+            	if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+            		jQuery.browser.msie = true;
+            		jQuery.browser.version = RegExp.$1;
+            	}
+            })();
+            $.datepicker.regional['zh-TW'] = {
+            	clearText: '清除', clearStatus: '清除已選日期',
+            	closeText: '關閉', closeStatus: '取消選擇',
+            	prevText: '<上一月', prevStatus: '顯示上個月',
+            	nextText: '下一月>', nextStatus: '顯示下個月',
+            	currentText: '今天', currentStatus: '顯示本月',
+            	monthNames: ['一月', '二月', '三月', '四月', '五月', '六月',
+            	'七月', '八月', '九月', '十月', '十一月', '十二月'],
+            	monthNamesShort: ['一', '二', '三', '四', '五', '六',
+            	'七', '八', '九', '十', '十一', '十二'],
+            	monthStatus: '選擇月份', yearStatus: '選擇年份',
+            	weekHeader: '周', weekStatus: '',
+            	dayNames: ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'],
+            	dayNamesShort: ['周日', '周一', '周二', '周三', '周四', '周五', '周六'],
+            	dayNamesMin: ['日', '一', '二', '三', '四', '五', '六'],
+            	dayStatus: '設定每周第一天', dateStatus: '選擇 m月 d日, DD',
+            	dateFormat: 'yy-mm-dd', firstDay: 1,
+            	initStatus: '請選擇日期', isRTL: false
+            };
+            $(document).ready(function (e) {
+            	$("#CreationDate").datetimepicker({
+            		dateFormat: "yy-mm-dd",
+            		yearRange: "-0:+1",
+            		changeYear: true,
+            		changeMonth: true,
+            		timeText: '時間',
+            		hourText: '小時',
+            		minuteText: '分鐘',
+            		secondText: '秒',
+            		currentText: '今天',
+            		closeText : "確定",
+            		regional: 'zh-TW',
+            		showSecond: true, 
+            		timeFormat: 'hh:mm:ss'
+            		/*showButtonPanel: true*/
+            	});
+            	$("#PaymentDate").datetimepicker({
+            		dateFormat: "yy-mm-dd",
+            		yearRange: "-0:+1",
+            		changeYear: true,
+            		changeMonth: true,
+            		timeText: '時間',
+            		hourText: '小時',
+            		minuteText: '分鐘',
+            		secondText: '秒',
+            		currentText: '今天',
+            		closeText : "確定",
+            		regional: 'zh-TW',
+            		showSecond: true, 
+            		timeFormat: 'hh:mm:ss'
+            		/*showButtonPanel: true*/
+            	});
+            })
+            $.datepicker.setDefaults($.datepicker.regional['zh-TW']);
+        </script>
+        <title>誠品後端管理</title>
+    </head>
+    <body>
+        <form action="" method="post" enctype="multipart/form-data"  name="form" id="form">
+            <div class="modal-content">
+                <div class="modal-header clearfix">
+                    <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times"></i></span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">訂單補單</h4>
+                </div>
+                <div id="CustUpdate" class="modal-body clearfix">
+                    <div class="form-horizontal">
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">訂單編號: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <label class="control-label parentname"><?php echo $Row["CashFlowID"]?></label>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">授權單號: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="AuthorizeNumber" type="text" class="form-control" id="AuthorizeNumber" value="<?php echo $Row["AuthorizeNumber"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">交易編號: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <input name="OrderID" type="text" class="form-control" id="OrderID" value="<?php echo $Row["OrderID"]?>" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">交易日期: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="CreationDate" type="text" class="form-control" id="CreationDate" value="<?php echo $Row["CreationDate"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">付款日期: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <input name="PaymentDate" type="text" class="form-control" id="PaymentDate" value="<?php echo $Row["PaymentDate"]?>" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">付款管道: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <select name="PaymentType" id="PaymentType" class="form-control">
+                                        <?php while (list ($key, $value) = @each ($PFHtml)) {?>
+                                        <option value="<?php echo $value["Type"]?>" <?php echo (($Row["PaymentType"] == $value["Type"]) ? "selected" : "")?>><?php echo $value["Kind"]?></option>
+                                        <?php }?>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">特店代號: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <label class="control-label parentname"><?php echo $Row["FirmCode"]?></label>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">特店商品代號: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="MerProductID" type="text" class="form-control" id="MerProductID" value="<?php echo $Row["MerProductID"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">消費者ID: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <input name="MerUserID" type="text" class="form-control" id="MerUserID" value="<?php echo $Row["MerUserID"]?>" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">特店訂單編號: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="MerTradeID" type="text" class="form-control" id="MerTradeID" value="<?php echo $Row["MerTradeID"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">卡號: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <input name="CardNumber" type="text" class="form-control" id="CardNumber" value="<?php echo $Row["CardNumber"]?>" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">繳款帳號/代碼: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="VatmAccount" type="text" class="form-control" id="VatmAccount" value="<?php echo $Row["VatmAccount"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">交易金額: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <input name="Total" type="text" class="form-control" id="Total" value="<?php echo $Row["Total"]?>" />
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">結帳金額: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="ClosingTotal" type="text" class="form-control" id="ClosingTotal" value="<?php echo $Row["ClosingTotal"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm parentstore">
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">交易信息: </label>
+                                <div id="BulletinDate" class="col-xs-6 form-inline">
+                                    <select name="State" id="State" class="form-control">
+                                        <option value="-1" <?php echo (($Row["State"] == -1) ? "selected" : "")?>>未完成交易</option>
+                                        <option value="-2" <?php echo (($Row["State"] == -2) ? "selected" : "")?>>退款處理中</option>
+                                        <option value="-3" <?php echo (($Row["State"] == -3) ? "selected" : "")?>>己退款</option>
+                                        <option value="2" <?php echo (($Row["State"] == 2) ? "selected" : "")?>>未入款</option>
+                                        <option value="1" <?php echo (($Row["State"] == 0 || $Row["State"] == 1) ? "selected" : "")?>>交易成功</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-5">
+                                <label class="col-xs-6 control-label">備註: </label>
+                                <div id="chkDefGroup" class="col-xs-6 form-inline">
+                                    <input name="Remark" type="text" class="form-control" id="Remark" value="<?php echo $Row["Remark"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">  
+                <input type="button" class="btn btn-primary addedbranch" id="IncreaseDataButton" value="確認補單" />
+                <input type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');" value="關閉" />
+            </div>
+        </form>
+    </body>
+</html>

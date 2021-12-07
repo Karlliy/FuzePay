@@ -1,0 +1,327 @@
+﻿<!doctype html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>線上繳款</title>
+    <style type="text/css">
+        body {
+            background: #F8F8F8;
+        }
+
+        .wrapper {
+            width: 1100px;
+        }
+
+        p,
+        li,
+        li a {
+            font-family: "微軟正黑體", "Apple LiGothic Medium", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
+            color: #333;
+            list-style: none;
+            font-weight: normal;
+            font-style: normal;
+            font-size: 13px;
+            line-height: 1.7em;
+        }
+
+        .order {
+            border-bottom: 3px solid #0e236e;;
+            text-align: center;
+            padding: 0.1em 0;
+            position: relative;
+        }
+
+        .container {
+            padding: 0 15px;
+            width: 1000px;
+            margin: 0 auto;
+        }
+
+        .blue {
+            color: rgb(0, 0, 0);
+            font-size: 16px;
+            text-align: center;
+        }
+
+        .pay_content {
+            min-height: 500px;
+            background-image: linear-gradient(180deg,#cdfff3 10%,#82d3ff 100%);
+            -webkit-box-shadow: -1px 0 0 0 #d2d2d2, -1px 0 0 0 #e6e6e6, 1px 0 0 0 #d2d2d2, 2px 0 0 0 #e6e6e6, 0 -1px 0 0 #e8e8e8, 0 2px 0 0 rgba(241, 241, 241, 0.3), 0 1px 0 0 #b1b1b1;
+            -moz-box-shadow: -1px 0 0 0 #d2d2d2, -1px 0 0 0 #e6e6e6, 1px 0 0 0 #d2d2d2, 2px 0 0 0 #e6e6e6, 0 -1px 0 0 #e8e8e8, 0 2px 0 0 rgba(241, 241, 241, 0.3), 0 1px 0 0 #b1b1b1;
+            box-shadow: -1px 0 0 0 #d2d2d2, -1px 0 0 0 #e6e6e6, 1px 0 0 0 #d2d2d2, 2px 0 0 0 #e6e6e6, 0 -1px 0 0 #e8e8e8, 0 2px 0 0 rgba(241, 241, 241, 0.3), 0 1px 0 0 #b1b1b1;
+            -ie7-8-border: 1px solid #dedede;
+            border: 1px solid #dedede \9;
+            position: relative;
+            border-bottom-right-radius: 5px;
+            border-bottom-left-radius: 5px;
+        }
+
+        .express_inner {
+            width: 70%;
+            border: 1px solid #0a0d64;
+            padding: 1em 1em 0 1em;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            margin: 0 auto;
+        }
+
+        .express_inner ul li {
+            border-bottom: 1px dashed #0a0d64;
+            padding: 0.5em 0 0.2em 3.5em;
+            position: relative;
+            min-height: 4em;
+        }
+
+        .express_inner ul li .star {
+            color: #ff5f5f;
+            width: 3%;
+            float: left;
+        }
+
+        .express_inner ul li label {
+            width: 32%;
+            float: left;
+            line-height: 18px;
+        }
+
+        a.blue_button,
+        .blue_button {
+            color: #fff;
+            text-shadow: 0 -1px #ffffff;
+            text-align: center;
+            background: rgb(191, 210, 85);
+            background: -moz-linear-gradient(top, #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            background: -webkit-linear-gradient(top, #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            background: linear-gradient(to bottom, #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#bfd255', endColorstr='#9ecb2d', GradientType=0);
+            -moz-box-shadow: 0 1px #4dbeff inset;
+            -webkit-box-shadow: 0 1px #4dbeff inset;
+            box-shadow: 0 1px #0a0d64 inset;
+            -webkit-border-radius: 5px 5px 5px 5px;
+            -moz-border-radius: 5px 5px 5px 5px;
+            border-radius: 5px 5px 5px 5px;
+            border-color: #1794dc #0a0d64 #0a0d64;
+            border-style: solid;
+            border-width: 1px;
+            height: 1.4545em;
+            padding: 8px 100px;
+            -moz-box-sizing: content-box;
+            -webkit-box-sizing: content-box;
+            box-sizing: content-box;
+            cursor: pointer;
+        }
+
+        .blue_button:hover {
+            color: #fff !important;
+            text-decoration: none;
+            background:#82d2ff;
+            background: -moz-linear-gradient(top,  #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            background: -webkit-linear-gradient(top,  #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            background: linear-gradient(to bottom, #82d2ff 0%, #1e99e0 50%, #1794dc 51%, #285c7a 100%);
+            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#81b500', endColorstr='#c1db00', GradientType=0);
+            border-color:#82d2ff rgba(124, 196, 255, 1) rgba(124, 196, 255, 1);
+            -moz-box-shadow: 0 1px #1794dc inset;
+            -webkit-box-shadow: 0 1px #1794DC inset;
+            box-shadow: 0 1px rgb(124, 196, 255) inset;
+        }
+
+        .message {
+            width: 78%;
+            text-align: left;
+        }
+
+        .message h4 {
+            font-size: 16px;
+            font-weight: bold;
+            color: #F05555;
+            text-shadow: none;
+        }
+
+        .message ol li,
+        .message ul li {
+            font-size: 13px;
+            color: #555;
+            list-style: outside decimal;
+        }
+
+        .message span,
+        .message a {
+            font-weight: bold;
+            color: #227BBB;
+        }
+
+        .express .sumbit a {
+            width: 250px;
+        }
+
+        .sumbit {
+            width: 100%;
+            text-align: center;
+            margin: 25px auto;
+        }
+
+        input,
+        textarea,
+        select {
+            background-color: #F1f1f1;
+            background-image: none;
+            padding: 10px;
+            border-top: 1px solid #AAAAAA;
+            border-left: 1px solid #AAAAAA;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            border-right: 1px solid rgba(0, 0, 0, 0.1);
+            -webkit-border-radius: 4px;
+            -moz-border-radius: 4px;
+            border-radius: 4px;
+        }
+
+        .express_inner ul li input {
+            width: 260px;
+            color: #555;
+        }
+
+        .express_inner ul li input.radio {
+            display: inline-block;
+            width: 20px;
+        }
+
+        .message {
+            padding: 10px;
+            background: #F0F7E9;
+            border: 1px solid #CCC;
+            border-radius: 3px;
+            margin: 20px auto;
+        }
+
+        .pay_content {
+            padding-bottom: 3em;
+        }
+
+        .showcase {
+            position: relative;
+            border: 1px solid #CCC;
+        }
+
+        .pay_content .order h2 {
+            color: #668F0F;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: none;
+            line-height: 2.5em;
+        }
+        .showcase {
+            width:998px;
+            height:150px;
+            background: linear-gradient(rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1)), url(./adm_html/img/banner.png);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="showcase"> </div>
+        <div class="pay_content">
+            <div class="order">
+            </div>
+            <p class="blue">輸入以下資訊</p>
+            <form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/VirAccountPayment.php">
+                <!--<form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">-->
+                <div class="express_inner">
+                    <input type="hidden" name="HashKey" id="HashKey" value="<?php echo $FirmRow["HashKey"]?>">
+                    <input type="hidden" name="HashIV" id="HashIV" value="<?php echo $FirmRow["HashIV"]?>">
+                    <input type="hidden" name="MerTradeID" id="MerTradeID" value="">
+                    <input type="hidden" name="MerProductID" id="MerProductID" value="">
+                    <input type="hidden" name="ItemName" id="ItemName" value="">
+                    <input type="hidden" name="UnionPay" id="UnionPay" value="0">
+                    <!-- <input type="hidden" name="ReturnJosn" id="ReturnJosn" value="Y"> -->
+                    <ul>
+                        <li style="min-height: 90px">
+                            <font style="font-size: 20px; position: relative; top: 10px;">台幣 -</font>
+                            <input name="PaymentType" id="PaymentType" type="radio" class="radio"
+                                    style="position: relative;top: 10px;" value="0" checked
+                                    onChange="SelPaymentType()"><label for="checkbox"></label>
+                                <font style="font-size: 20px; position: relative; top: 10px;">信用卡</font>
+
+                            <input name="PaymentType" id="PaymentType" type="radio" value="1" class="radio"
+                                style="position: relative; top: 10px;" onChange="SelPaymentType()" checked>
+                            <font style="font-size: 20px; position: relative;top: 10px;">虛擬帳戶</font>
+                            <?php if ($_VirAccount == true) {?>
+                            <input name="PaymentType" id="PaymentType" type="radio" value="3" class="radio"
+                                style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                            <font style="font-size: 20px; position: relative;top: 10px;">虛擬帳戶<span style="color: brown;">(可重覆繳款、不限金額)</span></font>
+                            <br/>
+                            <?php }?>
+                            <input name="PaymentType" id="PaymentType" type="radio" value="2" class="radio"
+                                style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                            <font style="font-size: 20px; position: relative;top: 10px;">超商代碼</font>
+                            <?php if ($FirmRow["Sno"] == 1) {?>
+                                <input name="PaymentType" id="PaymentType" type="radio" value="4" class="radio"
+                                    style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                                <font style="font-size: 20px; position: relative;top: 10px;">超商條碼</font>
+                            <?php }?>
+                            <!--<input name="PaymentType" id="PaymentType" type="radio" value="3" class="radio"
+                                    style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                                <font style="font-size: 20px; position: relative;top: 10px;">WebATM</font>-->
+
+                        </li>
+                        <li id="AmountLayout"> 
+                            <span class="star">＊</span>
+                            <label style="font-size: 22px;">交易金額(<span id="Currency">新台幣</span>) </label>
+                            <input name="Amount" type="number" placeholder="請填寫金額" id="Amount" min="5"
+                                onChange="document.getElementById('MerProductID').value = 'B'+this.value;">
+                        </li>
+                        <li id="ChoosePayment" style="display: none;">
+                            <span class="star">＊</span>
+                            <label style="font-size: 22px;">繳費超商</label>
+                            <select id="ChoosePayment" name="ChoosePayment">
+                                <option value=""></option>
+                                <option value="711">7-11</option>
+                                <option value="Family">全家</option>
+                                <option value="OK">OK</option>
+                                <!--<option value="HiLife">萊爾富</option>-->
+                            </select>
+                        </li>
+
+                        <li id="BarCodeID" style="display: none">
+                            <label style="font-size: 22px;">付款條碼</label>
+                            <textarea name="BarCode" cols="" rows="" id="BarCode" style="width:282px;"></textarea>
+                        </li>
+
+                        <li> <span class="star">＊</span>
+                            <label style="font-size: 22px;">消費者ID</label>
+                            <textarea name="MerUserID" cols="" rows="" id="MerUserID" placeholder="請輸入消費者ID[英文或數字]"
+                                style="width:282px;"></textarea>
+                        </li>
+                        <li> <span class="star">＊</span>
+                            <label style="font-size: 22px;">Email</label>
+                            <textarea name="Email" cols="" rows="" id="Email" style="width:282px;">請輸入Email</textarea>
+                        </li>
+                        <li> <span class="star">＊</span>
+                            <label style="font-size: 22px;">交易描述</label>
+                            <textarea name="TradeDesc" cols="" rows="" id="TradeDesc" style="width:282px;">請輸入交易描述</textarea>
+                        </li>
+                    </ul>
+                    <div class="sumbit">
+                        <input type="submit" name="button" id="button" class="btn blue_button" value="送出">
+                    </div>
+                </div>
+            </form>
+            <div class="message margin_t30 lang-tw">
+                <h4>注意事項：</h4>
+                <ol>
+                    <li>請依序並確實填寫欄位訊息，填寫完畢後，請點擊「下一步」繼續本次交易。</li>
+                    <li>本金流交易已使用 SSL 256bits 安全加密機制，請安心使用。</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+    <script type='text/javascript'>
+        var posturi = 'http://127.0.0.1/FuzePay/';
+        // var posturi = 'https://fuze-pay.com/';
+    </script>
+    <script type='text/javascript' src='card.js?v=4.4'></script>
+</body>
+
+</html>

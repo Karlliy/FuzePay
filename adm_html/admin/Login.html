@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<!-- Mirrored from vendor.allpay.com.tw/Home/Index by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 25 Aug 2015 07:25:01 GMT -->
+<!-- Added by HTTrack -->
+<meta http-equiv="content-type" content="text/html;charset=utf-8" />
+<!-- /Added by HTTrack -->
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />
+<link href="../adm_html/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../adm_html/css/sb-admin-2.min.css" rel="stylesheet">
+
+<script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="../adm_html/scripts/script.js" type="text/javascript"></script>
+<script type='text/javascript' src='../box/jBox.min.js'></script>
+<script type='text/javascript' src='../box/jBox.js'></script>
+<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+<script src="https://www.google.com/recaptcha/api.js?render=6LeAecIUAAAAAKj4RJiK8yvJHglujulRODsWPLLj"></script>
+<script type="text/javascript">
+      grecaptcha.ready(function() {
+      grecaptcha.execute('6LeAecIUAAAAAKj4RJiK8yvJHglujulRODsWPLLj', {action: 'homepage'}).then(function(token) {
+        var recaptchaResponse = document.getElementById('recaptchaResponse');
+        recaptchaResponse.value = token;
+      });
+  });
+  </script>
+<style type="text/css">
+.inputErr {
+	border: #A40000 1px solid;
+}
+.nav-tabs li a {
+	cursor: pointer;
+}
+</style>
+</head>
+<body class="bg-gradient-primary">
+
+    <div class="container">
+  
+      <!-- Outer Row -->
+      <div class="row justify-content-center">
+  
+        <div class="col-xl-6 col-lg-6 col-md-9">
+  
+          <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+              <!-- Nested Row within Card Body -->
+              <div class="row">
+                <!--<div class="col-lg-6 d-none d-lg-block bg-login-image"></div>-->
+                <div class="col-lg-12">
+                  <div class="p-5">
+                    <div class="text-center">
+                      <img src="../adm_html/images/login_01.png" style="height: 150px;" /><h1 class="h4 text-gray-900 mb-4"><?php echo Base_Company?></h1>
+                    </div>
+                    <form class="user" method="post" enctype="multipart/form-data"  name="form" id="form">
+                      <div class="form-group">
+                        <input type="text" class="form-control form-control-user" id="loginid" name="loginid" aria-describedby="emailHelp" placeholder="Enter Account...">
+                      </div>
+                      <div class="form-group">
+                        <input type="password" class="form-control form-control-user" id="password" name="password" placeholder="Enter Password">
+                      </div>
+                      <div class="form-group">
+                          <input type="number" class="form-control form-control-user" id="auth_num" name="auth_num" placeholder="Enter Verification code">
+                        </div>
+                      <div class="form-group">
+                          <?php include("digit_add.php")?>
+                      </div>
+                      <div class="form-group">
+                          <input type="hidden" value="" name="recaptcha_response" id="recaptchaResponse">
+                      </div>
+                      <button type="button" id="LoginAllpay" class="btn btn-primary btn-user btn-block">
+                        Login
+                      </a>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+        </div>
+  
+      </div>
+  
+    </div>
+  
+    <script src="../adm_html/vendor/jquery/jquery.min.js"></script>
+    <!-- Bootstrap core JavaScript-->
+    <script src="../adm_html/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  
+    <!-- Core plugin JavaScript-->
+    <script src="../adm_html/vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+    <!-- Custom scripts for all pages-->
+    <script src="../adm_html/js/sb-admin-2.min.js"></script>
+  
+  </body>
+</html>

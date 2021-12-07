@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http：//www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http：//www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo Base_Company?></title>
+<link rel="stylesheet" href="../adm_html/css/style.css?v=2.0" type="text/css" media="all" />
+<link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=2.0" />
+<script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+<script type='text/javascript' src='../box/jBox.min.js'></script>
+<script type='text/javascript' src='../box/jBox.js'></script>
+<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+<script type="text/javascript">
+    function postdata() {
+        //alert($("form").serialize());
+        $.post("admin.php?func=ModifyChildAdmin&Sno=<?php echo $_GET['Sno']?>", $("form").serialize(), function (data) {
+            //var text = '[{ "firstName":"John" , "lastName":"Doe" }]';
+            //var obj = JSON.parse(text);
+            //alert(obj[0].firstName);
+            //alert(data);
+            eval(data);
+        });
+    }
+	function PasswordShow() {
+		if ($('input[id="IsChange"]').is(':checked')) $('#ModifyPassword').hide(); 
+		else $('#ModifyPassword').show();
+	}
+</script>
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data"  name="form" id="form" class="form">
+  <div class="modal-content">
+    <script id="chkCustTypeTmpl" type="text/x-jquery-tmpl">
+    <div class="checkbox">
+        <label><input type="checkbox" id="${GroIdx}" value="${GroIdx}" />${GroName}</label>
+    </div>
+</script>
+    <div class="modal-header clearfix">
+      <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times"></i></span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">修改 子帳號</h4>
+    </div>
+    <div id="CustUpdate" class="modal-body clearfix">
+      <div class="form-horizontal">
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="label-required">*</span>登入帳號: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $AdminRow["Account"]?></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"> </label>
+            <div class="col-xs-8">
+              <input name="IsChange" type="checkbox" id="IsChange" class="css-checkbox" value="1" >
+            <label for="IsChange" class="rulelist2" onclick="PasswordShow()" >變更密碼</label>
+            </div>
+          </div>
+        </div>
+        <div id="ModifyPassword" class="form-group form-group-sm" >
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="label-required">*</span>登入密碼: </label>
+            <div class="col-xs-8">
+              <input name="Password" type="password" class="form-control" id="Password"  maxlength="20" />
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4  control-label"><span class="label-required">*</span>確認密碼: </label>
+            <div class="col-xs-8">
+              <input name="Password2" type="password" class="form-control" id="Password2"   maxlength="20" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="label-required">*</span>姓名: </label>
+            <div class="col-xs-8">
+              <input name="Name" type="text" class="form-control" id="Name" value="<?php echo $AdminRow["Name"]?>"  maxlength="20"  />
+            </div>
+          </div>
+        </div>
+        <!--<div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <label class="col-xs-2 control-label"><span class="label-required">*</span>權限: </label>
+            <div class="col-xs-10">
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 最新消息 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[Bulletin/admin.php?1]" id="Purview1-1" value="BulletinLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("BulletinLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview1-1" class="rulelist2">查詢</label>
+              
+              <?php if (CSession::getVar("AdminLevel") <= 2) {?>
+              <input type="checkbox" name="Purview[Bulletin/admin.php?2]" id="Purview1-2" value="BulletinAdd" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("BulletinAdd" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview1-2" class="rulelist2">新增</label>
+              <input type="checkbox" name="Purview[Bulletin/admin.php?3]" id="Purview1-3" value="BulletinEdit" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("BulletinEdit" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview1-3" class="rulelist2">修改</label>
+              <input type="checkbox" name="Purview[Bulletin/admin.php?4]" id="Purview1-4" value="BulletinDel" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("BulletinDel" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview1-4" class="rulelist2">刪除</label>
+              
+              <?php }?>
+              </label>
+              </label>
+              
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 廠商基本資料 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[firm/admin.php?1]" id="Purview2-1" value="FirmLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("FirmLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview2-1" class="rulelist2">查詢</label>
+              
+              <?php if (CSession::getVar("AdminLevel") <= 2) {?>
+              <input type="checkbox" name="Purview[firm/admin.php?2]" id="Purview2-2" value="FirmAdd" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("FirmAdd" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview2-2" class="rulelist2">新增</label>
+              <input type="checkbox" name="Purview[firm/admin.php?3]" id="Purview2-3" value="FirmEdit" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("FirmEdit" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview2-3" class="rulelist2">修改</label>
+              <input type="checkbox" name="Purview[firm/admin.php?4]" id="Purview2-4" value="FirmDel" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("FirmDel" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview2-4" class="rulelist2">刪除</label>
+              
+              <?php }?>
+              </label>
+              </label>
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 交易手續費 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[firm/admin.php?func=Commission&1]" id="Purview3-1" value="ChargeLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("ChargeLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview3-1" class="rulelist2">查詢</label>
+              <?php if (CSession::getVar("AdminLevel") <= 2) {?>
+              <input type="checkbox" name="Purview[firm/admin.php?func=Commission&2]" id="Purview3-2" value="ChargeSet" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("ChargeSet" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview3-2" class="rulelist2">設定</label>
+              <?php }?>
+              </label>              
+              </label>
+			  
+			  <?php if (CSession::getVar("AdminLevel") <= 2) {?>
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 員工資料 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[staff/admin.php?1]" id="Purview4-1" value="StaffLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("StaffLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview4-1" class="rulelist2">查詢</label>
+              <input type="checkbox" name="Purview[staff/admin.php?2]" id="Purview4-2" value="StaffAdd" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("StaffAdd" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview4-2" class="rulelist2">新增</label>
+              <input type="checkbox" name="Purview[staff/admin.php?3]" id="Purview4-3" value="StaffEdit" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("StaffEdit" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview4-3" class="rulelist2">修改</label>
+              <input type="checkbox" name="Purview[staff/admin.php?4]" id="Purview4-4" value="StaffDel" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("StaffDel" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview4-4" class="rulelist2">刪除</label>
+              </label>
+              </label>
+              <!--
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 帳戶管理 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[admin/admin.php?func=AdminList&1]" id="Purview5-1" value="AccountLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("AccountLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview5-1" class="rulelist2">查詢</label>
+              <input type="checkbox" name="Purview[admin/admin.php?func=AdminList&2]" id="Purview5-2" value="AccountAdd" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("AccountAdd" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview5-2" class="rulelist2">新增</label>
+              <input type="checkbox" name="Purview[admin/admin.php?func=AdminList&3]" id="Purview5-3" value="AccountEdit" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("AccountEdit" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview5-3" class="rulelist2">修改</label>
+              <input type="checkbox" name="Purview[admin/admin.php?func=AdminList&4]" id="Purview5-4" value="AccountDel" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("AccountDel" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview5-4" class="rulelist2">刪除</label>
+              </label>
+              </label>
+			  <?php }?>
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 系統介接設定 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[firm/admin.php?attr=interfaced&1]" id="Purview6-1" value="InterfacedLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("InterfacedLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview6-1" class="rulelist2">查詢</label>
+              <input type="checkbox" name="Purview[firm/admin.php?attr=interfaced&2]" id="Purview6-2" value="InterfacedSet" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("InterfacedSet" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview6-2" class="rulelist2">設定</label>
+              </label>
+              </label>
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 收款連結 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[firm/admin.php?func=Cashier]" id="Purview7-1" value="CashierLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("CashierLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview7-1" class="rulelist2">查詢</label>
+              </label>
+              </label>
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 交易明細 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[ledger/admin.php]" id="Purview8-1" value="LedgerLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("LedgerLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview8-1" class="rulelist2">查詢</label>
+              </label>
+              </label>  
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 延遲撥款 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[ledger/admin.php?func=delay]" id="Purview9-1" value="DdelayLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("DdelayLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview9-1" class="rulelist2">查詢</label>
+              </label>
+              </label>  
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 撥款對帳 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[ledger/admin.php?func=reconcile]" id="Purview10-1" value="ReconcileLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("ReconcileLayout" , $Purview))) { echo "checked"; }?>  />
+              <label for="Purview10-1" class="rulelist2">查詢</label>
+              </label>
+              </label> 
+               
+              <?php if (CSession::getVar("AdminLevel") <= 2) {?>
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 撥款管理 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[ledger/admin.php?func=funding]" id="Purview11-1" value="FundingLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("FundingLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview11-1" class="rulelist2">查詢</label>
+              </label>
+              </label>  
+              
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 發票管理 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[admin.php?func=invoice]" id="Purview14-1" value="InvoiceLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("InvoiceLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview14-1" class="rulelist2">查詢</label>
+              </label>
+              </label>  
+              <?php }?>
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 拒絕交易IP管理 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[]" id="Purview12-1" value="NotAllowSet" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("NotAllowSet" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview12-1" class="rulelist2">設定</label>
+              </label>
+              </label>  
+
+              <label class="col-xs-12 control-label">
+              <label class="col-xs-2" style="padding:0px !important"> 系統郵件 </label>
+              <label class="col-xs-10" style="text-align:left;">
+              <input type="checkbox" name="Purview[message/admin.php?1]" id="Purview13-1" value="MessageLayout" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("MessageLayout" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview13-1" class="rulelist2">查詢</label>
+              <input type="checkbox" name="Purview[message/admin.php?2]" id="Purview13-2" value="MessageAdd" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("MessageAdd" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview13-2" class="rulelist2">新增</label>
+              <input type="checkbox" name="Purview[message/admin.php?3]" id="Purview13-4" value="MessageDel" class="css-checkbox" <?php if (is_array($Purview) && is_numeric(array_search("MessageDel" , $Purview))) { echo "checked"; }?> />
+              <label for="Purview13-4" class="rulelist2">刪除</label>
+              </label>
+              </label>
+            </div>
+          </div>
+        </div>-->
+      </div>
+      <div class="form-group form-group-sm">
+        <div class="col-xs-10 form-inline">
+          <!--<div class="checkbox"><label><input id="chkEDM" type="checkbox" value="1" />不收EDM</label></div>-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" id="btnSaveCust" onclick="postdata();">儲存</button>
+    <button type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');">關閉</button>
+  </div>
+  </div>
+</form>
+</body>
+</html>
+<script language="javascript" type="text/javascript">
+    function boxed() {
+        var num = document.forms[0].elements.length;
+        for (i = 0; i <= num; i++) {
+            var ment = document.forms[0].elements[i];
+            if (ment.type == 'checkbox' && ment.name != 'allbox') ment.checked = true;
+        }
+    }
+</script>

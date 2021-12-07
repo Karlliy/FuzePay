@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<MainMenu>
+ <MenuItem title="管理者管理" value="1" url="" target="" rank="3"  bossonly="0" tabindex="0"> 
+  <SubMenuItem title="新增管理者" public="1" value="4" url="../admin/admin.php?func=IncreasesAdmin" target="" group="0" boss="0"/>
+  <SubMenuItem title="管理者列表" public="1" value="3" url="../admin/admin.php?func=AdminList" target=""  group="0" boss="0"/>
+  </MenuItem>
+ <MenuItem title="房屋物件管理" value="1" url="" target="" rank="3"  bossonly="0" tabindex="0">
+  <SubMenuItem title="匯入資料" public="0" value="2" url="../admin/admin.php?func=Import" target="" group="0" boss="0"/>
+  <SubMenuItem title="房屋查詢" public="0" value="2" url="../admin/admin.php?func=Inquiry" target="" group="0" boss="0"/>
+  </MenuItem>
+</MainMenu>

@@ -1,0 +1,2 @@
+ ---------------- Send_Notify開始 ---------------- 
+strReturn => {"status":121,"msg":"Invalid arguments : prime"}

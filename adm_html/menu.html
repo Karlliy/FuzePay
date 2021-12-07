@@ -1,0 +1,148 @@
+ 
+<link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css">
+<link href="../adm_html/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+<!-- Custom styles for this template -->
+<link href="../adm_html/css/sb-admin-2.min.css" rel="stylesheet">
+
+<!-- Custom styles for this page -->
+<link href="../adm_html/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+<script src="../jquery/jquery.cookie.js" type="text/javascript"></script>
+<script src="../jquery/jquery.hoverIntent.js" type="text/javascript"></script>
+<script src="../adm_html/scripts/jquery.dcaccordion.2.7.js" type="text/javascript"></script>
+<script type="text/javascript">
+    $(document).ready(function($){
+    	$('#accordion').dcAccordion({
+    		showCount: true,
+    		saveState: true
+    	});
+    	$('#accordion-2').dcAccordion({
+    		eventType: 'click',
+    		autoClose: true,
+    		saveState: true,
+    		disableLink: true,
+    		speed: 'fast'
+    	});
+    });
+</script>
+<?php if (!class_exists('CMessage'))			include_once("../message/CMessage.php");
+    $Message = new CMessage();
+    $NotReadCount = $Message->NotReadCount();
+    ?>
+
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+        <!-- Sidebar - Brand -->
+        <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+          <div class="sidebar-brand-icon rotate-n-15">
+            <img src="../adm_html/images/login_01.png" style="height: 50px;" />
+          </div>
+          <div class="sidebar-brand-text mx-3"><?php echo Base_Company?></div>
+        </a>
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider my-0">
+  
+        <!-- Nav Item - Dashboard -->
+        <li class="nav-item">
+          <a class="nav-link" href="../ledger/admin.php">
+            <i class="fas fa-fw fa-donate"></i>
+            <span>交易單管理</span></a>
+        </li>
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+    
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-handshake"></i>
+            <span>商戶管理</span>
+          </a>
+          <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="../firm/admin.php">商戶資料</a>
+              <a class="collapse-item" href="../firm/admin.php?func=Commission">交易手續費設定</a>
+              <a class="collapse-item" href="../firm/admin.php?attr=interfaced">系統介接設定</a>
+            </div>
+          </div>
+        </li>
+        <hr class="sidebar-divider">
+        <!-- Nav Item - Utilities Collapse Menu -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+            <i class="fas fa-fw fa-calculator"></i>
+            <span>撥款帳務查詢</span>
+          </a>
+          <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <a class="collapse-item" href="../ledger/admin.php?func=delay">預計撥款查詢</a>
+              <a class="collapse-item" href="../ledger/admin.php?func=reconcile">撥款對帳查詢</a>
+              <?php if ((CSession::getVar("IsChild") == 0 || (CSession::getVar("IsChild") == 1 && array_search("FundingLayout", CSession::getVar("Purview")) != false)) && CSession::getVar("AdminLevel") <= 2) {?>
+              <a class="collapse-item" href="../ledger/admin.php?func=funding">撥款管理</a>
+              <?php }?>
+              <?php if ((CSession::getVar("IsChild") == 0  || (CSession::getVar("IsChild") == 1 && array_search("InvoiceLayout", CSession::getVar("Purview")) != false)) && CSession::getVar("AdminLevel") <= 2) {?>
+              <a class="collapse-item" href="../ledger/admin.php?func=invoice">發票管理</a>
+              <?php }?>
+            </div>
+          </div>
+        </li>
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider">
+
+        <li class="nav-item">
+            <a class="nav-link" href="../firm/admin.php?func=RefusalIP">
+              <i class="fas fa-fw fa-comment-slash"></i>
+              <span>拒絕交易IP管理</span></a>
+        </li>
+        <?php if (CSession::getVar("Boss") == 1) {?>
+        <hr class="sidebar-divider">
+
+        <li class="nav-item">
+            <a class="nav-link" href="../ledger/admin.php?func=Holiday">
+              <i class="fas fa-fw fa-calendar-day"></i>
+              <span>休假日管理</span></a>
+        </li>
+        <?php }?>
+  
+        <hr class="sidebar-divider">
+    
+        <!-- Nav Item - Pages Collapse Menu -->
+        <li class="nav-item">
+          <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#manager" aria-expanded="true" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user-plus"></i>
+            <span>管理者管理</span>
+          </a>
+          <div id="manager" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+              <?php if (CSession::getVar("IsChild") == 0 && CSession::getVar("AdminLevel") <= 2) {?>
+              <a class="collapse-item" href="../admin/admin.php?func=AdminList">帳號管理</a>
+              <?php }?>
+              <a class="collapse-item" href="../admin/admin.php?func=ChildAdminList">子帳號管理</a>
+              <a class="collapse-item" href="../admin/admin.php?func=ChildAdminList&attr=Purview">權限設定</a>
+              <a class="collapse-item" href="../admin/admin.php?func=ChangePass">變更密碼</a>
+            </div>
+          </div>
+        </li>
+
+        <hr class="sidebar-divider">
+
+        <li class="nav-item">
+            <a class="nav-link" href="../admin/admin.php?func=logout">
+              <i class="fas fa-fw fa-sign-out-alt"></i>
+              <span>登出</span></a>
+        </li>
+  
+        <!-- Divider -->
+        <hr class="sidebar-divider d-none d-md-block">
+  
+        <!-- Sidebar Toggler (Sidebar) -->
+        <div class="text-center d-none d-md-inline">
+          <button class="rounded-circle border-0" id="sidebarToggle"></button>
+        </div>
+  
+      </ul>
+     

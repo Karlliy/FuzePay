@@ -1,0 +1,35 @@
+@charset "utf-8";
+/* CSS Document */
+.mainpanel_2 {background: #e4e7ea;min-height: 900px;}
+h1.title_logo{display: inline-block; padding: 20px 5px 20px 10px; vertical-align:middle;  float:left; font-size: 24px; letter-spacing: 0.01em; color: #FFF; line-height: 30px; margin: 0;}
+.contentpanel_2{padding: 24px; position: relative; background:url(../images/bg.png) repeat ; min-height:940px;}
+.welcome{text-align:center;}
+.form_stuff{width:627px; margin:0 auto;}
+.login_logo{background:url(../images/login_01.jpg) no-repeat;height:136px;}
+.login_logo_2{background:url(../images/login_01_2.png) no-repeat;height:136px;}
+.psw_logo{background:url(../images/psw_logo.png) no-repeat;height:136px;}
+.tab_forms{width:500px; margin:0 auto;}
+.safe_btns{text-align:center;padding:5px 0 10px 0 ;}
+.large{height:44px; width:85%; text-indent:10px;}
+.middle{height:44px; width:65%; font-size:1.1em; letter-spacing:0.1em;}
+.small{height:44px; width:35%; text-indent:10px;}
+.short{height:44px; width:25%; text-indent:10px;}
+#myTab a.xl{width:209px; height:50px; margin:0; padding:14px 0 0 0; font-size:16px; font-weight:bold; text-align:center;}
+.effect{border:1px #ccc solid; box-shadow:#fff 1px 1px 1px;}
+.error {border: 1px solid #A40000;}
+.space{margin:5px 0 5px 24px;}
+.space2{margin:0px 0 5px 68px;}
+.space3{margin:5px 0 5px 10px;}
+.space4{margin:5px 0 5px 42px;}
+.space5{margin:5px 0 5px 5px;}
+.btn_stuff{text-align:center;}
+.warning{ font-size:12px; padding:5px 0; border:#a40000 1px solid; color:#a40000;}
+.warning i{display:inline-block; width:20px; height:20px; background:url(../images/icon_error.png) no-repeat; vertical-align:middle; margin:0 10px;}
+.attention{font-size:12px; padding:6px 0; border:#227BBB 1px solid; color:#227BBB;}
+.attention i{display:inline-block; width:20px; height:20px; background:url(../images/icon_info.png) no-repeat; vertical-align:middle; margin:0 10px;}
+.blank, .notice{height:20px; font-size:13px;}
+.notice{font-size:13px;}
+.blank a{color:#227BBB; font-size:13px;}
+h3.forgot{margin:0 0 24px 0; text-align:center;}
+.txtc1{width:75%; margin:0 auto;}
+.txtc1 ul li{ list-style:inside decimal;}

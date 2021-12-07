@@ -1,0 +1,878 @@
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://9ibet.net/pay/fuzepay/success
+$strReturn =>
+
+
+
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+
+
+
+
+
+
+
+
+
+
+
+	<title>威博娛樂城|全台最好玩的娛樂城</title>
+<meta name="keywords" content="娛樂城、百家樂、線上博奕、賓果賓果、線上賭博" />
+<meta name="description" content="威博娛樂城註冊、首儲、再儲送你遊東京、拿IPhoneX、gogoro及十萬大獎等你拿，SUPER與法老系統雙體育投注 、歐博百家樂、北京賽車，各式彩票、賓利/super體育、MLB、沙龍百家樂、BS百家樂、EBET百家樂、BS老虎機、UC8老虎機、PP老虎機、AV女優百家樂等其他遊戲，威博娛樂城一次滿足您所有享受！存提款便利" />
+
+
+
+
+
+
+
+<meta name="viewport" content="user-scalable=no; width=device-width; initial-scale=1.0; minimum-scale=1.0; maximum-scale=1.0, viewport-fit=cover />
+<meta name="robots" content="index , follow">
+<meta name="revisit-after" content="1 days">
+
+<link href="/js/sweetalert/sweetalert.css" rel="stylesheet">
+<link href="/assets/css/style.css?4163" rel="stylesheet">
+<link href="/assets/images/appicon.png" rel="icon"/>
+<link href="/assets/images/appicon.png" rel="apple-touch-icon" />
+<script src="/assets/js/min/all.js" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+
+<meta name="format-detection" content="telephone=no" />
+<script src="/js/sweetalert/sweetalert.min.js" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+<script src="/js/sweetalert/jquery.sweet-alert.custom.js" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-194461058-1" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+<script type="6f3876a958f0410fd9ca687d-text/javascript">
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-194461058-1');
+</script>
+
+
+
+
+
+<meta name="format-detection" content="telephone=no" />
+<script type="6f3876a958f0410fd9ca687d-text/javascript">
+
+	
+	var LiveHtml = "";
+	LiveHtml=
+	'<div class="float-support float-support_index" id="live_support" >'+
+	'<div class="float-support_content" id="live_support2" >'+
+	'<span class="floatsup_hover"></span>'+
+
+	'<a href="https://line.me/R/ti/p/%40716inkse" class="live8 float_block" data-status="1" target="_blank">' +
+	'<img src="/assets/images/line.png" class="wechat">'+
+	'<b>總客服<i>@9ibet666</i></b></a>'+
+
+	'<a href="https://lin.ee/OKJKiid" class="live8 float_block" data-status="1" target="_blank">' +
+	'<img src="/assets/images/line.png" class="wechat">'+
+	'<b>客服-安琪<i>@990mwpzp</i></b></a>'+
+
+	// '<div id="MyLiveChatContainer"></div>'+
+	'<a href="https://tawk.to/chat/5d06216a36eab9721117aff4/default" class="live8 float_block" data-status="1" target="_blank">' +
+	'<img src="/assets/images/onlineChat.png" class="wechat">'+
+	'<b>即時<i>線上客服</i></b></a>'+
+
+	'<span class="liveclose"  id="liveclose" onclick="$(\'#live_support2\').animate({\'right\':\'-221px\'},1000),$(\'.flo_sup_btn\').fadeIn(500),$(\'.float-support\').css(\'display\',\'block\')" title="隐藏客服框"></span>'+
+	'<span class="liveclose"  id="liveclose" onclick="$(\'#live_support2\').animate({\'right\':\'-221px\'},1000),$(\'.flo_sup_btn\').fadeIn(500),$(\'.float-support\').css(\'display\',\'none\')" ></span>'+
+	'</div>'+
+	'</div>'+
+	'<div class="flo_sup_btn" title="打開客服框"><div class="flo_sup_btn_img" title="打開客服框"></div></div>';
+
+</script>
+<script src="/assets/js/min/online-service.js" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+
+<!-- <script type="text/javascript">
+	var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+	(function(){
+		var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+		s1.async=true;
+		s1.src='https://embed.tawk.to/5d06216a36eab9721117aff4/default';
+		s1.charset='UTF-8';
+		s1.setAttribute('crossorigin','*');
+		s0.parentNode.insertBefore(s1,s0);
+	})();
+</script> -->
+
+
+</head>
+<body>
+	<div id="outer-wp">
+		<header>
+			
+
+
+
+
+<script type="6f3876a958f0410fd9ca687d-text/javascript">
+	$(function () {
+		$( "#member_center" ).click(function() {
+			window.location = "/member/center";
+		});
+		$( "#sign" ).click(function() {
+			window.location = "/member/sign";
+		});
+		$( "#forget" ).click(function() {
+			swal("請與線上客服聯繫,謝謝您","","error");
+		});
+		
+		$( "#loginbtn" ).click(function() {
+			var url ="/member/login";
+			$.ajax({
+				type:"POST",
+				url: url,
+				dataType: "json",
+				data: $("#formlogin").serialize(),
+				success: function(response){
+					if (response.status == 'ok') {
+						window.location = "/member/center";
+					}else{
+						swal("登入失敗",response.msg,"error");
+						
+						window.location = "/";
+					}
+				}
+			});
+		});
+	});
+	
+</script>
+<div id="top">
+	<div class="inner">
+		
+		<ul id="login">
+			<form id="formlogin" name="formlogin" action="/member/login" method="post">
+				<li><input type="number" name="LoginName" placeholder="帳號" pattern="\d*"/></li>
+				<li><input type="password" name="LoginPassword" placeholder="密碼"></li>
+				<li class="code"><input name="VCODELogin" id="VCODELogin" type="number" placeholder="輸入右側數字" pattern="\d*"/ ><img onclick="if (!window.__cfRLUnblockHandlers) return false; this.src=this.src+'?'" alt="看不清楚？點圖更換新圖片" src="/include/VCODE" class="cpatch" data-cf-modified-6f3876a958f0410fd9ca687d-=""></li>
+				<li class="normal"><input id="loginbtn" type="button" name="login" class="gold-btn" value="登入"></li>
+				<li class="normal"><input id="sign" type="button" name="sign" class="gold-btn" value="註冊"></li>
+				<li class="normal"><input id="forget" type="button" name="forget" class="gold-btn" value="忘記密碼"></li>
+			</form>
+		</ul>
+	
+	
+	
+
+</div>
+</div>
+<div id="nav">
+	<div class="inner">
+		<a class="logo" href="/index">
+			<img src="/assets/images/logo.gif">
+		</a>
+		<a href="#" data-toggle="#outer-wp" id="sidebar-toggle">
+			<div class="nav-icon">
+				<div></div>
+			</div>
+		</a>
+		<div id="mobile-login">
+			
+			<a class="gold-btn" href="/member/login">登入</a>
+			<a class="gold-btn" href="/member/sign">註冊</a>
+		
+		
+	
+</div>
+<div id="nav-menu">
+	<a class="logo" href="/">
+		<img src="/assets/images/logo.gif">
+	</a>
+	<div id="nav-login">
+		
+		<a class="dark-gold-btn" href="/member/center"><b>登入</b></a>
+		<a class="dark-gold-btn" href="/member/sign"><b>註冊</b></a>
+	</div>
+
+
+<ul class="memberMenu">
+	<li>
+		<a href="/member/cashin">
+			<img src="/assets/images/member/menu/dropMenu1.png">
+			會員儲值
+		</a>
+	</li>
+	<li>
+		<a href="/member/cashout">
+			<img src="/assets/images/member/menu/dropMenu2.png">
+			拋售威幣
+		</a>
+	</li>
+	<li>
+		<a href="/member/center">
+			<img src="/assets/images/member/menu/dropMenu3.png">
+			遊戲大廳
+		</a>
+	</li>
+	<li>
+		<a href="/member/promotion">
+			<img src="/assets/images/member/menu/dropMenu4.png">
+			回饋遊戲
+		</a>
+	</li>
+	<li>
+		<a href="/member/trans/1">
+			<img src="/assets/images/member/menu/dropMenu5.png">
+			交易記錄
+		</a>
+	</li>
+	<li>
+		<a href="/member/gameReport/2021-05-06/2021-05-06">
+			<img src="/assets/images/member/menu/dropMenu6.png">
+			遊戲記錄
+		</a>
+	</li>
+</ul>
+<!-- <div class="fastLink">
+	<h3>會員專區</h3>
+	<ul class="tabs">
+		<li class="active"><a href="#slideRelPeople">百家樂</a></li>
+		<li><a href="#slideBingo">彩票</a></li>
+	</ul>
+	<div class="tab_container">
+		<div id="slideRelPeople">
+			<ul class="item">
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/wmcasino.png">
+						WM
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/dreamgame2.png">
+						DG二館
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/salon2.png">
+						沙龍二館
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/allbet2.png">
+						歐博二館
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/ogmars.png">
+						OG真人
+					</a>
+				</li>
+			</ul>
+		</div>
+		<div id="slideBingo">
+			<ul class="item">
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/zclotto.png">
+						大立彩票
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/color_ball.png">
+						彩球
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/gb-pk10.png">
+						北京賽車
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/gb-ssc.png">
+						時時彩
+					</a>
+				</li>
+				<li>
+					<a href="">
+						<img src="/assets/images/game-company/gb-keno.png">
+						KENO
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div> -->
+<div class="webMenu">
+	<h3>主選單</h3>
+	<ul class="menu">
+		<li><a href="/baccarat/list"><span class="real"></span><h1>百家樂</h1></a></li>
+		<li><a href="/index/slot"><span class="slot"></span><h1>電子遊戲</h1></a></li>
+		<li><a href="/index/sport"><span class="sport"></span><h1>體育博彩</h1></a></li>
+		<li><a href="/index/bingo"><span class="bingo"></span><h1>歡樂彩票</h1></a></li>
+		<li><a href="/mlb/list"><span class="mlb"></span><h1>MLB運彩</h1></a></li>
+		<li><a href="/racecar/list"><span class="racecar"></span><h1>北京賽車</h1></a></li>
+		<li><a href="/sportlotto/list"><span class="sportlottery"></span><h1>台灣運彩</h1></a></li>
+		<li><a href="/fightlandload/list"><span class="landLord"></span><h1>鬥地主</h1></a></li>
+		<li><a href="/texaspoker/list"><span class="texas"></span><h1>德州撲克</h1></a></li>
+		<li><a href="/mahjong/list"><span class="mahjong"></span><h1>麻將</h1></a></li>
+		<li><a href="/speedboat/list"><span class="speed-boat"></span><h1>幸運飛艇</h1></a></li>
+		<li><a href="/index/news"><span class="new"></span><h1>最新優惠</h1></a></li>
+		<li><a href="/speedcar/list"><span class="fishGame"></span><h1>捕魚機</h1></a></li>
+	</ul>
+</div>
+<div id="service">
+	<ul>
+		<li>
+			<a href="https://line.me/ti/p/zCtx-NVAoB" target="_blank">
+				<img src="/assets/images/ind-line-icon.png" class="img">
+				<h1>總客服 <p>9ibet99</p></h1>
+			</a>
+		</li>
+		<li>
+			<a href="https://tawk.to/chat/5d06216a36eab9721117aff4/default" target="_blank">
+				<img src="/assets/images/onlineChat.png" class="img">
+				<h1>即時<p>線上客服</p></h1>
+			</a>
+		</li>
+	</ul>
+</div>
+</div>
+</div>
+</div>
+
+		</header>
+		<div id="banner">
+			
+			<div class="master-slider ms-skin-default" id="masterslider">
+				<!-- <div class="ms-slide" data-delay="3">
+					<a href="/event/2021Year" target="_blank"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/2021Year/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "60"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/2021Year/text.png"
+					/>
+					
+				</div> -->
+
+				<!-- <div class="ms-slide" data-delay="3">
+					<a href="/event/yearOutEvent" target="_blank"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/yearOutEvent/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "90"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/yearOutEvent/text.png"
+					/>
+					
+				</div> -->
+
+				<div class="ms-slide" data-delay="3">
+					<a href="/event/share" target="_blank"  title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/share/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "120"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/share/text.png"
+					/>
+					
+				</div>
+				<div class="ms-slide" data-delay="3">
+					<a href="/event/dec1" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/dec1/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "60"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/dec1/text.png"
+					/>
+					
+				</div>
+				
+				
+				<!-- <div class="ms-slide" data-delay="3">
+					<a href="/event/dec" target="_blank"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/dec/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "80"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/dec/text.png"
+					/>
+					
+				</div> -->
+				<div class="ms-slide" data-delay="3">
+					<a href="/test/qa" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/appIcon/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "100"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/appIcon/text.png"
+					/>
+					
+				</div>
+				
+				
+				<!-- <div class="ms-slide" data-delay="3">
+					<a href="/event/member-day" target="_blank"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/member-day/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "50"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/member-day/text.png"
+					/>
+					
+				</div> -->
+				
+				<div class="ms-slide" data-delay="3">
+					<a href="/test/member-level" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/member-level/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "0"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/member-level/text.png"
+					/>
+					
+				</div>
+				
+				<div class="ms-slide" data-delay="3">
+					<a href="/event/gacha" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/gacha/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "50"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/gacha/text.png"
+					/>
+					
+				</div>
+				
+				
+				<div class="ms-slide" data-delay="3">
+					<a href="/event/slot" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/slot/bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "50"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1300"
+					data-delay         = "0"
+					data-parallax      = "4"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/slot/slot.png"
+					/>
+					
+				</div>
+				<div class="ms-slide gogoro" data-delay="3">
+					<a href="/event/gogoro" target="_blank" title="娛樂城 好禮獎不完"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/gogoro/banner-bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "50"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1200"
+					data-delay         = "0"
+					data-parallax      = "1"
+					data-ease          = "easeOutQuart"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/gogoro/gogoro-group.png"
+					/>
+					
+				</div>
+				
+				
+				<!-- <div class="ms-slide reserve-feedback" data-delay="6">
+					<a href="/event/reserve-feedback" target="_blank"></a>
+					<img src="/assets/images/blank.gif" data-src="/assets/images/banner/reserve-feedback/banner-bg.jpg"/>
+					<img class="ms-layer"
+					data-offset-x      = "0"
+					data-offset-y      = "40"
+					data-origin        = "mc"
+					data-type          = "image"
+					data-resize        = "true"
+					data-effect        = "back(1000,true)"
+					data-duration      = "1200"
+					data-delay         = "0"
+					data-ease          = "easeOutQuart"
+					data-parallax      = "2"
+					src="/assets/images/blank.gif"
+					data-src="/assets/images/banner/reserve-feedback/group.png"
+					/>
+					
+				</div> -->
+			</div>
+		</div>
+		<div id="content-wp">
+			<dl id="board">
+				<dd id="row1">
+					<!--
+					<div class="inner">
+						<h2><img src="/assets/images/ind-week-icon.png" class="ind-week-icon"><b>週賭神排行榜</b></h2>
+						<ul class="tabs">
+							<li><a href="#tab1">本週</a></li>
+							<li><a href="#tab2">上週</a></li>
+						</ul> 
+						<div class="tab_container">
+							<div id="tab1" class="tab_content">
+								<div class="left">
+									<div class="top-three">
+										<ul class="three">
+											<li class="two"></li>
+											<li class="one"></li>
+											<li class="three"></li>
+										</ul>
+										<img src="/assets/images/station.png" class="station">
+									</div>
+								</div>
+								<div class="right">
+									<ul class="four-nine">
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+									</ul>
+									<img src="/assets/images/scoreboard.png" class="scoreboard">
+								</div>
+							</div>
+							<div id="tab2" class="tab_content">
+								<div class="left">
+									<div class="top-three">
+										<ul class="three">
+											<li class="two"></li>
+											<li class="one"></li>
+											<li class="three"></li>
+										</ul>
+										<img src="/assets/images/station.png" class="station">
+									</div>
+								</div>
+								<div class="right">
+									<ul class="four-nine">
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+										<li><h1></h1></li>
+									</ul>
+									<img src="/assets/images/scoreboard.png" class="scoreboard">
+								</div>
+							</div>
+						</div>
+					</div>
+					-->
+				</dd>
+				<dd id="row2">
+					<div class="inner">
+						<div class="left">
+							<h2><img src="/assets/images/ind-new-icon1.png" class="ind-week-icon"><b>威博最新公告</b></h2>
+							<div class="outline">
+								<div class="newtape">
+									<ul class="index-hot-news">
+										
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="right">
+						<h2><img src="/assets/images/ind-game-icon.png" class="ind-week-icon"><b>熱門遊戲</b></h2>
+						<img src="/assets/images/good-game-logo.png" class="good-game-logo">
+						<img src="/assets/images/ind-game-bg.png" class="ind-game-bg">
+					</div>
+				</div>
+			</dd>
+		</dl>
+		<dl id="fastlink-new">
+			<dd id="row1">
+				<div class="inner">
+					<ul class="item">
+						<li>
+							<a href="/member/center/">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-member7.png" class="icon">
+								<h1>MLB</h1>
+							</a>
+						</li>
+						<li>
+							<a href="/index/relpeople">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-poker.png" class="icon">
+								<h1>真人撲克</h1>
+							</a>
+						</li>
+						<li>
+							<a href="/index/slot">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-slot.png" class="icon">
+								<h1>電子遊戲</h1>
+							</a>
+						</li>
+						<li>
+							<a href="/index/sport">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-sport.png" class="icon">
+								<h1>體育博奕</h1>
+							</a>
+						</li>
+						<li>
+							<a href="/index/bingo">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-bingo.png" class="icon">
+								<h1>賓果賓果</h1>
+							</a>
+						</li>
+						<li>
+							<a href="/index/news">
+								<img src="/assets/images/ind-circle-bg.png">
+								<img src="/assets/images/ind-new-event.png" class="icon">
+								<h1>最新優惠</h1>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</dd>
+			<dd id="row2">
+				<div class="inner">
+					<div class="pay-info">
+						<img src="/assets/images/24h-icon.png" class="icon-24h">
+						<h1>
+							<b><img src="/assets/images/24h.png" class="h24">不打烊<i>六大儲值方式 儲值極速到帳</i></b>
+							<p><img src="/assets/images/ind-save-money.png" class="save-money"></p>
+						</h1>
+					</div>
+					<ul class="soical">
+						<li>
+							<a href="https://line.me/R/ti/p/%40716inkse" target="_blank">
+								<img src="/assets/images/ind-line-icon.png" class="img">
+								<h1>總客服 <p>@9ibet666</p></h1>
+							</a>
+						</li>
+						<li>
+							<a>
+								<img src="/assets/images/ind-wechat-icon.png" class="img">
+								<h1>WeChat<p>ibet5599</p></h1>
+							</a>
+						</li>
+						<li>
+							<a href="https://www.facebook.com/9ibet/" target="_blank">
+								<img src="/assets/images/ind-facebook-icon.png" class="img">
+								<h1>粉絲團 <p>連結</p></h1>
+							</a>
+						</li>
+					</ul>
+				</div>
+			</dd>
+		</dl>
+	</div>
+	<footer>
+		
+
+
+
+
+<div class="inner">
+	<ul class="footer-list">
+		<h2>服務</h2>
+		<li><a href="/test/join">合作加盟</a></li>
+		<li><a href="/test/qa">新手幫助</a></li>
+		<li><a href="/test/rational-betting">理性博彩</a></li>
+		<li><a href="/test/service-terms">規則與條款</a></li>
+		<li><a href="/test/privacy">隱私及政策</a></li>
+		<li><a href="/blog/list">娛樂城文章分享</a></li>
+		<li><a href="/mlb/list">MLB</a></li>
+		<li><a href="/sportlotto/list">台灣運彩</a></li>
+		<li><a href="https://9ibet.net/"><h1>娛樂城</h1></a></li>
+		<li><a href="/racecar/list"><h1>北京賽車</h1></a></li>
+		<li><a href="/fightlandload/list"><h1>鬥地主</h1></a></li>
+		<li><a href="/texaspoker/list"><h1>德州撲克</h1></a></li>
+		
+		<li><a href="/index/relpeople">百家樂</a></li>
+	
+</ul>
+<ul class="footer-list">
+	<h2>新手幫助</h2>
+	<li><a href="#">如何存款</a></li>
+	<li><a href="#">如何提款</a></li>
+	<li><a href="#">如何轉賬</a></li>
+</ul>
+<h1>威博娛樂城 <p>所有版權未經本公司合法授權任意複製 版權必究</p></h1>
+</div>
+<script src="/assets/js/min/right-online.js" type="6f3876a958f0410fd9ca687d-text/javascript"></script>
+
+	</footer>
+</div>
+<script src="https://ajax.cloudflare.com/cdn-cgi/scripts/7d0fa10a/cloudflare-static/rocket-loader.min.js" data-cf-settings="6f3876a958f0410fd9ca687d-|49" defer=""></script></body>
+</html>
+
+$curlerror =>Request OK(0):
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://web-hosts.net/ajax/pay/payOK/fuzepay
+$strReturn =>success
+$curlerror =>Request OK(0):
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>http://v5-pay.sex141shop.net/v1/payment/fuze/result
+$strReturn =>success
+$curlerror =>Request OK(0):
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://web-hosts.net/ajax/pay/payOK/fuzepay
+$strReturn =>success
+$curlerror =>Request OK(0):
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol

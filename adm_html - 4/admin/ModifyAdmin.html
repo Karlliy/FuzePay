@@ -1,0 +1,115 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http：//www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http：//www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title><?php echo Base_Company?></title>
+<link rel="stylesheet" href="../adm_html/css/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
+<script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+<script type='text/javascript' src='../box/jBox.min.js'></script>
+<script type='text/javascript' src='../box/jBox.js'></script>
+<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+<script type="text/javascript">
+function postdata() 
+{
+	//alert($("form").serialize());
+	$.post("admin.php?func=ModifyAdmin&Sno=<?php echo $_GET['Sno']?>",$("form").serialize(),function (data){
+		//var text = '[{ "firstName":"John" , "lastName":"Doe" }]';
+		//var obj = JSON.parse(text);
+		//alert(obj[0].firstName);
+		//alert(data);
+		eval(data);
+	  });
+}
+</script>
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data"  name="form" id="form" class="form">
+  <div class="modal-content">
+    <div class="modal-header clearfix">
+      <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times"></i></span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">修改 使用者</h4>
+    </div>
+    <div id="CustUpdate" class="modal-body clearfix">
+      <div class="form-horizontal">
+      <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">帳號種類: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $AdminRow["Kind"]?></label>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">特店代號: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $AdminRow["FirmCode"]?></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">登入帳號: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $AdminRow["Account"]?></label>
+            </div>
+          </div>
+          
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"> </label>
+            <div class="col-xs-8">
+              <input name="IsChange" type="checkbox" id="IsChange" class="css-checkbox" value="1" >
+            <label for="IsChange" class="rulelist2" onclick="
+            if ($('input[type=checkbox]').is(':checked')) $('#ModifyPassword').hide(); 
+            else $('#ModifyPassword').show();" >變更密碼</label>
+            </div>
+          </div>
+        </div>
+        <div id="ModifyPassword" class="form-group form-group-sm" style="display:none">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="label-required">*</span>登入密碼: </label>
+            <div class="col-xs-8">
+              <input name="Password" type="password" class="form-control" id="Password"  maxlength="20" />
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4  control-label"><span class="label-required">*</span>確認密碼: </label>
+            <div class="col-xs-8">
+              <input name="Password2" type="password" class="form-control" id="Password2"   maxlength="20" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+        <div class="col-xs-6">
+            <label class="col-xs-4 control-label"><span class="label-required">*</span>姓名: </label>
+            <div class="col-xs-8">
+              <input name="Name" type="text" class="form-control" id="Name" value="<?php echo $AdminRow["Name"]?>"  maxlength="20"  />
+            </div>
+          </div>          
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-10 form-inline">
+            <!--<div class="checkbox"><label><input id="chkEDM" type="checkbox" value="1" />不收EDM</label></div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btnSearchCase" style="display: none;">查詢</button>
+      <button type="button" class="btn btn-primary" id="btnSaveCust" onclick="postdata();">儲存</button>
+      <button type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');">關閉</button>
+    </div>
+  </div>
+</form>
+</body>
+</html>
+<script language="JavaScript">
+function boxed(){
+	var num=document.forms[0].elements.length;
+	for(i=0;i<=num;i++){
+		var ment= document.forms[0].elements[i];
+        if (ment.type == 'checkbox' && ment.name != 'allbox') ment.checked = true;
+	}
+}
+</script>

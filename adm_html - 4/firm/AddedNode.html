@@ -1,0 +1,398 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo Base_Company?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" href="../adm_html/css/style.css" type="text/css" media="all" />
+<link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
+<link rel="stylesheet" href="../adm_html/css/font-awesome.css?v=1" />
+<link rel="stylesheet" href="../adm_html/css/theme_2014.css?v=1" />
+<link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css" />
+<script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="../jquery/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../jquery/jquery.imgareaselect.min.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+<script type='text/javascript' src='../box/jBox.min.js'></script>
+<script type='text/javascript' src='../box/jBox.js'></script>
+<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+<script type='text/javascript' src='../adm_html/scripts/firm.js'></script>
+<script type="text/javascript">
+		
+	$(document).ready(function (e) {
+		$("#ContractDate").datepicker({
+			dateFormat: "yy-mm-dd",
+			yearRange: "-20:+20",
+			changeYear: true,
+			changeMonth: true,
+			timeText: '時間',
+			hourText: '小時',
+			minuteText: '分鐘',
+			currentText: '今天',
+			closeText : "確定",
+			regional: 'zh-TW',
+			showButtonPanel: true
+		});
+	})	
+</script>
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data"  name="form" id="form">
+  <div class="modal-content">
+    <div class="modal-header clearfix">
+      <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times" ></i></span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">新增廠商</h4>
+    </div>
+    <div id="CustUpdate" class="modal-body clearfix">
+      <div class="form-horizontal">
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label"><span class="label-required">*</span>特店登記名稱: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Name" type="text" class="form-control" id="Name" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label"><span class="label-required">*</span>對外名稱: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="PublicName" type="text" class="form-control" id="PublicName" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">特店產業別: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <select name="Industry" id="Industry" class="form-control">
+                <option value="美容服務">美容服務</option>
+                <option value="娛樂產業">娛樂產業</option>
+                <option value="高風險產業">高風險產業</option>
+                <option value="旅遊產業">旅遊產業</option>
+                <option value="其他">其他</option>
+              </select>
+              <input name="OtherIndustry" type="text" class="form-control" id="Industry" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label"><span class="label-required">*</span>特店代號: </label>
+            <div id="FirmCode" class="col-xs-4 form-inline">
+              <input name="FirmCode" type="text" class="form-control" id="FirmCode" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">統一編號: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="TaxID" type="text" class="form-control" id="TaxID" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">發票資料: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input type="radio" name="Invoice" id="radio" value="三聯式,同特店資料" class="css-checkbox" />
+              <label for="radio" class="rulelist">三聯式,同特店資料</label>
+              <input type="radio" name="Invoice" id="radio2" value="二聯式" class="css-checkbox" />
+              <label for="radio2" class="rulelist">二聯式</label>
+              <input type="radio" name="Invoice" id="radio3" value="三聯式，不同商店資料" class="css-checkbox" />
+              <label for="radio3" class="rulelist">三聯式，不同商店資料</label>
+              <input name="OtherInvoice" type="text" class="form-control" id="OtherInvoice" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">負責人: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="ResponsiblePerson" type="text" class="form-control" id="ResponsiblePerson" />
+            </div>
+          </div>
+			<div class="col-xs-5">
+            	<label class="col-xs-6 control-label">國別: </label>
+				<div class="col-xs-4 form-inline">
+            		<select name="Country" id="Country" class="form-control">
+						<option value="TW">台灣</option>
+						<option value="CH">中國大陸</option>
+					  </select>
+				</div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">登記地址: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="RegisterAddress" type="text" class="form-control" style="width:250px" id="RegisterAddress" />
+            </div>
+          </div>
+			<div class="col-xs-5">
+            <label class="col-xs-6 control-label">下發手續費: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="InsteadFee" type="text" class="form-control" id="InsteadFee" style="width:80px" value="0" />元
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">營業地址: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BusinessAddress" type="text" class="form-control" style="width:350px" id="BusinessAddress" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">公司地址: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Address" type="text" class="form-control" style="width:350px" id="Address" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">電話: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="TEL" type="text" class="form-control" id="TEL" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">傳真: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="FAX" type="text" class="form-control" id="FAX" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">合約到期日: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="ContractDate" type="text" class="form-control" id="ContractDate" />
+            </div>
+          </div>
+          
+        </div>
+        <hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">業務窗口: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Window" type="text" class="form-control" id="Window" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">電話: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="BusinessTEL" type="text" class="form-control" id="BusinessTEL" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">手機: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BusinessMobile" type="text" class="form-control" id="BusinessMobile" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">E-Mail: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="BusinessMail" type="text" class="form-control" id="BusinessMail" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">聯絡人1: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Business1" type="text" class="form-control" id="Business1" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">聯絡人2: </label>
+            <div id="chkDefGroup" class="col-xs-4 form-inline">
+              <input name="Business2" type="text" class="form-control" id="Business2" />
+            </div>
+          </div>
+        </div>
+        <hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">網站名稱: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Web" type="text" class="form-control" id="Web" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">網站網址: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="WebUrl" type="text" class="form-control" id="WebUrl" />
+            </div>
+          </div>
+        </div>
+		  
+        <hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">銀行: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Bank" type="text" class="form-control" id="Bank" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">分行: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Branch" type="text" class="form-control" id="Branch" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款帳號: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BankAccount" type="text" class="form-control" id="BankAccount" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款戶名: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="AccountName" type="text" class="form-control" id="AccountName" />
+            </div>
+          </div>
+        </div>
+		  
+		<hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">銀行-2: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Bank2" type="text" class="form-control" id="Bank2" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">分行-2: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Branch2" type="text" class="form-control" id="Branch2" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款帳號-2: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BankAccount2" type="text" class="form-control" id="BankAccount2" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款戶名-2: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="AccountName2" type="text" class="form-control" id="AccountName2" />
+            </div>
+          </div>
+        </div>
+		  
+		<hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">銀行-3: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Bank3" type="text" class="form-control" id="Bank3" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">分行-3: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Branch3" type="text" class="form-control" id="Branch3" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款帳號-3: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BankAccount3" type="text" class="form-control" id="BankAccount3" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款戶名-3: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="AccountName3" type="text" class="form-control" id="AccountName3" />
+            </div>
+          </div>
+        </div>
+		  
+		<hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">銀行-4: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Bank4" type="text" class="form-control" id="Bank4" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">分行-4: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Branch4" type="text" class="form-control" id="Branch4" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款帳號-4: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BankAccount4" type="text" class="form-control" id="BankAccount4" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款戶名-4: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="AccountName4" type="text" class="form-control" id="AccountName4" />
+            </div>
+          </div>
+        </div>
+		  
+		<hr  />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">銀行-5: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Bank5" type="text" class="form-control" id="Bank5" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">分行-5: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="Branch5" type="text" class="form-control" id="Branch5" />
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款帳號-5: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="BankAccount5" type="text" class="form-control" id="BankAccount5" />
+            </div>
+          </div>
+          <div class="col-xs-5">
+            <label class="col-xs-6 control-label">匯款戶名-5: </label>
+            <div id="BulletinDate" class="col-xs-4 form-inline">
+              <input name="AccountName5" type="text" class="form-control" id="AccountName5" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-primary" id="btnSearchCase" style="display: none;">查詢</button>
+    <button type="button" class="btn btn-primary added" id="btnSaveCust">新增儲存</button>
+    <button type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');">關閉</button>
+  </div>
+  </div>
+</form>
+<div id="divLoading" class="modal" >
+      <div style="top:49%; left:52%;position: absolute;font-weight: bold;">讀取資料中，請稍後... </div>
+</body>
+</html>

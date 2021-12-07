@@ -1,0 +1,6 @@
+ ---------------- Send_TakeNumber開始 ---------------- 
+$TakeNumberURL =>
+$strReturn => 回傳網址是空的
+ ---------------- Send_TakeNumber開始 ---------------- 
+$TakeNumberURL =>
+$strReturn => 回傳網址是空的

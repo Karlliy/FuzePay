@@ -1,0 +1,84 @@
+@charset "UTF-8";
+/* CSS Document */
+
+@media only screen and (max-width: 1600px) and (min-width: 1440px) { 
+    .b_setupBox .setup, { position:absolute; top: -11em !important; left:24% !important;}
+	.setup_towspace { position: absolute; top: -10em !important;left: 23.8%; z-index: 100;}
+	.small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 350px !important; top: 50px;}
+  
+}
+@media only screen and (max-width: 1440px) and (min-width: 1366px) { 
+    .b_setupBox .setup{ position:absolute; top: -10em !important; left:24% !important;}
+	.setup_towspace { position: absolute; top: -8em !important;left: 23.8%; z-index: 100;}
+	.small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 300px !important; top: 50px;}
+}
+@media only screen and (max-width: 1365px) and (min-width: 1279px) { 
+    .setup_towspace { position: absolute; top: -8em !important;left: 23.8%; z-index: 100;}
+    .small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 250px !important; top: 50px;}
+    
+}
+
+/* Between Medium and Small size 1280x 1024 */
+@media only screen and (max-width: 1280px) and (min-width: 1025px)  and (min-height: 1020px)  and (max-height: 1080px) { 
+    .setup_towspace { position: absolute; top: -8em !important;left: 23.8%; z-index: 100;}
+    .small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 200px !important; top: 50px;}
+    
+}
+  
+/* Between Medium and Small size 1280x 800 */
+@media only screen and (max-width: 1280px) and (min-width: 1025px) and (min-height: 300px)  and (max-height: 900px)  { 
+    .small_banner { width: 200px; height: 200px; position: absolute; z-index: 100; right: 150px !important; top: 50px;}
+    
+}
+
+/* 11吋1366x768 --------------------------------------------------------------------------- */
+@media only screen and (max-width: 1366px) and (min-width: 1023px) { 
+  .b_setupBox .setup{ position:absolute; top: -10em !important; left:22% !important;}
+  .setup_towspace { position: absolute; top: -7em !important;left: 23.8%; z-index: 100;}
+  .small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 100px !important; top: 50px;}
+}
+
+/* iPad 橫版1024x768 --------------------------------------------------------------------------- */
+@media only screen and (max-width: 1024px) and (min-width: 981px) { 
+  .container { padding:0 !important; width:1000px !important;}
+  .b_setupBox .setup{ position:absolute; top: -8em !important; left:16% !important;}
+  .setup_towspace { position: absolute; top: -6em !important;left: 23.8%; z-index: 100;}
+  .go_top { display:none !important;}
+  .partner{ width:95% !important;}
+  .small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 90px !important; top: 50px;}
+}
+
+/* iPad 直的size800x600--------------------------------------------------------------------------- */
+@media only screen and (max-width: 980px) and (min-width: 660px) { 
+	img{ width:100%;}
+  .container { padding:0 !important;width:100% !important; margin:0 !important;}
+  .b_setupBox .setup{ position:absolute; top: -9.5em !important; left:5% !important;}
+  .setup_towspace { position: absolute; top: -6em !important;left: 23.8%; z-index: 100;}
+  .go_top { display:none !important;}
+  .partner{ width:95% !important;}
+  ul.oe_menu{ width:100% !important;}
+  .footer_link ul{ width:85% !important;}
+  .small_banner { width: 200px; height: 200px; position: absolute; z-index: 150; right: 80px !important; top: 50px;}
+  .gblHeader .lap{ margin-right:10px;} 
+  .social{ display:none;}
+  .gblnav .navbar{ margin:1.3em 0 0 0 !important; float:right !important;}
+  .headSection{ height:auto !important;}
+  .banner{ width:100% !important;}
+  .news_sections{ display:none;}
+  .main ul{ margin:0 !important;}
+  .main ul li{ width:29% !important;}
+  .main ul li div.box{ height:285px !important; text-align: center;}
+  .ads ul li{ height:auto !important; width:48% !important;}
+  .main ul li img.featimg {float: none !important;width: inherit; display: block; margin:0 0 0 36% !important;}
+  .main ul li .featlink{ text-align:left;}
+  .footer_logo{ width:65% !important;}
+  .ads .featlink{ background-position:340px 4px !important; height:55px;}
+  .ads .featlink span{ display:block;}
+  
+}
+
+/* 小於767px and mobile --------------------------------------------------------------------------- */
+@media only screen and (max-width: 767px) { 
+
+
+}

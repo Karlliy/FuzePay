@@ -1,0 +1,50 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>無標題文件</title>
+</head>
+
+<body>
+<h2>易沛線上刷卡金流測試</h2>
+<form id="form1" name="form1" method="post" action="http://payflow.mycash.asia/CreditPayment.php">
+<!--<form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">-->
+  商家HashKey：
+  <input name="HashKey" type="text" id="HashKey" style="width:450px" value="E7EETCEAUJK99RJW8FDPNKP8Y" />
+  <br />
+  商家HashIV:
+  <input name="HashIV" type="text" id="HashIV" style="width:450px" value="KLLYGNPYPXPU6AXK9P5NUNMX6" />
+  <br />
+  店家交易編號:
+  <input name="MerTradeID" type="text" id="MerTradeID" value="20151002" />(編號不得小於6個字元；不得重複)
+  <br />
+  店家商品代號:
+  <input name="MerProductID" type="text" id="MerProductID" value="1234" />(代號不得小於4個字元)
+  <br />
+  店家消費者ID:
+  <input name="MerUserID" type="text" id="MerUserID" value="Karl01" />
+  <br />
+  交易金額:
+  <input name="Amount" type="text" id="Amount" value="20" />
+  <br />
+  交易描述:
+  <input name="TradeDesc" type="text" id="TradeDesc" value="易沛金流" />
+  <br />
+  商品名稱:
+  <input name="ItemName" type="text" id="ItemName" value="手錶" />
+   <br />
+  信用卡類別:
+  <input name="UnionPay" type="text" id="UnionPay" value="0" />(0：一般信用卡 1：銀聯卡)
+  <br />
+  <!--分期付款：
+  <input name="Installment" type="radio" id="radio" checked="checked" />
+不分期
+<label for="Installment"></label>
+<input type="radio" name="Installment" id="radio2" value="1" />
+分3期<br />-->
+  <br />
+  <input type="submit" name="button" id="button" value="送出" />
+</form>
+<h2>&nbsp;</h2>
+</body>
+</html>

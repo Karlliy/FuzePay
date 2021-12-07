@@ -1,0 +1,27 @@
+﻿@charset "utf-8";
+/* CSS Document */
+	/* activity 樣式是給目前所選取頁籤用的 */
+.mass{background-color: #e2e2e2;
+position: relative;border-top-left-radius: 4px;border-top-right-radius: 4px; padding: 11px 10px 0;}
+.mass li{float:left; padding:8px 15px; border-top-left-radius: 3px;border-top-right-radius: 3px; font-weight:bold; margin-right: 4px;}
+.activity, .inactive:hover {
+cursor:pointer;
+background-color: #227CBB;
+color:#fff;
+}
+/* inactive樣式是給未選取頁籤用的 */
+.inactive {
+border: none;
+cursor:pointer;
+background-color: #fff;
+color:#227CBB;
+}
+/* layer樣式是給DIV用的 */
+.layer {
+border-top: none;
+padding:20px 0;
+}
+
+
+
+

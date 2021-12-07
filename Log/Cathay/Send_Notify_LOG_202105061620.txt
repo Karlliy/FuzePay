@@ -1,0 +1,25 @@
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+key =>RtnCode  val=>1
+key =>RtnMessage  val=>交易成功
+key =>MerTradeID  val=>00000000406124
+key =>MerProductID  val=>ZA021-3
+key =>MerUserID  val=>abc1100406
+key =>PayInfo  val=>(008)0000300201213867
+key =>Amount  val=>1000
+key =>PaymentDate  val=>2021-05-05 21:01:54
+key =>Validate  val=>1cd53ee74b10fc43f83bcb0c1a36dd39
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.777vip.net/bridge/fuzepayback.aspx
+$strReturn =>
+$curlerror =>Request Error(35):error:140770FC:SSL routines:SSL23_GET_SERVER_HELLO:unknown protocol

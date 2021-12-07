@@ -1,0 +1,89 @@
+#twcaseal{
+position:relative;
+font-family:arial unicode ms;
+text-align:left;
+}
+#twcad1{
+position:absolute;
+overflow:hidden;
+text-align:center;
+color:#ffffff;
+background:#000000;
+}
+.BIG #twcad1{
+left:120px;
+top:54px;
+width:81px;
+height:17px;
+line-height:16px;
+font-size: 15px;
+}
+.MEDIUM #twcad1{
+left:98px;
+top:44px;
+width:65px;
+height:14px;
+line-height:15px;
+font-size: 13px;
+}
+.SMALL #twcad1{
+left:77px;
+top:34px;
+width:50px;
+height:11px;
+line-height:11px;
+font-size: 11px;
+}
+.MINI #twcad1{
+left:0px;
+top:0px;
+width:0px;
+height:0px;
+display:none;
+}
+#twcad2{
+position:absolute;
+visibility:hidden;
+color:#ffffff;
+background:#006;
+padding:5px;
+border: solid 1px #c0a080;
+width:200px;
+font-size: 12px;
+text-align: left;
+}
+.BIG #twcad2{
+left:-10px;
+top:80px;
+}
+.MEDIUM #twcad2{
+left:-10px;
+top:80px;
+}
+.SMALL #twcad2{
+left:-10px;
+top:50px;
+}
+.MINI #twcad2{
+left:-10px;
+top:45px;
+}
+#twcad3{
+position:absolute;
+}
+.BIG #twcad3{
+left: 184px;
+top: 33px;
+}
+.MEDIUM #twcad3{
+left: 148px;
+top: 26px;
+}
+.SMALL #twcad3{
+left: 114px;
+top: 16px;
+}
+.MINI #twcad3{
+left: 57px;
+top: 45px;
+}

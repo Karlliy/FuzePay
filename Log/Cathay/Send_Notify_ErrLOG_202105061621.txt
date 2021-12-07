@@ -1,0 +1,15 @@
+ ---------------- Send_Notify_Err開始 ---------------- 
+$SuccessURL =>
+$strReturn => 回傳網址是空的
+ ---------------- Send_Notify_Err開始 ---------------- 
+$SuccessURL =>
+$strReturn => 回傳網址是空的
+ ---------------- Send_Notify_Err開始 ---------------- 
+$SuccessURL =>
+$strReturn => 回傳網址是空的
+ ---------------- Send_Notify_Err開始 ---------------- 
+$SuccessURL =>
+$strReturn => 回傳網址是空的
+ ---------------- Send_Notify_Err開始 ---------------- 
+$SuccessURL =>
+$strReturn => 回傳網址是空的

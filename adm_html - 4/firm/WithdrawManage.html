@@ -1,0 +1,113 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo Base_Company?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css">
+<link href="../adm_html/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />
+<link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
+<script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+<script type='text/javascript' src='../adm_html/scripts/firm.js?v=0.2'></script>
+
+</head>
+
+<body>
+<?php include_once( "../adm_html/header.html");?>
+<table width="100%" border="0" cellspacing="0" cellpadding="0">
+  <tr>
+    <td width="190px" valign="top"><?php include_once( "../adm_html/menu.html")?></td>
+    <td valign="top"><div class="pageheader">
+        <h2>提領記錄</h2>
+      </div>
+      <div class="contentpanel">
+        <form id="form1" name="form1" method="post" action="">
+          <div class="panel panel-default">
+            <div class="panel-body"><!--<label>
+              <input type="radio" name="DateType" id="radio" value="1" class="css-checkbox" />
+              <label for="radio" class="rulelist2">撥款日期</label>
+              <input type="radio" name="DateType" id="radio2" value="2" class="css-checkbox" />
+              <label for="radio2" class="rulelist2">預計入帳日期</label>
+              <input type="radio" name="DateType" id="radio3" value="3" class="css-checkbox" />
+              <label for="radio3" class="rulelist2">實際入帳日期</label-->
+              查詢日期：
+                <input name='StartTime' type='text' class="form-control" id="StartTime" maxlength="50" style="width:150px;" placeholder="開始時間" />
+                至
+                <input name='EndTime' type='text' class="form-control" id="EndTime" maxlength="50" style="width:150px;" placeholder="結束時間" />
+              &nbsp;
+              <select name="Status" id="Status" class="field">
+                <option selected="selected" value="">全部</option>
+                <option value="0">未撥款</option>
+                <option value="1">己撥款</option>
+              </select>
+              &nbsp;
+              <input type="button" name="managebutton" id="managebutton" class="pull btn btn-info btn"  value=" 查 詢 " />
+				
+			  <input type="button" name="insteadbutton" id="insteadbutton" class="pull btn btn-info btn"  value=" 匯出代付 " />
+				</label>
+              <!--<?php if ($AdminLevel == "1" || $AdminLevel == "2") {?>
+              <div class="cnavbar" style="float:right;"> <span class="pull-right btn btn-info btn" rel="tooltip" title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER[" PHP_SELF "] ?>?func=Added');"> <i class="icon-edit"></i> 新增廠商資料</span> </div>
+              <?php }?>-->
+            </div>
+          </div>
+        </form>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <div class="row bu_title_bar clearfix">
+              <h4 class="pull-left">共 <span id="lStore_SysInfoTotal" class="searchresults_count"><?php echo count($Html)?></span> 筆</h4>
+            </div>
+            <div class="row clearfix">
+              <div class="col-xs-12">
+                <table class="table table-condensed table-striped table-bordered table-hover">
+                  <thead>
+                    <tr>
+                      <th class="nowrap">時間</th>
+                      <th class="nowrap">撥款編號</th>						
+                      <th class="nowrap">廠商名稱</th>					  
+					  <th class="nowrap">銀行卡號</th>
+					  <th class="nowrap">銀行帳戶名</th>
+					  <th class="nowrap">支行名稱</th>
+					  <!--<th class="nowrap">支行行號</th>-->
+                      <th class="nowrap">點數</th>
+					  <th class="nowrap">實際代付點數</th>
+					  <th class="nowrap">手續費</th>
+                      <th class="nowrap">狀態</th>
+					  <th class="nowrap">管理</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div id="mA_SysInfo" style="display: none;">
+          <div class="row bu_title_bar clearfix">
+            <h3 class="pull-left">共 <span id="lmA_SysInfoTotal" class="searchresults_count">0</span> 筆</h3>
+          </div>
+          <div class="row clearfix">
+            <div class="col-xs-12">
+              <table class="table table-condensed table-striped table-bordered table-hover">
+                <thead>
+                  <tr>
+                    <th class="nowrap" style="width: 50px">編號</th>
+                    <th class="nowrap" style="width: 50px">類別</th>
+                    <th class="nowrap" style="width: 100px">更新日期</th>
+                    <th class="text-left">標題</th>
+                  </tr>
+                </thead>
+                <tbody id="mA_SysInfoList">
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div></td>
+  </tr>
+</table>
+</body>
+</html>

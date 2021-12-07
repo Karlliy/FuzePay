@@ -1,0 +1,265 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo Base_Company?></title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
+<script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
+<script type='text/javascript' src='../box/jBox.min.js'></script>
+<script type='text/javascript' src='../box/jBox.js'></script>
+<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+<script type='text/javascript' src='../adm_html/scripts/ledger.js'></script>
+</head>
+<body>
+<form action="" method="post" enctype="multipart/form-data"  name="form" id="form">
+  <div class="modal-content">
+    <div class="modal-header clearfix">
+      <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times"></i></span><span class="sr-only">Close</span></button>
+      <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">撥款明細</h4>
+    </div>
+    <div id="CustUpdate" class="modal-body clearfix">
+      <div class="form-horizontal">
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">撥款編號: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["FundingID"]?></label>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">撥款日期: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["ExpectedRecordedDate"]?></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">商店代號: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["FirmCode"]?></label>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">交易筆數: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["Num"]?></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">商店名稱: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["PublicName"]?></label>
+            </div>
+          </div>
+          <div class="col-xs-6">
+            <label class="col-xs-4 control-label">計算時間: </label>
+            <div class="col-xs-8">
+              <label class="control-label"><?php echo $Row["Period"]?></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <label class="control-label" style="text-align:center;">
+            <h4><b> 交易成功明細 </b></h4>
+            </label>
+          </div>
+        </div>
+        <hr />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <table class="table table-condensed table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="nowrap" style="width: 100px">訂單編號</th>
+                  <th class="nowrap" style="width: 100px">授權單號<br/>授權碼</th>
+                  <th class="nowrap" style="width: 100px">交易方式</th>
+                  <th class="nowrap" style="width: 150px">交易日期</th>
+                  <th class="nowrap" style="width: 150px">交易金額</th>
+                  <th class="nowrap" style="width: 150px">手續費</th>
+                </tr>
+              </thead>
+              <?php foreach ((array)$Html as $key=> $value){?>
+              <tbody id="Store_SysInfoList">
+                <tr>
+                  <td class="nowrap"><?php echo $value["OrderID"]?></td>
+                  <td class="nowrap"><?php echo $value["AuthorizeNumber"]?><hr style="border:0; height:2px; background-color:#d4d4d4;"/><?php echo $value["AuthCode"]?></td>
+                  <td class="nowrap"><?php echo $value["PaymentName"] . $value["PaymentCode"]?></td>
+                  <td class="nowrap"><?php echo $value["TransactionDate"]?></td>
+                  <td class="nowrap"><?php echo $value["ClosingTotal"]?></td>
+                  <td class="nowrap"><?php echo round($value["Fee"])?></td>
+                </tr>
+              </tbody>
+              <?php }?>
+            </table>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <label class="control-label" style="text-align:center;">
+            <h4><b> 退款明細 </b></h4>
+            </label>
+          </div>
+        </div>
+        <hr />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <table class="table table-condensed table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="nowrap" style="width: 100px">訂單編號</th>
+                  <th class="nowrap" style="width: 100px">授權單號<br/>授權碼</th>
+                  <th class="nowrap" style="width: 100px">交易方式</th>
+                  <th class="nowrap" style="width: 150px">交易日期</th>
+                  <th class="nowrap" style="width: 150px">交易金額</th>
+                  <th class="nowrap" style="width: 150px">手續費</th>
+                </tr>
+              </thead>
+              <?php foreach ((array)$RefundHtml as $key=> $value){?>
+              <tbody id="Store_SysInfoList">
+                <tr>
+                  <td class="nowrap"><?php echo $value["OrderID"]?></td>
+                  <td class="nowrap"><?php echo $value["AuthorizeNumber"]?><hr style="border:0; height:2px; background-color:#d4d4d4;"/><?php echo $value["AuthCode"]?></td>
+                  <td class="nowrap"><?php echo $value["PaymentName"] . $value["PaymentCode"]?></td>
+                  <td class="nowrap"><?php echo $value["TransactionDate"]?></td>
+                  <td class="nowrap"><?php echo $value["ClosingTotal"]?></td>
+                  <td class="nowrap"><?php echo round($value["Fee"])?></td>
+                </tr>
+              </tbody>
+              <?php }?>
+            </table>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <label class="control-label" style="text-align:center;">
+            <h4><b> 圈存明細 </b></h4>
+            </label>
+          </div>
+        </div>
+        <hr />
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <table class="table table-condensed table-striped table-bordered table-hover">
+              <thead>
+                <tr>
+                  <th class="nowrap" style="width: 100px">訂單編號</th>
+                  <th class="nowrap" style="width: 100px">授權單號<br/>授權碼</th>
+                  <th class="nowrap" style="width: 100px">交易方式</th>
+                  <th class="nowrap" style="width: 150px">交易日期</th>
+                  <th class="nowrap" style="width: 150px">交易金額</th>
+                  <th class="nowrap" style="width: 150px">手續費</th>
+                </tr>
+              </thead>
+              <?php foreach ((array)$DeductHtml as $key=> $value){?>
+              <tbody id="Store_SysInfoList">
+                <tr>
+                  <td class="nowrap"><?php echo $value["OrderID"]?></td>
+                  <td class="nowrap"><?php echo $value["AuthorizeNumber"]?><hr style="border:0; height:2px; background-color:#d4d4d4;"/><?php echo $value["AuthCode"]?></td>
+                  <td class="nowrap"><?php echo $value["PaymentName"] . $value["PaymentCode"]?></td>
+                  <td class="nowrap"><?php echo $value["TransactionDate"]?></td>
+                  <td class="nowrap"><?php echo $value["ClosingTotal"]?></td>
+                  <td class="nowrap"><?php echo round($value["Fee"])?></td>
+                </tr>
+              </tbody>
+              <?php }?>
+            </table>
+          </div>
+        </div>
+        <div class="form-group form-group-sm">
+          <div class="col-xs-12">
+            <table class="table table-condensed table-striped table-bordered table-hover">
+              <tr>
+                <th colspan="2" class="nowrap" style="width: 50%">商家撥款帳戶</th>
+                <th class="nowrap" style="width: 150px">&nbsp;</th>
+                <td class="nowrap" style="width: 150px">&nbsp;
+                  </th>
+              </tr>
+              <tr>
+                <td class="nowrap" style="width: 150px">&nbsp;</td>
+                <td class="nowrap" style="width: 250px">&nbsp;</td>
+                <th class="nowrap">應撥金額
+                  </td>
+                <td class="nowrap" id="TotalAmount"><?php echo $Row["TotalAmount"]?></td>
+              </tr>
+              <tr>
+                <td class="nowrap">銀行</td>
+                <td class="nowrap"><?php echo $Row["Bank"]?></td>
+                <th class="nowrap">手續費用
+                  </td>
+                <td class="nowrap" id="TotalFee"><?php echo round($Row["TotalFee"])?></td>
+              </tr>
+              <tr>
+                <td class="nowrap"><label>分行</label></td>
+                <td class="nowrap"><?php echo $Row["Branch"]?></td>
+                <th class="nowrap">轉帳費用
+                  </td>
+                <td class="nowrap">
+                <?php if ($AdminLevel <= 2) { ?>
+                  <span class="col-xs-8 form-inline"><input name="Transfer" type="text" class="form-control" id="Transfer" value="<?php echo $Row["Transfer"]?>" /></span>
+                  <?php }else { echo $Row["Transfer"]; }?>
+                  </td>
+              </tr>
+              <tr>
+                <td class="nowrap"><label>匯款帳戶</label></td>
+                <td class="nowrap"><?php echo $Row["BankAccount"]?></td>
+                <th class="nowrap">其他費用
+                  </td>
+                <td class="nowrap">
+                <?php if ($AdminLevel <= 2) { ?>
+                <span class="col-xs-8 form-inline">
+                  <input name="Other" type="text" class="form-control" id="Other"  value="<?php echo $Row["Other"]?>" />
+                  </span>
+                  <?php }else { echo $Row["Other"]; }?>
+                  </td>
+              </tr>
+              <tr>
+                <td class="nowrap"><label>匯款戶名</label></td>
+                <td class="nowrap"><?php echo $Row["AccountName"]?></td>
+                <th class="nowrap">實際撥款金額
+                  </td>
+                <td class="nowrap" id="RealFunding">
+                  <?php echo (($Row["RealFunding"] == 0) ? round(floatval($Row["TotalAmount"]) - floatval($Row["TotalFee"])  - floatval($Row["Transfer"])  - floatval($Row["Other"])) :  round($Row["RealFunding"]))?>
+                  </td>
+              </tr>
+              <tr>
+                <td class="nowrap"><label>備註</label></td>
+                <td class="nowrap"><span class="col-xs-8 form-inline">
+                  <textarea name="Remark" class="form-control" id="Remark"><?php echo $Row["Remark"]?></textarea>
+                </span></td>
+                <th class="nowrap">
+                <td class="nowrap" id="RealFunding">&nbsp;</td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="form-group form-group-sm">
+        <div class="col-xs-10 form-inline">
+          <!--<div class="checkbox"><label><input id="chkEDM" type="checkbox" value="1" />不收EDM</label></div>-->
+        </div>
+      </div>
+    </div>
+    <?php if ($AdminLevel <= 2) { ?>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary" id="btnExport" onclick="window.open('admin.php?func=Detail&Sno=<?php echo $_GET["Sno"]?>&attr=Export','_blank');">匯出</button> 
+      <button type="button" class="btn btn-primary setfundingdetail" id="btnSaveCust">設定儲存</button>
+      <button type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');">關閉</button>
+      
+    </div>
+    <?php }?>
+  </div>
+</form>
+
+<div id="divLoading" class="modal" >
+  <div style="top:49%; left:52%;position: absolute;font-weight: bold;">讀取資料中，請稍後... </div>
+</div>
+</body>
+</html>

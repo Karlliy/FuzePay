@@ -1,0 +1,6 @@
+ ---------------- TakeNumber開始 ---------------- 
+$VatmAccount =>45131123567305
+$LedgerId =>0
+ ---------------- TakeNumber開始 ---------------- 
+$VatmAccount =>45131123194086
+$LedgerId =>0

@@ -1,0 +1,14 @@
+ ---------------- Success SendPOST ---------------- 
+Log Time =>2018/04/30 15:55:32
+SuccessURL =>http://127.0.0.1/test.php
+SendPOST =>8
+key =>RtnCode  val=>1
+key =>RtnMessage  val=>
+key =>MerTradeID  val=>1840287480
+key =>MerProductID  val=>B1100
+key =>MerUserID  val=>PAYHTML
+key =>Amount  val=>1100
+key =>PaymentDate  val=>2018-04-30 15:25:30
+key =>Validate  val=>03aa41179fd535753b684a86114790ff
+strReturn => 
+

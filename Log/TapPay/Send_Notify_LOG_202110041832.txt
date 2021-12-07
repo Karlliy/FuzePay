@@ -1,0 +1,13 @@
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://www.facebook.com/
+key =>RtnCode  val=>1
+key =>RtnMessage  val=>交易成功
+key =>MerTradeID  val=>
+key =>MerProductID  val=>
+key =>MerUserID  val=>
+key =>PayInfo  val=>381086
+key =>Amount  val=>100
+key =>PaymentDate  val=>2021-10-04 18:32:25
+key =>Validate  val=>d9443259bda8b8aaefaecb3b2e766c5c
+$strReturn =>
+$curlerror =>Request OK(0):

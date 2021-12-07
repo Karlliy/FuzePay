@@ -1,0 +1,176 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title><?php echo Base_Company?></title>
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- favicon
+  ============================================ -->
+<!-- Google Fonts
+  ============================================ -->
+<link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,700,900" rel="stylesheet">
+<!-- Bootstrap CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=2.0">
+<!-- font awesome CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/font-awesome.min.css?v=2.0">
+<!-- owl.carousel CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/owl.carousel.css?v=2.0">
+<link rel="stylesheet" href="../adm_html/css/owl.theme.css?v=2.0">
+<link rel="stylesheet" href="../adm_html/css/owl.transitions.css?v=2.0">
+<!-- meanmenu CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/meanmenu/meanmenu.min.css?v=2.0">
+<!-- animate CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/animate.css?v=2.0">
+<!-- normalize CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/normalize.css?v=2.0">
+<!-- wave CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/wave/waves.min.css?v=2.0">
+<link rel="stylesheet" href="../adm_html/css/wave/button.css?v=2.0">
+<!-- mCustomScrollbar CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/scrollbar/jquery.mCustomScrollbar.min.css?v=2.0">
+<!-- Notika icon CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/notika-custom-icon.css?v=2.0">
+<!-- main CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/main.css?v=2.0">
+<!-- style CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/style.css?v=2.0">
+<!-- responsive CSS
+  ============================================ -->
+<link rel="stylesheet" href="../adm_html/css/responsive.css?v=2.0">
+<!-- modernizr JS
+  ============================================ -->
+<script src="../adm_html/js/vendor/modernizr-2.8.3.min.js"></script>
+<script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+<script type='text/javascript' src='../adm_html/scripts/firm.js'></script>
+<script type="text/javascript">
+	function jBox(url) {
+		$.jBox("iframe:" + url, {
+			top: 50,
+			id: 'user',
+			title: null,
+			iframeScrolling: 'yes',
+			showScrolling: true,
+			width: 800,
+			height: 720,
+			buttons: {
+				'關閉': '關閉'
+			}
+		});
+	}
+
+	function jBox2(url) {
+		$.jBox("iframe:" + url, {
+			top: 50,
+			border: 50, 
+			id: 'user',
+			title: null,
+			iframeScrolling: 'yes',
+			showScrolling: true,
+			width: 1000,
+			height: 'auto',
+			loaded: function (h) { 
+			if ($('#jbox-iframe').contents().find('#form').height() > $(window).height() - 50) {
+					$('#jbox-iframe').css('height',  $(window).height() - 200);
+				}else {
+					$('#jbox-iframe').css('height', $('#jbox-iframe').contents().find('#form').height());
+				}
+				console.log($(window).height() + "|"+ $('#jbox-iframe').contents().find('#form').height()); 
+			},
+			buttons: {}
+		});
+	}
+	$(document).ready(function() {
+
+		new jBox('Confirm', {
+			content: '您確定要刪除?',
+			confirmButton: '確定刪除!',
+			cancelButton: '取消'
+		});
+	});
+</script>
+</head>
+
+<body>
+    <?php include_once( "../adm_html/header.html");?>
+    <?php include_once( "../adm_html/menu.html");?>
+    <div class="breadcomb-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="breadcomb-list">
+              <div class="row">
+                <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                  <div class="breadcomb-wp">
+                    <div class="breadcomb-ctn">
+                      <h2>交易手續費</h2>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="data-table-area">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="data-table-list">
+              <div class="panel-body">
+                  <div class="table-responsive">
+                    <table id="tabledata" class="table table-striped"">
+                      <thead>
+                        <tr>
+                          <th class="nowrap" style="width: 100px">交易金流</th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">手續費率</span></th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">固定手續費</span>
+                          </th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">最低金額</span></th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">最高金額</span></th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">結算法式</span></th>
+                          <th class="nowrap" style="width: 150px"><span class="nowrap" style="width: 150px">撥款天數</span></th>
+                        </tr>
+                      </thead>
+                      <?php $RowIndex = 1;?>
+                      <?php foreach ((array)$Html as $key=> $value){?>
+                      <tbody id="Store_SysInfoList">
+                        <tr>
+                          <td class="nowrap"><?php echo $value["Kind"]?></td>
+                          <td class="nowrap"><?php echo $value["FeeRatio"]?> %</td>
+                          <td class="nowrap"><?php echo $value["FixedFee"]?></td>
+                          <td class="nowrap"><?php echo $value["MinFee"]?></td>
+                          <td class="nowrap"><?php echo $value["MaxFee"]?></td>
+                          <td class="nowrap"><?php echo $value["Closing"]?></td>
+                          <td class="nowrap"><?php echo $value["Day"]?></td>
+                        </tr>
+                      </tbody>
+                      <?php $RowIndex++;?>
+                      <?php }?>
+                    </table>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <!-- End of Main Content -->
+          <!-- Footer -->
+          <?php include_once( "../adm_html/footer.html");?>
+          <!-- End of Footer -->
+        </div>
+        <!-- End of Content Wrapper -->
+      </div>
+      <!-- End of Page Wrapper -->
+    </div>
+</body>
+</html>

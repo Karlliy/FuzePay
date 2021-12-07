@@ -1,0 +1,13 @@
+ ---------------- Send_Notify開始 ---------------- 
+$SuccessURL =>https://pay.369king.com/api/external/fgpayBack
+key =>RtnCode  val=>1
+key =>RtnMessage  val=>交易成功
+key =>MerTradeID  val=>202108231710434c50f7fca9da4cce8fa6
+key =>MerProductID  val=>PD2256134
+key =>MerUserID  val=>user1629709843
+key =>PayInfo  val=>
+key =>Amount  val=>0
+key =>PaymentDate  val=>1970-01-01 08:00:00
+key =>Validate  val=>8c125428155205b95aac5f52c21c07c4
+$strReturn =>
+$curlerror =>Request OK(0):

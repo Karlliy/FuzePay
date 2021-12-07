@@ -1,0 +1,209 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+<head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta charset="UTF-8">
+<title>訂單成立</title>
+
+<link href="https://fuze-pay.com/ATMPay/global.css" rel="stylesheet" type="text/css">
+<link href="https://fuze-pay.com/ATMPay/responsive.css" rel="stylesheet" type="text/css">
+<link href="https://fuze-pay.com/ATMPay/reset.css" rel="stylesheet" type="text/css">
+<link href="https://fuze-pay.com/ATMPay/seller_pay.css?v=0.3" rel="stylesheet" type="text/css">
+
+<script async src="https://fuze-pay.com/ATMPay/analytics.js"></script><script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.superslides.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.sticky.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.unobtrusive-ajax.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/custom.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/index.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/cufon-yui.js"></script><style type="text/css">cufon{text-indent:0!important;}@media screen,projection{cufon{display:inline!important;display:inline-block!important;position:relative!important;vertical-align:middle!important;font-size:1px!important;line-height:1px!important;}cufon cufontext{display:-moz-inline-box!important;display:inline-block!important;width:0!important;height:0!important;overflow:hidden!important;text-indent:-10000in!important;}cufon canvas{position:relative!important;}}@media print{cufon{padding:0!important;}cufon canvas{display:none!important;}}</style>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.blockUI.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/highlight.pack.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.cookie.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.accordion.js"></script>
+<script type="text/javascript" src="https://fuze-pay.com/ATMPay/page.js"></script>
+
+<style type="text/css">
+    .nav-section-inner h3{font-weight:bold;}
+</style>
+
+</head>
+<body>
+<div class="wrapper">
+<!-- header -->
+<div class="gblHeader pag_Header">
+    <div id="nav" class="gblnav pa_gblnav">
+        <div class="container">
+            <p class="left and" style="display:none;">and</p>
+            <div class="store_logo" style="display:none;"></div>
+            <div class="lap utility lang-tw">   
+          </div>
+        </div>
+    </div>
+</div>
+<!-- End:header -->
+        <script type="text/javascript" src="https://fuze-pay.com/ATMPay/jquery.PrintArea.js"></script>
+<style type="text/css">
+    .payInfo
+    {
+        font-family: '微軟正黑體';
+        line-height: 18px;
+        font-size: 14px;
+    }
+</style>
+<script type="text/javascript">
+    $(function () {
+        //### 信用卡3D驗證
+        $('.dialog-Box').hide();
+    });
+
+    //### Disable F5 key.
+    document.onkeydown = function (e) {
+        e = e || window.event;
+        if (e.keyCode === 116) {
+            e.keyCode = 0;
+            if (e.preventDefault) e.preventDefault();
+            else e.returnValue = false;
+            return false;
+        }
+    }
+
+    //### 信用卡3D驗證
+    function openDemo() {
+        $('.dialog-Box').show();
+        $(".dialog-overlay").show();
+        $('html, body').scrollTop(0);
+    }
+
+    //### 信用卡3D驗證
+    function closeDemo() {
+        $('.dialog-Box').hide();
+        $(".dialog-overlay").hide();
+    }
+
+    function PrintResultBlock() {
+        var printBody = $(".printContainer");
+        printBody.find(".showcase").hide();
+        $(printBody).printArea();
+        printBody.find(".showcase").show();
+    }
+</script>
+    <!--非儲值-->
+    <div class="main part">
+        <div class="container printContainer">
+            <div class="pay_content payment_content">
+                <div class="order">
+                    <h2>
+                        訂單成立
+		    </h2>
+                </div>
+                <div class="info">
+                    <p>
+                        請於時間內使用您選擇的付款方式進行付款！</p>
+                    <p>
+                        本次交易明細如下 :
+		    </p>
+                </div>
+                <div class="pay_box">
+                  <p class="blue right">
+                        單位：新台幣 (元)
+		    </p>
+                    <table border="0" align="center" cellpadding="0" cellspacing="0" class="boxA">
+                        <colgroup>
+                            <col width="25%">
+                            <col width="75%">
+                        </colgroup>
+                        <tbody><tr>
+                            <td class="blue">
+                                訂單編號
+                            </td>
+                            <td>
+                                 <?php echo $_POST['MerTradeID']?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="blue">
+                                商店編號
+                            </td>
+                            <td>
+                                <?php echo $_POST['MerProductID']?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="blue">
+                                消費者ID
+                            </td>
+                            <td>
+                            <?php echo $_POST['MerUserID']?>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="blue">
+                                實際繳費金額<br>
+                            </td>
+                            <td>
+                                <span style="display: inline-block;"><b class="red"><?php echo $_POST['Amount']?></b> 元</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="blue">
+                                付款方式
+                            </td>
+                            <td>
+                                7-11 超商繳款
+                            </td>
+                        </tr>
+                        <tr>
+                                <td class="blue">
+                                    繳費代碼
+                                <br>
+                                <b class="red"><a href="PyaMode.html" target="_blank">(繳費流程說明)</a></b></td>
+                                <td>
+                                    <?php echo $VatmAccount?><b class="red">(請抄下此組至 7-11 繳費)</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="blue">
+                                    繳費截止日期
+                                </td>
+                                <td class="red">
+                                    <?php echo $_ExpireDate?>
+                                </td>
+                            </tr>
+                    </tbody></table>
+                </div>
+                    <div class="print">
+                        <a class="btn blue_button" onClick="PrintResultBlock();">列印本頁</a></div>
+                <div class="message margin_t30">
+                    <h4>
+                        注意事項：</h4>
+                    
+                        <ol>
+                            <li>超商代收-代碼的繳費期限為2天，請務必於期限內進行繳款。</li>
+                            <li>例如：8月1日的20:15購買商品，繳費期限為2天，表示8月3月的23:59:59前您須前往繳費。</li>
+                            <li>手續費由賣家負擔(從當筆交易款項中扣除)，提醒您！超商店員不會在結帳時另外收手繳費。</li>
+                        </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+<div class="dialog-overlay" style="display: none">
+</div>
+
+    <div class="dialog-Box" style="width: 600px; display: none">
+        <div class="popbox">
+            <div class="close-button">
+                <a style="cursor: pointer" onClick="closeDemo();"></a>
+            </div>
+         </div>
+    </div>
+
+
+
+<!-- footer -->  
+<div class="footer sell_footer">
+	<div class="container">
+	</div>
+</div>
+<!-- End: footer --> </div>
+<!-- End: wrapper -->
+
+<style type="text/css"></style></body></html>

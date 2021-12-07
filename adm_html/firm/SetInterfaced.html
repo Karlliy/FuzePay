@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title><?php echo Base_Company?></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
+        <link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
+        <script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+        <script type='text/javascript' src='../box/jBox.min.js'></script>
+        <script type='text/javascript' src='../box/jBox.js'></script>
+        <link type='text/css' rel='stylesheet' href='../box/jBox.css'/>
+        <script type='text/javascript' src='../adm_html/scripts/firm.js'></script>
+    </head>
+    <body>
+        <form action="" method="post" enctype="multipart/form-data"  name="form" id="form">
+            <div class="modal-content">
+                <div class="modal-header clearfix">
+                    <button type="button" class="close btnClose" data-dismiss="modal" onclick="parent.$.jBox.close('user');"><span aria-hidden="true"><i class="icon-times" ></i></span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title pull-left" id="myCustUpdateModalLabel">系統介接設定</h4>
+                </div>
+                <div id="CustUpdate" class="modal-body clearfix">
+                    <div class="form-horizontal">
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-2 control-label"> 介接資訊 </label>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-3 control-label">商店代號: </label>
+                                <div class="col-xs-9">
+                                    <label class="col-xs-2 control-label"><?php echo $Row["FirmCode"]?></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-3 control-label">介接 HashKey: </label>
+                                <div class="col-xs-9">
+                                    <label class="col-xs-2 control-label"><?php echo $Row["HashKey"]?></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-3 control-label">介接 HashIV: </label>
+                                <div class="col-xs-9">
+                                    <label class="col-xs-2 control-label"><?php echo $Row["HashIV"]?></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-3 control-label">驗證KEY: </label>
+                                <div class="col-xs-9">
+                                    <label class="col-xs-2 control-label"><?php echo $Row["ValidateKey"]?></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-2 control-label">快速刷卡網址: </label>
+                                <div class="col-xs-10">
+                                    <label class="col-xs-12 control-label" style="text-align:left !important"><a href="<?php echo $card ?>" target="_blank"><?php echo $card ?></a></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-2 control-label">
+                                    <h4><b> 介接資訊 </b></h4>
+                                </label>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4 control-label">允許的IP: </label>
+                                <div id="BulletinDate" class="col-xs-8 form-inline">
+                                    <input name="AllowIP" type="text" class="form-control" id="AllowIP" style="width:400px" value="<?php echo $Row["AllowIP"]?>" />
+                                    <br />
+                                    若有多組允許的IP，請用&quot;##&quot;做分隔， 例：192.168.1.1##192.168.2.2 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4 control-label">虛擬帳戶單筆額度: </label>
+                                <div id="BulletinDate" class="col-xs-8 form-inline">
+                                    <input name="VirtualATMDisburse" type="text" class="form-control" id="VirtualATMDisburse" style="width:400px" value="<?php echo $Row["VirtualATMDisburse"]?>" />
+                                    <br />
+                                    若不限制額度請填-1
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4 control-label"><span class="label-required">*</span>取號回傳網址: </label>
+                                <div id="BulletinDate" class="col-xs-8 form-inline">
+                                    <input name="TakeNumberURL" type="text" class="form-control" id="TakeNumberURL" style="width:400px" value="<?php echo $Row["TakeNumberURL"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4 control-label"><span class="label-required">*</span>支付成功回傳網址: </label>
+                                <div id="BulletinDate" class="col-xs-8 form-inline">
+                                    <input name="SuccessURL" type="text" class="form-control"  id="SuccessURL" style="width:400px" value="<?php echo $Row["SuccessURL"]?>" />
+                                </div>
+                            </div>
+                        </div>                        
+                        <div class="form-group form-group-sm">
+                            <div class="col-xs-12">
+                                <label class="col-xs-4 control-label">支付失敗回傳網址: </label>
+                                <div id="BulletinDate" class="col-xs-8 form-inline">
+                                    <input name="FailURL" type="text" class="form-control" id="FailURL" style="width:400px" value="<?php echo $Row["FailURL"]?>" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="btnSearchCase" style="display: none;">查詢</button>
+                <button type="button" class="btn btn-primary setinterfaced" id="btnSaveCust">設定儲存</button>
+                <button type="button" class="btn btnClose btn-default" data-dismiss="modal" onclick="parent.$.jBox.close('user');">關閉</button>
+            </div>
+            </div>
+        </form>
+        <div id="divLoading" class="modal" >
+            <div style="top:49%; left:52%;position: absolute;font-weight: bold;">讀取資料中，請稍後... </div>
+        </div>
+    </body>
+</html>
