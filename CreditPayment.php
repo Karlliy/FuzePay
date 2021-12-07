@@ -308,10 +308,10 @@ try {
 			'exponent' => '0', 
 			'ECI' => '7',
 			'BIRTHDAY' => '', 
-			'ORDER_DESC'=> mb_convert_encoding('訂單－描述',"Big5", "UTF-8"),
+			//'ORDER_DESC'=> mb_convert_encoding('訂單－描述',"Big5", "UTF-8"),
 			'PID' => '',
 			'SubMerchantId' => $_POST["MerTradeID"], //次特店商店編號
-			'ProductName' => '品項', //品項
+			'ProductName' => mb_convert_encoding('3C商品',"Big5", "UTF-8"), //品項
 			//ApplePay 0：不是 IN-APP 交易，1：是 IN-APP 交易。
 			//是 IN-APP 交易時。(需要帶 TAVV=onlinePaymentCryptogram 及 ECI=eciIndicator)
 			//將 tavv 參數 set 進 Cavv 中
