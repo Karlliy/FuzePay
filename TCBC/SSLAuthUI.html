@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+
+<!-- Mirrored from testepos.ctbcbank.com/mauth/SSLAuthUI.jsp by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Dec 2021 08:09:16 GMT -->
+<!-- Added by HTTrack --><meta http-equiv="content-type" content="text/html;charset=UTF-8" /><!-- /Added by HTTrack -->
+<head><!DOCTYPE html>
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta http-equiv="X-UA-Compatible" content="IE=edge" /> 
+<meta http-equiv=content-type content="text/html; charset=utf-8">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="0">
+<meta content="mshtml 6.00.2800.1476" name="generator">
+
+<meta charset="UTF-8">
+<link rel="shortcut icon" type="image/x-icon" href="images/favicon.html">
+<link rel="apple-touch-icon" href="images/icon_logo_ios.png">
+<!--<link href="https://fonts.googleapis.com/css?family=Roboto|Noto+Sans" rel="stylesheet">-->
+<!-- <link href="./plugin/bootsmatch/bootstrap.min.css" rel="stylesheet"> -->
+<link href="plugin/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<!-- <link href="./plugin/bootstrap-3.3.7/css/bootfix.css" rel="stylesheet"> -->
+<!-- <link href="./css/navbar-ctbc.css" rel="stylesheet"> -->
+<link href="css/style.css"  rel="stylesheet">
+<!--[if lt IE 9]>
+  <script src="./plugin/ie8/html5shiv.min.js"></script>
+  <script src="./plugin/ie8/respond.min.js"></script>
+<![endif]-->
+<script src="plugin/jquery/jquery-1.12.4.min.js%3bjsessionid%3dRRLWp_m56axcnwzP28FitztkJoS1OIMugpptpxGg"></script>
+<script src="plugin/bootstrap-3.3.7/js/bootstrap.min.js%3bjsessionid%3dRRLWp_m56axcnwzP28FitztkJoS1OIMugpptpxGg"></script>
+
+<!-- Mirrored from testepos.ctbcbank.com/mauth/SSLAuthUI.jsp by HTTrack Website Copier/3.x [XR&CO'2014], Tue, 07 Dec 2021 08:09:17 GMT -->
+</html></head>
+<head>
+<title>CTCB Online Payment 付款結果</title>
+</head>
+<body>
+	<nav class="navbar navbar-default">
+		<div class="container-fluid">
+			<span class="navbar-left">
+				<img src="images/CTBC_logo.jpg" alt="LOGO" height="75" class="logo">
+			</span>
+		</div>
+	</nav>
+	<div class="container">
+		<div class="row">
+			<div class="col-xs-12 col-sm-6 col-sm-offset-2" style="color: #003366">
+				<h4>感謝您的使用及消費！</h4>
+				<span>
+					信用卡刷卡回應結果
+					<span class="eng-title">Online Payment Response</span>
+				</span>
+			</div>
+		</div>
+		<hr>
+		<div class="form-group row">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2">
+				<label>訂單編號<br> <span class="eng-title">Order Number</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<?php echo $_POST["MerTradeID"]?>
+			</div>
+		</div>
+
+		<div class="form-group row ">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2">
+				<label>授權金額<br> <span class="eng-title">Authed Amount</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<?php echo $Result["amount"]?>
+			</div>
+		</div>
+		<div class="form-group row">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2">
+				<label>授權結果<br> <span class="eng-title">Authorized Response</span> </label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<?php echo $_result?>
+			</div>
+		</div>
+		<div class="form-group row ">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2 ">
+				<label>授權碼<br> <span class="eng-title">Auth Code</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<?php echo $Result["AuthCode"]?>
+			</div>
+		</div>
+		<div class="form-group row ">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2 ">
+				<label>交易序號<br> <span class="eng-title">Transaction No.</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<span class="text-green font-weight-bold"><?php echo $Result["RetrRef"]?></span>
+			</div>
+		</div>
+		<div class="form-group row ">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2 ">
+				<label>授權時間<br> <span class="eng-title">Auth. Response Time.</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<?php echo date("Y-m-d H:i:s")?>
+			</div>
+		</div>
+		<div class="form-group row ">
+			<div class="col-xs-4 col-sm-2 col-sm-offset-2 ">
+				<label>失敗原因<br> <span class="eng-title">Auth. Fail Reason</span></label>
+			</div>
+			<div class="col-xs-6 align-self-center">
+				<span class="text-green font-weight-bold"><?php echo $Result["ERRDESC"]?></span>
+			</div>
+		</div>
+		<hr>
+		<div class="row form-group" style="margin-top: 20px">
+			<div class="col-xs-12 col-sm-8 col-sm-offset-2 align-self-end text-left">
+				<p><font color="#999999">提醒您：<br>建議記下或列印您的訂單編號與消費金額，如授權結果未出現成功，請您稍後回到網路商場重新刷卡購物，或請您詢問購物網站是否成功收到該筆訂單及其處理情況，以保障您消費之權益。
+				</font></p>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

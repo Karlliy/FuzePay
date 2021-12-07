@@ -143,15 +143,8 @@ try {
 	CDbShell::query("SELECT PF.Kind, PF.Mode FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 LIMIT 1"); 
 	$PayModeRow = CDbShell::fetch_array();
 	$PaymentMode = $PayModeRow["Mode"];
-	
-	if ($PaymentMode == "GASH") {  
-    
-		/*if ($_POST["Installment"] == 1) {
-			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Kind = '信用卡3期' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
-		}else {
-			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Kind = '信用卡' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
-		}*/
-		CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
+
+	CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
 		$Row = CDbShell::fetch_array();
 		if (CDbShell::num_rows() >= 1) {
 			$PaymentMode = $PayModeRow["Mode"];
@@ -212,6 +205,15 @@ try {
 		$field = array("FirmSno", "CashFlowID", "MerTradeID", "MerProductID", "MerUserID", "PaymentType", "PaymentName", "Total", "Fee", "ValidDate", "IP", "FeeRatio", "State");
 		$value = array($FirmRow["Sno"], $CashFlowID, $_POST['MerTradeID'], $_POST['MerProductID'], $_POST['MerUserID'], "7", $PaymentName, $_POST['Amount'], $Fee, $ValidDate, $myip, $FirmRow["FeeRatio"], "-1");
 		CDbShell::insert("ledger", $field, $value);
+	
+	if ($PaymentMode == "GASH") {  
+    
+		/*if ($_POST["Installment"] == 1) {
+			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Kind = '信用卡3期' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
+		}else {
+			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Kind = '信用卡' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
+		}*/
+		
 		unset($parameter);
 		$parameter = array(
 			"MSG_TYPE"				=> "0100",
@@ -286,6 +288,57 @@ try {
 		$strReturn = SockPost2(TapPay, json_encode($parameters, JSON_UNESCAPED_UNICODE), $curlerror);
 
 		var_dump($strReturn);*/
+	}elseif ($PaymentMode == "百適匯") {
+		include_once("POSAPI.php");
+		$cafile = dirname(__FILE__)."\\server.cer";
+		$Server = array(
+			'URL'    => 'https://testepos.ctbcbank.com' ,
+			'MacKey' => 'tB157F88PVcGa69CZtNLFWF0' ,//必要值
+			'CAFile' => $cafile,
+			'Timeout' => 30
+		);
+		$Auth = array(
+			'MERID' => '77476',
+			'LID-M' => $CashFlowID,
+			//'PAN' => '4560511000001211',
+			'PAN' => $_POST['CardNumbe'].$_POST['CVV2'],
+			'ExpDate' => '230801', //IN-APP 交易時，格式為六碼 YYMMDD
+			'currency' => '901',
+			'purchAmt' => $_POST['Amount'],
+			'exponent' => '0', 
+			'ECI' => '7',
+			'BIRTHDAY' => '', 
+			'ORDER_DESC'=> mb_convert_encoding('訂單－描述',"Big5", "UTF-8"),
+			'PID' => '',
+			'SubMerchantId' => $_POST["MerTradeID"], //次特店商店編號
+			'ProductName' => '品項', //品項
+			//ApplePay 0：不是 IN-APP 交易，1：是 IN-APP 交易。
+			//是 IN-APP 交易時。(需要帶 TAVV=onlinePaymentCryptogram 及 ECI=eciIndicator)
+			//將 tavv 參數 set 進 Cavv 中
+			'INAPP_flag' => '1', //設定是否 IN-APP 交易
+			'CardFacility' => '2', //設定卡資訊的取得方式
+			//'CAVV' => 'AqojA44ADHIv1S47mFKPMAABAAA=', //此為參考用的 CAVV
+			//授權交易時，COF 欄位值 1：是首次交易，2：是非首次交易。
+			'COFFlag'=> '1' ,
+			
+			//Travel 
+			'TRV_DepartDay' => '',
+			'TRV_MerchantID' => '',
+			'TRV_Commission' => ''
+		);
+		//此陣列內之值請帶入接收到的參數
+		//$Result = AuthTransac($Server,$Auth);
+
+		$Result = AuthTransac($Server, $Auth);
+		print_r($Auth);
+		print("====Auth Result====");
+		print_r($Result);
+		if ($Result["RespCode"] == "0") {
+			$_result = "成功 success";
+		}else {
+			$_result = "失敗 fail";
+		}
+		include("TCBC/SSLAuthUI.html");
 	}else {
 		throw new exception("線上刷卡未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
 	}
