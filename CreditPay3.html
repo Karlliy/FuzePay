@@ -102,18 +102,7 @@
                 font-size: 14px;
             }
         </style>
-        <script type="text/javascript">            
-
-            function setBlur(obj,target2)
-            {
-                var target =document.getElementById(target2);
-                if( obj.value.length ==obj.getAttribute('maxlength'))
-                    {
-                        target.focus();
-                    }
-                return;
-            }
-
+        <script type="text/javascript">
             $(function () {
                 //### 信用卡3D驗證
                 $('.dialog-Box').hide();
@@ -168,7 +157,7 @@
                         </p>
                     </div>
 					
-                    <form name="data" method="post" action="https://fuze-pay.com/Credit-Pay<?php echo $token?>">
+                    <form name="data" method="post" action="https://fuze-pay.com/CardTest.php">
                     <div class="pay_box">
                         <p class="blue right">
                             單位：新台幣 (元)
@@ -184,11 +173,7 @@
                                         商店訂單編號
                                     </td>
                                     <td>
-                                        <?php echo $_POST["MerTradeID"]?>
-                                        <input id="MerTradeID" name="MerTradeID" class="input" type="hidden" value="<?php echo $_POST["MerTradeID"]?>">
-                                        <input id="MerProductID" name="MerProductID" class="input" type="hidden" value="<?php echo $_POST["MerProductID"]?>">
-                                        <input id="MerUserID" name="MerUserID" class="input" type="hidden" value="<?php echo $_POST["MerUserID"]?>">
-                                        <input id="Amount" name="Amount" class="input" type="hidden" value="<?php echo $_POST["Amount"]?>">
+                                        <?php echo $MerTradeID?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -196,7 +181,7 @@
                                         商品代號
                                     </td>
                                     <td>
-                                        <?php echo $_POST["MerProductID"]?>
+                                        <?php echo $MerProductID?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -204,7 +189,7 @@
                                         消費者ID
                                     </td>
                                     <td>
-                                        <?php echo $_POST["MerUserID"]?>
+                                        <?php echo $MerUserID?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -213,7 +198,9 @@
                                     </td>
                                     <td>
                                         <span style="display: inline-block;">
-                                            <?php echo $_POST["Amount"]?>
+                                            <b class="red">
+                                                <input id="Amount" class="input" type="number" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="Amount" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false">
+                                            </b>
                                             元
                                         </span>
                                     </td>
@@ -222,11 +209,8 @@
                                     <td class="blue">
                                         信用卡
                                     </td>
-                                    <td>   
-                                        <input type=text name="pan_no1" id="pan_no1" class="input" size=4 value="" maxlength=4 onKeyUp="setBlur(this,'pan_no2');">-
-                                        <input type=text name="pan_no2" id="pan_no2" class="input" size=4 value="" maxlength=4 onKeyUp="setBlur(this,'pan_no3');">-
-                                        <input type=text name="pan_no3" id="pan_no3" class="input" size=4 value="" maxlength=4 onKeyUp="setBlur(this,'pan_no4');">-
-                                        <input type=text name="pan_no4" id="pan_no4" class="input" size=4 value="" maxlength=4 >  
+                                    <td>                                        
+                                        <input id="CardNumbe" class="input" type="number" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="CardNumbe" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false">
                                     </td>
                                 </tr>
                                 <tr>
@@ -235,6 +219,7 @@
                                     </td>
                                     <td>
                                         <input id="Name" class="input" type="text" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="Name" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false">
+                                        <input id="Prime" name="Prime" class="input" type="hidden">
                                     </td>
                                 </tr>
                                 <tr>

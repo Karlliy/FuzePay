@@ -204,7 +204,7 @@ try {
     CDbShell::insert('ledger', $field, $value);
     $LedgerId = CDbShell::insert_id();
     
-    if ($_POST['ChoosePayment'] == "711" || (trim($_POST['ChoosePayment']) != "OK" && trim($_POST['ChoosePayment']) != "Family")) {
+    if ($_POST['ChoosePayment'] == "711" || (trim($_POST['ChoosePayment']) != "OK" && trim($_POST['ChoosePayment']) != "Family" && $_POST['ChoosePayment'] != "HiLife")) {
         $_ExpireDate = date('Y-m-d 23:59:59', strtotime(date('Ymd') . " +1 day"));
         //GetRandom(9, $Water);
 
@@ -564,6 +564,83 @@ try {
                 exit;
             }
         }
+    }elseif ($_POST['ChoosePayment'] == "HiLife") {
+        $_ExpireDate   = date('Y-m-d 23:59:59', strtotime(date('Ymd') . " +7 day"));
+        Again4:
+            $Water = str_pad(rand(0, 1000000000), 9, '0', STR_PAD_LEFT);
+            $VatmAccount = "YAN".date("md").$Water;
+            $sql = "SELECT Sno FROM ledger WHERE VatmAccount = '" . $VatmAccount . "'";
+            CDbShell::query($sql);
+            if (CDbShell::num_rows() > 0) {
+                goto Again4;
+            }
+
+            $field = array('VatmAccount', 'ExpireDatetime');
+            $value = array($VatmAccount, $_ExpireDate);
+            CDbShell::update('ledger', $field, $value, "Sno = '".$LedgerId."'");
+
+            $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+                
+            $SendPOST['RtnCode'] = '1';
+            $SendPOST['RtnMessage'] = '取號成功';
+            $SendPOST['MerTradeID'] = $_POST['MerTradeID'];
+            $SendPOST['MerProductID'] = $_POST['MerProductID'];
+            $SendPOST['MerUserID'] = $_POST['MerUserID'];
+
+            $SendPOST['Amount'] = intval($_POST['Amount']);
+            $SendPOST['ExpireDatetime'] = $_ExpireDate;
+            $SendPOST['Store'] = "HiLife";
+            $SendPOST["CodeNo"] = $VatmAccount;
+            $SendPOST['Validate'] = $Validate;
+
+            if ($_POST['ReturnJosn'] == "Y") {
+                echo json_encode($SendPOST);
+            }else {
+                include("StorePayForHiLife.html");
+            }
+
+            if ($TakeNumberURL != '' || $_POST['TakeNumberURL'] != '') {
+                    
+                try {
+                    $fp = fopen('Log/HiLife/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    while (list ($key, $val) = each ($SendPOST)) 
+                    {
+                        fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                    };
+                    
+                    if ($TakeNumberURL != '') {
+                        $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                    }
+                    if ($_POST['TakeNumberURL'] != '') {
+                        $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
+                    }
+                    
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                } catch (Exception $e) {
+        
+                    $fp = fopen('Log/HiLife/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
+                    while (list ($key, $val) = each ($SendPOST)) 
+                    {
+                        fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                    };
+                    fwrite($fp, "\$strReturn =>".$e->getMessage().PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+            }else {
+                $fp = fopen('Log/HiLife/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
+                fclose($fp);
+            }
     }elseif ($_POST['ChoosePayment'] == "OK") {
         $_ExpireDate   = date('Y-m-d 23:59:59', strtotime(date('Ymd') . " +7 day"));
         Again3:

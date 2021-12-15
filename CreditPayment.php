@@ -23,12 +23,29 @@ fclose($fp);*/
 
 //echo "<center>錯誤：此支付方式還沒開始</center>";
 //exit;
+@CDbShell::connect();
+if (!empty($_SERVER["token"])) {
+	$_QUERY = Cryptographic::decrypt($_SERVER["token"]);
+	list($A ,$HashKey, $HashIV, $ValidTime, $D) = explode("|", $_QUERY);
+	if ($ValidTime >= date("Y-m-d H:i:s") ) {
+		CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '".$HashKey."' AND BINARY HashIV = '".$HashIV."'"); 
+		if (CDbShell::num_rows() != 1) {
+			echo "<center>錯誤：9180002</center>";
+			exit;
+		}else {
+			goto Authorization;
+		}
+	}else {
+		echo "<center>錯誤：9180002</center>";
+		exit;
+	}
+}
 
 if (strlen(trim($_POST["HashKey"])) < 10 || strlen(trim($_POST["HashIV"])) < 10) {
 	echo "<center>錯誤：9180001</center>";
 	exit;
 }
-@CDbShell::connect();
+
 CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '".$_POST["HashKey"]."' AND BINARY HashIV = '".$_POST["HashIV"]."'"); 
 if (CDbShell::num_rows() != 1) {
 	echo "<center>錯誤：9180002</center>";
@@ -204,7 +221,7 @@ try {
 		//$CashFlowID = "21060318371780499593";
 		$field = array("FirmSno", "CashFlowID", "MerTradeID", "MerProductID", "MerUserID", "PaymentType", "PaymentName", "Total", "Fee", "ValidDate", "IP", "FeeRatio", "State");
 		$value = array($FirmRow["Sno"], $CashFlowID, $_POST['MerTradeID'], $_POST['MerProductID'], $_POST['MerUserID'], "7", $PaymentName, $_POST['Amount'], $Fee, $ValidDate, $myip, $FirmRow["FeeRatio"], "-1");
-		CDbShell::insert("ledger", $field, $value);
+		//CDbShell::insert("ledger", $field, $value);
 	
 	if ($PaymentMode == "GASH") {  
     
@@ -289,56 +306,72 @@ try {
 
 		var_dump($strReturn);*/
 	}elseif ($PaymentMode == "百適匯") {
-		include_once("POSAPI.php");
-		$cafile = dirname(__FILE__)."\\server.cer";
-		$Server = array(
-			'URL'    => 'https://testepos.ctbcbank.com' ,
-			'MacKey' => 'tB157F88PVcGa69CZtNLFWF0' ,//必要值
-			'CAFile' => $cafile,
-			'Timeout' => 30
-		);
-		$Auth = array(
-			'MERID' => '77476',
-			'LID-M' => $CashFlowID,
-			//'PAN' => '4560511000001211',
-			'PAN' => $_POST['CardNumbe'].$_POST['CVV2'],
-			'ExpDate' => '230801', //IN-APP 交易時，格式為六碼 YYMMDD
-			'currency' => '901',
-			'purchAmt' => $_POST['Amount'],
-			'exponent' => '0', 
-			'ECI' => '7',
-			'BIRTHDAY' => '', 
-			//'ORDER_DESC'=> mb_convert_encoding('訂單－描述',"Big5", "UTF-8"),
-			'PID' => '',
-			'SubMerchantId' => $_POST["MerTradeID"], //次特店商店編號
-			'ProductName' => mb_convert_encoding('3C商品',"Big5", "UTF-8"), //品項
-			//ApplePay 0：不是 IN-APP 交易，1：是 IN-APP 交易。
-			//是 IN-APP 交易時。(需要帶 TAVV=onlinePaymentCryptogram 及 ECI=eciIndicator)
-			//將 tavv 參數 set 進 Cavv 中
-			'INAPP_flag' => '1', //設定是否 IN-APP 交易
-			'CardFacility' => '2', //設定卡資訊的取得方式
-			//'CAVV' => 'AqojA44ADHIv1S47mFKPMAABAAA=', //此為參考用的 CAVV
-			//授權交易時，COF 欄位值 1：是首次交易，2：是非首次交易。
-			'COFFlag'=> '1' ,
-			
-			//Travel 
-			'TRV_DepartDay' => '',
-			'TRV_MerchantID' => '',
-			'TRV_Commission' => ''
-		);
-		//此陣列內之值請帶入接收到的參數
-		//$Result = AuthTransac($Server,$Auth);
 
-		$Result = AuthTransac($Server, $Auth);
-		print_r($Auth);
-		print("====Auth Result====");
-		print_r($Result);
-		if ($Result["RespCode"] == "0") {
-			$_result = "成功 success";
+		if (!empty($_SERVER["token"])) {
+			Authorization:
+			$_QUERY = Cryptographic::decrypt($_SERVER["token"]);
+			list($A ,$HashKey, $HashIV, $ValidTime, $D, $CashFlowID) = explode("|", $_QUERY);
+			if ($ValidTime >= date("Y-m-d H:i:s") ) {
+				include_once("POSAPI.php");
+				$cafile = dirname(__FILE__)."\\server.cer";
+				$Server = array(
+					'URL'    => 'https://testepos.ctbcbank.com' ,
+					'MacKey' => 'tB157F88PVcGa69CZtNLFWF0' ,//必要值
+					'CAFile' => $cafile,
+					'Timeout' => 30
+				);
+				$Auth = array(
+					'MERID' => '77476',
+					//'LID-M' => $CashFlowID,
+					'LID-M' => substr($CashFlowID, 0, 19),
+					//'PAN' => '4560511000001211',
+					'PAN' => $_POST['pan_no1'].$_POST['pan_no2'].$_POST['pan_no3'].$_POST['pan_no4'].$_POST['CVV2'],
+					'ExpDate' => '230801', //IN-APP 交易時，格式為六碼 YYMMDD
+					'currency' => '901',
+					'purchAmt' => $_POST['Amount'],
+					'exponent' => '0', 
+					'ECI' => '7',
+					'BIRTHDAY' => '', 
+					'ORDER_DESC'=> mb_convert_encoding('訂單－描述',"Big5", "UTF-8"),
+    				//'ORDER_DESC'=> '機殼電源供應器顯卡等3c商品',
+					'PID' => '',
+					'SubMerchantId' => $_POST["MerTradeID"], //次特店商店編號
+					'ProductName' => '品項', //品項
+					//ApplePay 0：不是 IN-APP 交易，1：是 IN-APP 交易。
+					//是 IN-APP 交易時。(需要帶 TAVV=onlinePaymentCryptogram 及 ECI=eciIndicator)
+					//將 tavv 參數 set 進 Cavv 中
+					'INAPP_flag' => '1', //設定是否 IN-APP 交易
+					'CardFacility' => '2', //設定卡資訊的取得方式
+					'CAVV' => 'AqojA44ADHIv1S47mFKPMAABAAA=', //此為參考用的 CAVV
+					//授權交易時，COF 欄位值 1：是首次交易，2：是非首次交易。
+					'COFFlag'=> '1' ,
+					
+					//Travel 
+					'TRV_DepartDay' => '',
+					'TRV_MerchantID' => '',
+					'TRV_Commission' => ''
+				);
+				//此陣列內之值請帶入接收到的參數
+				//$Result = AuthTransac($Server,$Auth);
+
+				$Result = AuthTransac($Server, $Auth);
+				/*print_r($Auth);
+				print("====Auth Result====");
+				print_r($Result);*/
+				if ($Result["RespCode"] == "0") {
+					$_result = "成功 success";
+				}else {
+					$_result = "失敗 fail";
+				}
+				include("TCBC/SSLAuthUI.html");
+			}
 		}else {
-			$_result = "失敗 fail";
+			$ValidTime = date("Y-m-d H:i:s", strtotime(date('Y-m-d H:i:s'). " +3 minute"));
+			
+			$token = Cryptographic::encrypt(str_pad(floor(microtime() * 10000),4,'0',STR_PAD_LEFT)."|".$_POST["HashKey"]."|".$_POST["HashIV"]."|".$ValidTime."|".str_pad(floor(microtime() * 1000000),6,'0',STR_PAD_LEFT)."|".$CashFlowID."|");
+			//echo $token;
+			include("CreditPay2.html");
 		}
-		include("TCBC/SSLAuthUI.html");
 	}else {
 		throw new exception("線上刷卡未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
 	}
@@ -473,5 +506,54 @@ function SockPost2($URL, $Query, &$curlerror){
     
     return $strReturn;
     
+}
+
+class Cryptographic {
+	static $iv = "M#yC!ash";
+	static $key = "6BAE2CF100974F9D88AE";
+
+	static function encrypt($str) {
+
+		$td = @mcrypt_module_open(MCRYPT_TRIPLEDES, '', MCRYPT_MODE_CBC, self::$iv);
+		
+		@mcrypt_generic_init($td, self::$key, self::$iv);
+		$encrypted = @mcrypt_generic($td, $str);
+
+		@mcrypt_generic_deinit($td);
+		@mcrypt_module_close($td);
+
+		return bin2hex($encrypted);
+	}
+	static function hex2bin($hexdata) {
+		$bindata = '';
+
+		for ($i = 0; $i < strlen($hexdata); $i += 2) {
+		    $bindata .= chr(hexdec(substr($hexdata, $i, 2)));
+		}
+
+		return $bindata;
+    }
+	static function decrypt($encrypted){
+
+		$encrypted = self::hex2bin($encrypted);
+		$cipher = @mcrypt_module_open(MCRYPT_TRIPLEDES, '', MCRYPT_MODE_CBC, self::$iv );
+	    $key = substr(self::$key, 0, @mcrypt_enc_get_key_size($cipher));
+	 
+		// 128-bit blowfish encryption:
+		if (@mcrypt_generic_init($cipher, $key, self::$iv) != -1){
+			// PHP pads with NULL bytes if $cleartext is not a multiple of the block size..
+			$cleartext = @mdecrypt_generic($cipher,$encrypted );
+			@mcrypt_generic_deinit($cipher);
+		}
+	 
+		// suppression du padding.
+		$pad = ord(substr($cleartext,strlen($cleartext)-1));
+		if($pad>0 & $pad<=8){
+			$cleartext = substr($cleartext, 0, strlen($cleartext) - $pad);
+		}
+
+		return $cleartext;
+	 
+	}
 }
 ?>
