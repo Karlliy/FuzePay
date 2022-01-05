@@ -234,7 +234,7 @@
 					$SendPOST["MerProductID"] = $FirmRow["MerProductID"];
 					$SendPOST["MerUserID"] = $FirmRow["MerUserID"];
 					$SendPOST['PayInfo'] = $xml->TEN_CODE;
-					$SendPOST["Amount"] = $_Amt;
+					$SendPOST["Amount"] = intval($_Amt);
 					$SendPOST["PaymentDate"] = $_PaymentDate;
 					$SendPOST["Validate"] = $Validate;
 					if ($SuccessURL != '') {

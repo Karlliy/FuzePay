@@ -204,7 +204,7 @@ try {
     CDbShell::insert('ledger', $field, $value);
     $LedgerId = CDbShell::insert_id();
     
-    if ($_POST['ChoosePayment'] == "711" || (trim($_POST['ChoosePayment']) != "OK" && trim($_POST['ChoosePayment']) != "Family" && $_POST['ChoosePayment'] != "HiLife")) {
+    if ($_POST['ChoosePayment'] == "711" || (trim($_POST['ChoosePayment']) != "OK" && trim($_POST['ChoosePayment']) != "Family" && trim($_POST['ChoosePayment'] != "HiLife"))) {
         $_ExpireDate = date('Y-m-d 23:59:59', strtotime(date('Ymd') . " +1 day"));
         //GetRandom(9, $Water);
 
@@ -478,6 +478,88 @@ try {
                 }
             }else {
                 echo $result->NewOrderResult . $result->TX_WEB->HEADER->STATDESC;
+            }
+        }else if ($PaymentMode == "全家[百適匯]") {
+            $parameters = array(
+                "HashKey"		=> "TNVSAR46RTHY7GB4GCFTFPYR",
+                "HashIV"		=> "F98PWKBVKAMDQSF8LALC4EVJS",	
+                "MerTradeID"	=> $CashFlowID,
+                "MerProductID"	=> $_POST['MerProductID'],
+                "MerUserID"     => $_POST['MerUserID'],
+                "ChoosePayment" => "Family",
+                "Amount"        => $_POST["Amount"],
+                "ReturnJosn"    => "Y"
+            );
+
+            $BesstrReturn = SockPost("https://bes-pay.com/Store", $parameters, $curlerror);
+            $obj = json_decode($BesstrReturn);
+            //var_dump($BesstrReturn);
+
+            $field = array('VatmAccount');
+            $value = array($obj->CodeNo);
+            CDbShell::update('ledger', $field, $value, "Sno = '".$LedgerId."'");
+            $VatmAccount = $obj->CodeNo;
+            $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+                
+            $SendPOST['RtnCode'] = '1';
+            $SendPOST['RtnMessage'] = '取號成功';
+            $SendPOST['MerTradeID'] = $_POST['MerTradeID'];
+            $SendPOST['MerProductID'] = $_POST['MerProductID'];
+            $SendPOST['MerUserID'] = $_POST['MerUserID'];
+    
+            $SendPOST['Amount'] = intval($_POST['Amount']);
+            $SendPOST['ExpireDatetime'] = $_ExpireDate;
+            $SendPOST['Store'] = "Family";
+            $SendPOST["CodeNo"] = $VatmAccount;
+            $SendPOST['Validate'] = $Validate;
+    
+            if ($_POST['ReturnJosn'] == "Y") {
+                echo json_encode($SendPOST);
+            }else {
+                include("StorePayForFamily.html");
+            }
+    
+            if ($TakeNumberURL != '' || $_POST['TakeNumberURL'] != '') {
+                    
+                try {
+                    $fp = fopen('Log/BesPay/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    while (list ($key, $val) = each ($SendPOST)) 
+                    {
+                        fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                    };
+        
+                    if ($TakeNumberURL != '') {
+                        $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                    }
+                    if ($_POST['TakeNumberURL'] != '') {
+                        $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
+                    }
+                    
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                } catch (Exception $e) {
+        
+                    $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
+                    while (list ($key, $val) = each ($SendPOST)) 
+                    {
+                        fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                    };
+                    fwrite($fp, "\$strReturn =>".$e->getMessage().PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+            }else {
+                $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
+                fclose($fp);
             }
         }else {
             $parameters = array(

@@ -582,11 +582,12 @@ try {
         if ($FirmRow["Sno"] == 65) {
             $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
         }else {
-            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +21 day"));
         }
 
         #$GetYear = mb_substr((date("Y", strtotime($ExpireDatetime))-1911), -1);
-        $GetYear = mb_substr(date("Y"), -1);
+        //$GetYear = mb_substr(date("Y"), -1);
+        $GetYear = mb_substr(date('Y', strtotime($ExpireDatetime)), -1);
         $_ExpireDay = date("z", strtotime($ExpireDatetime)) + 1;
         $_ExpireDay = str_pad($_ExpireDay, 3, '0', STR_PAD_LEFT);
         $chars     = str_split(KGI_Code.$GetYear.$_ExpireDay.$WaterAccount);
@@ -665,18 +666,25 @@ try {
             
             try {
                 if ($TakeNumberURL != '') {
-                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/KGI/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
                 }
                 if ($_POST['TakeNumberURL'] != '') {
-                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
-                }
+                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);                    
                 
-                $fp = fopen('Log/KGI/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
-                fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
-                fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
-                fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
-                fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
-                fclose($fp);
+                    $fp = fopen('Log/KGI/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
             }
             catch (Exception $e) {  
                 
@@ -693,6 +701,97 @@ try {
             include("ATMPay.html");
         }
         exit;
+    }else if (is_numeric(mb_strpos($PaymentMode, "百適匯", "0", "UTF-8"))) {
+        $parameters = array(
+            "HashKey"		=> "TNVSAR46RTHY7GB4GCFTFPYR",
+            "HashIV"		=> "F98PWKBVKAMDQSF8LALC4EVJS",	
+            "MerTradeID"	=> $CashFlowID,
+            "MerProductID"	=> $_POST['MerProductID'],
+            "MerUserID"     => $_POST['MerUserID'],
+            "Amount"        => $_POST["Amount"],
+            "ReturnJosn"    => "Y"
+        );
+
+        $BesstrReturn = SockPost("https://bes-pay.com/VirAccount", $parameters, $curlerror);
+        $obj = json_decode($BesstrReturn);
+        //var_dump($BesstrReturn);
+        $VatmAccount = $obj->VatmAccount;
+
+        $field = array("VatmAccount");
+		$value = array($VatmAccount);
+		CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
+
+        $OrderNo      = $CashFlowID;
+        $MerProductID = $_POST['MerProductID'];
+        $MerUserID    = $_POST['MerUserID'];
+        $Amount       = $_POST['Amount'];
+        $VatmBankCode = $obj->VatmBankCode." (".$obj->BankName.")";
+        //$split        = "-";
+        //$VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 4);
+        
+        $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+            
+        $SendPOST["RtnCode"] = "1";
+        $SendPOST["RtnMessage"] = "取號成功";
+        $SendPOST["MerTradeID"] = $_POST["MerTradeID"];
+        $SendPOST["MerProductID"] = $_POST["MerProductID"];
+        $SendPOST["MerUserID"] = $_POST["MerUserID"];
+
+        $SendPOST["BankName"] = $obj->BankName;
+        $SendPOST["VatmBankCode"] = $obj->VatmBankCode;
+        $SendPOST["VatmAccount"] = $VatmAccount;
+        $SendPOST["Amount"] = $obj->Amount;
+        $SendPOST["ExpireDatetime"] = $obj->ExpireTime ;
+        $SendPOST["Validate"] = $Validate;
+
+        if ($_POST['ReturnJosn'] == "Y") {
+            echo json_encode($SendPOST);
+        }else {
+            include("ATMPay.html");
+        }
+
+        if ($TakeNumberURL != '' || $_POST['TakeNumberURL'] != '') {
+                
+            try {
+                $fp = fopen('Log/BesPay/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                while (list ($key, $val) = each ($SendPOST)) 
+                {
+                    fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                };
+    
+                if ($TakeNumberURL != '') {
+                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                }
+                if ($_POST['TakeNumberURL'] != '') {
+                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
+                }
+                
+                fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                fclose($fp);
+            } catch (Exception $e) {
+    
+                $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
+                while (list ($key, $val) = each ($SendPOST)) 
+                {
+                    fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                };
+                fwrite($fp, "\$strReturn =>".$e->getMessage().PHP_EOL);
+                fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                fclose($fp);
+            }
+        }else {
+            $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+            fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+            fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+            fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
+            fclose($fp);
+        }
     }else if (is_numeric(mb_strpos($PaymentMode, "永豐", "0", "UTF-8"))) {
         $ExpireDate     = date('Ymd', strtotime(date('Y-m-d') . " +1 day"));
         $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));

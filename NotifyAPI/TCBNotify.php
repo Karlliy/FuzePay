@@ -182,7 +182,7 @@
                 $SendPOST['MerProductID'] = $FirmRow['MerProductID'];
                 $SendPOST['MerUserID'] = $FirmRow['MerUserID'];
                 $SendPOST["PayInfo"] = $CustAcctId;
-                $SendPOST['Amount'] =  $_Amount;
+                $SendPOST['Amount'] =  intval($_Amount);
                 $SendPOST['PaymentDate'] = $_PaymentDate;
                 $SendPOST['Validate'] = $Validate;
                 if ($SuccessURL != '') {
