@@ -10,7 +10,8 @@
 	//print_r($_POST);
 	$fp = fopen('Log/Spgate_ATM/Spgate_CVSNumber_LOG_'.date("YmdHis").'.txt', 'a');
 	fwrite($fp, " ---------------- 開始POST ---------------- \n\r");
-	while (list ($key, $val) = each ($_POST)) 
+	foreach($_POST as $key => $val)
+	//while (list ($key, $val) = each ($_POST)) 
 	{
 		fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 	};
@@ -65,7 +66,8 @@ if ($obj->Status == 'SUCCESS' ) {
 			$fp = fopen('Log/Spgate_ATM/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
 			fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
 			fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
-			while (list ($key, $val) = each ($SendPOST)) 
+			foreach($SendPOST as $key => $val)
+			//while (list ($key, $val) = each ($SendPOST)) 
 			{
 				fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 			};
@@ -81,7 +83,8 @@ if ($obj->Status == 'SUCCESS' ) {
 			$fp = fopen('Log/Spgate_ATM/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
 			fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
 			fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-			while (list ($key, $val) = each ($SendPOST)) 
+			foreach($SendPOST as $key => $val)
+			//while (list ($key, $val) = each ($SendPOST)) 
 			{
 				fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 			};
@@ -200,7 +203,8 @@ function SockPost($URL, $Query, &$curlerror){
 	function create_linkstring($array) 
 	{
 	    $arg  = "";
-	    while (list ($key, $val) = each ($array)) 
+	    foreach($array as $key => $val)
+	    //while (list ($key, $val) = each ($array)) 
 		{
 	        $arg.=$key."=".$val."&";
 	    }

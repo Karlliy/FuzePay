@@ -27,6 +27,8 @@
 	define("KGI_Code", "373");
 	#凱基12碼
 	define("KGI12_Code", "79183");
+	#中信台幣
+	define("CTBC_Code", "92401");
 	#永豐
 	define("SinoPac_ShopNo", "NA0251_001");
 	#樂力活

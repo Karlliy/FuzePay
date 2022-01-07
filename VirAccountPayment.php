@@ -148,7 +148,8 @@ try {
         }
         if ($_Verified == false) {
             $FormHtml = '<form name="data" method="post">';
-            while (list ($key, $val) = each ($_POST)) 
+            foreach($_POST as $key => $val)
+            //while (list ($key, $val) = each ($_POST)) 
             {
                 $FormHtml .= '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
             };	
@@ -757,7 +758,8 @@ try {
                 fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                 fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                 fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                while (list ($key, $val) = each ($SendPOST)) 
+                foreach($SendPOST as $key => $val)
+                //while (list ($key, $val) = each ($SendPOST)) 
                 {
                     fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                 };
@@ -777,7 +779,8 @@ try {
                 $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                 fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                 fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                while (list ($key, $val) = each ($SendPOST)) 
+                foreach($SendPOST as $key => $val)
+                //while (list ($key, $val) = each ($SendPOST)) 
                 {
                     fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                 };
@@ -792,6 +795,132 @@ try {
             fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
             fclose($fp);
         }
+    
+    }else if (is_numeric(mb_strpos($PaymentMode, "中信", "0", "UTF-8"))) {
+        $passchars  = array('3','7','1','3','7','1','3','7','1','3','7','1','3');
+        Again7:
+        $WaterAccount =  str_pad(rand(0, 10000), 4, '0', STR_PAD_LEFT);
+        
+        if ($FirmRow["Sno"] == 65) {
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
+        }else {
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+        }
+
+        #$GetYear = mb_substr((date("Y", strtotime($ExpireDatetime))-1911), -1);
+        //$GetYear = mb_substr(date("Y"), -1);
+        $GetYear = mb_substr(date('Y', strtotime($ExpireDatetime)), -1);
+        $_ExpireDay = date("z", strtotime($ExpireDatetime)) + 1;
+        $_ExpireDay = str_pad($_ExpireDay, 3, '0', STR_PAD_LEFT);
+        $chars     = str_split(CTBC_Code.$GetYear.$_ExpireDay.$WaterAccount);
+
+        $x = 0;
+        foreach ($chars as $char) {
+            #echo $char."|".$passchars[$x] . "|". (($char * $passchars[$x]) % 10)."<pre />";
+            $CheckCode1 += (($char * $passchars[$x]) % 10);
+            
+            $x++;
+        }
+
+        $_CheckCode1 = ($CheckCode1 % 10);
+
+        $passchars  = array('3','7','1','3','7','1','3','7','1','3');
+        $chars      = str_split(str_pad($_POST['Amount'], 10, '0', STR_PAD_LEFT));
+                
+        $x = 0;
+        foreach ($chars as $char) {
+            #echo $char."|".$passchars[$x] . "|". (($char * $passchars[$x]) % 10)."<pre />";
+            $CheckCode2 += @($char * $passchars[$x]);  
+            //fwrite($fp, "\$CheckCode2 =>".$char." * ".$passchars[$x].PHP_EOL);
+            $x++;
+        }
+
+        $_CheckCode2 = ($CheckCode2 % 10);
+
+        $CheckCode = $_CheckCode1 + $_CheckCode2;
+
+        $_Weights = ($CheckCode % 10);        
+
+        if ($_Weights == 0) {
+            $_CheckCode = 0;
+        }else {
+            $_CheckCode = 10 - $_Weights;
+        }
+
+        $VatmAccount = CTBC_Code.$GetYear.$_ExpireDay.$WaterAccount.$_CheckCode;        
+        $VatmAccount2 = $VatmAccount;
+        $sql = "SELECT Sno FROM ledger WHERE VatmAccount = '" . $VatmAccount . "' AND CreationDate BETWEEN '" . date('Y-m-d') . " 00:00:00' AND '" . date('Y-m-d') . " 23:59:59'";
+        CDbShell::query($sql);
+        if (CDbShell::num_rows() > 0) {
+            goto Again7;
+        }
+
+        $field = array("VatmAccount");
+		$value = array($VatmAccount);
+		CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
+
+        $OrderNo      = $CashFlowID;
+        $MerProductID = $_POST['MerProductID'];
+        $MerUserID    = $_POST['MerUserID'];
+        $Amount       = $_POST['Amount'];
+        $VatmBankCode = "812 (中國信託)";
+        $split        = "-";
+        $VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 4);
+        
+        $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+            
+        $SendPOST["RtnCode"] = "1";
+        $SendPOST["RtnMessage"] = "取號成功";
+        $SendPOST["MerTradeID"] = $_POST["MerTradeID"];
+        $SendPOST["MerProductID"] = $_POST["MerProductID"];
+        $SendPOST["MerUserID"] = $_POST["MerUserID"];
+
+        $SendPOST["BankName"] = "中國信託";
+        $SendPOST["VatmBankCode"] = "812";
+        $SendPOST["VatmAccount"] = $VatmAccount;
+        $SendPOST["Amount"] = $_POST['Amount'];
+        $SendPOST["ExpireDatetime"] = $ExpireDatetime ;
+        $SendPOST["Validate"] = $Validate;
+        
+        if (strlen(trim($TakeNumberURL)) != 0 || strlen(trim($_POST['TakeNumberURL'])) != 0) {
+            
+            try {
+                if ($TakeNumberURL != '') {
+                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/CTBC/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+                if ($_POST['TakeNumberURL'] != '') {
+                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/CTBC/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+            }
+            catch (Exception $e) {  
+                
+            }
+        }else {
+            $fp = fopen('Log/CTBC/TakeNumberErr_LOG_'.date("YmdHi").'.txt', 'a');
+            fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+            fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+            fclose($fp);
+        }
+        if ($_POST['ReturnJosn'] == "Y") {
+            echo json_encode($SendPOST);
+        }else {            
+            include("ATMPay.html");
+        }
+        exit;
     }else if (is_numeric(mb_strpos($PaymentMode, "永豐", "0", "UTF-8"))) {
         $ExpireDate     = date('Ymd', strtotime(date('Y-m-d') . " +1 day"));
         $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
@@ -1099,7 +1228,8 @@ function build_mysign($sort_array, $HashKey, $HashIV, $sign_type = "MD5")
 function create_linkstring($array)
 {
     $arg = "";
-    while (list($key, $val) = each($array)) {
+    foreach($array as $key => $val) {
+    //while (list($key, $val) = each($array)) {
         $arg .= $key . "=" . $val . "&";
     }
     $arg = substr($arg, 0, count($arg) - 2); //去掉最后一个&字符

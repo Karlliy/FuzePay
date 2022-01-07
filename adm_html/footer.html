@@ -24,6 +24,17 @@
 
   <script type="text/javascript" src="../box/jquery.jBox-2.3.min.js"></script>
 <script type="text/javascript" src="../box/jquery.jBox-zh-CN.js"></script>
+<script type="text/javascript">
+jQuery.browser = {};
+(function () {
+    jQuery.browser.msie = false;
+    jQuery.browser.version = 0;
+    if (navigator.userAgent.match(/MSIE ([0-9]+)\./)) {
+        jQuery.browser.msie = true;
+        jQuery.browser.version = RegExp.$1;
+    }
+})();
+</script>
 <link type="text/css" rel="stylesheet" href="../box/GrayCool/jbox.css"/>
 
 <script type="text/javascript" src="../box/jBox.min.js"></script>

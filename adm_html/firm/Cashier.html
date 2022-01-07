@@ -7,7 +7,7 @@
 <link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
 <link href="../adm_html/css/login.css" rel="stylesheet" type="text/css" />
 <link href="../adm_html/css/bootstrap-override.css" rel="stylesheet" type="text/css" />
-<script src="../jquery/jquery-1.8.3.js" type="text/javascript"></script>
+<script src="../jquery/jquery-3.6.0.min.js" type="text/javascript"></script>
 <script type='text/javascript' src='../adm_html/scripts/firm.js'></script>
 <script type="text/javascript">
 	function jBox(url) {
@@ -70,7 +70,7 @@
         <div class="panel panel-default">
           <div class="panel-body">
             <div class="row bu_title_bar clearfix">
-              <h4 class="pull-left">共 <span id="lStore_SysInfoTotal" class="searchresults_count"><?php echo count($Html)?></span> 筆</h4>
+              <h4 class="pull-left">共 <span id="lStore_SysInfoTotal" class="searchresults_count"><?php echo @count($Html)?></span> 筆</h4>
             </div>
             <div class="row clearfix">
               <div class="col-xs-12">

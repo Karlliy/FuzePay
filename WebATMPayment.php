@@ -141,7 +141,8 @@ try {
 				$mysign = build_mysign($sort_array, ecpay_HashKey, ecpay_HashIV, "MD5");
 				
 				$sHtml = "<form id='rongpaysubmit' name='rongpaysubmit' action='".ecpay_Credit_URL."' method='POST'>";
-				while (list ($key, $val) = each ($parameter)) 
+				foreach($parameter as $key => $val)
+				//while (list ($key, $val) = each ($parameter)) 
 				{
 				    $sHtml.= "<input type='hidden' name='".$key."' value='".$val."'/>";
 				}
@@ -184,9 +185,10 @@ function build_mysign($sort_array, $HashKey, $HashIV, $sign_type = "MD5")
 function create_linkstring($array) 
 {
     $arg  = "";
-    while (list ($key, $val) = each ($array)) 
+    foreach($array as $key => $val)
+    //while (list ($key, $val) = each ($array)) 
 	{
-        $arg.=$key."=".$val."&";
+        	$arg.=$key."=".$val."&";
     }
     $arg = substr($arg,0,count($arg)-2);		     //去掉最后一个&字符
     return $arg;

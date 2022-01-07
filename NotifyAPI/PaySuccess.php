@@ -2,7 +2,8 @@
 
 $fp = fopen('../Log/GASH/PaySuccess_LOG_'.date("YmdHis").'.txt', 'a');
 fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-while (list ($key, $val) = each ($_POST)) 
+//while (list ($key, $val) = each ($_POST)) 
+foreach($_POST as $key => $val)
 {
     fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 };	

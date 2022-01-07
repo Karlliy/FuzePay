@@ -11,7 +11,7 @@
     <link href="./ATMPay/seller_pay.css?0.4" rel="stylesheet" type="text/css">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.13/semantic.min.css">
-    <script src="https://code.jquery.com/jquery-1.10.1.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://js.tappaysdk.com/tpdirect/v5.7.0"></script>
     <style type="text/css">
         cufon {
@@ -219,7 +219,7 @@
                                     </td>
                                     <td>
                                         <input id="Name" class="input" type="tel" autocomplete="cc-number" autocorrect="off" spellcheck="false" name="Name" aria-label="Credit or debit card number" placeholder="***" aria-invalid="false">
-                                        <?php while (list ($key, $val) = each ($_POST)) {
+                                        <?php foreach($_POST as $key => $val) {
                                             echo '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
                                         }?>
                                         <input id="Prime" name="Prime" class="input" type="hidden">

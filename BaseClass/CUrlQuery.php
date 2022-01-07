@@ -30,12 +30,14 @@ class CUrlQuery{
                 if(strlen($QUERY_STRING)==0) return;
                 $pieces = mb_split ("\&", $QUERY_STRING);
                 $i=0;
-                while ($i < count($pieces)) {
-                        $b = mb_split ('\=', $pieces[$i]);
-                        $var = $b [0];
-                        $val = $b [1];
-                        $this->allvars[$var]=$val;
-                        $i++;
+                if (is_array($pieces)) {
+                        while ($i < count($pieces)) {
+                                $b = mb_split ('\=', $pieces[$i]);
+                                $var = $b [0];
+                                $val = $b [1];
+                                $this->allvars[$var]=$val;
+                                $i++;
+                        }
                 }
         }
         function getvars3($v) {

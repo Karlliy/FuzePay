@@ -6,7 +6,7 @@
 <link rel="stylesheet" type="text/css" href="../jquery/themes/base/jquery.ui.all.css">
 <link href="../adm_html/css/style.css" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="../adm_html/css/bootstrap.min.css?v=1.334" />
-<script type="text/javascript" src="../jquery/jquery-1.8.3.js"></script>
+<script type="text/javascript" src="../jquery/jquery-3.6.0.min.js"></script>
 <script type="text/javascript" src="../jquery/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="../jquery/ui/jquery.ui.datepicker.js"></script>
 <script type="text/javascript" src="../jquery/ui/jquery-ui-timepicker-addon.js"></script>
@@ -48,7 +48,7 @@
           <div class="col-xs-6">
             <label class="col-xs-4 control-label">交易筆數: </label>
             <div class="col-xs-8">
-              <label class="control-label"><?php echo Count($Html)?></label>
+              <label class="control-label"><?php echo @count($Html)?></label>
             </div>
           </div>
         </div>

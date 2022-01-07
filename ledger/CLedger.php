@@ -329,13 +329,14 @@ class CLedger {
 				}
 			}
 	    	
-	    	if (Count($_POST["PaymentCode"]) > 0) {
+	    	if (is_array($_POST["PaymentCode"]) && Count($_POST["PaymentCode"]) > 0) {
 	    		if (strlen($this->SearchKeyword) == 0) $this->SearchKeyword .= " WHERE ";
 	    		else $this->SearchKeyword .= " AND ";
 	    		
 	    		$i = 1;
 	    		$this->SearchKeyword .= "(";
-	    		while (list ($key, $val) = each ($_POST["PaymentCode"])) {
+	    		foreach($_POST["PaymentCode"] as $key => $val) {
+	    		//while (list ($key, $val) = each ($_POST["PaymentCode"])) {
 	    			$this->SearchKeyword .= " Chief.PaymentType = ". $val;
 	    			
 	    			if ($i < Count($_POST["PaymentCode"])) $this->SearchKeyword .= " OR ";
@@ -345,13 +346,14 @@ class CLedger {
 	    	}
 	    	//print_r($_POST["Condition"]);
 	    	
-	    	if (Count($_POST["Condition"]) > 0) {
+	    	if (is_array($_POST["Condition"]) && Count($_POST["Condition"]) > 0) {
 	    		if (strlen($this->SearchKeyword) == 0) $this->SearchKeyword .= " WHERE ";
 	    		else $this->SearchKeyword .= " AND ";
 	    		
 	    		$this->SearchKeyword .= "(";
 	    		$i = 1;
-	    		while (list ($key, $val) = each ($_POST["Condition"])) {
+	    		foreach($_POST["Condition"] as $key => $val) {
+	    		//while (list ($key, $val) = each ($_POST["Condition"])) {
 	    			if ($val == "FirmCode" ) {
 	    				$this->SearchKeyword .= "Sec.".$val ." like '%".$_POST[$val."Keyword"]."%'";
 	    			}elseif ($val == "Total") {
@@ -369,7 +371,7 @@ class CLedger {
 	    	}
 			
 			
-			if (count($_POST['State']) > 0) {
+			if (is_array($_POST["State"]) && count($_POST['State']) > 0) {
 				if (strlen($this->SearchKeyword) == 0) $this->SearchKeyword .= " WHERE ";
 				else $this->SearchKeyword .= " AND (";
 
@@ -701,7 +703,7 @@ class CLedger {
 			$objWriter->save('php://output');
 		
     	}else {
-	        $PageIndex  = $_POST[CurrentPage];
+	        $PageIndex  = $_POST["CurrentPage"];
 	        
 	        if($PageIndex == "")
 	          $PageIndex = 1;
@@ -2526,7 +2528,8 @@ class CLedger {
 		fwrite($fp, "Log Time =>".date("Y/m/d H:i:s")."\n\r");
 		fwrite($fp, "SuccessURL =>".$URL."\n\r");
 		fwrite($fp, "SendPOST =>".Count($Query)."\n\r");
-		while (list ($key, $val) = each ($Query)) 
+		foreach($Query as $key => $val)
+		//while (list ($key, $val) = each ($Query)) 
 		{
 			fwrite($fp, "key =>".$key."  val=>".$val."\n\r");
 		};

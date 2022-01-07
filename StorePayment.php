@@ -89,6 +89,10 @@ try {
         throw new exception('店家交易編號重複');
     }
 
+	if ($_POST['ChoosePayment'] == "HiLife"){
+		$ErrCode = '9180011';
+        throw new exception('請傳入正確繳費超商代碼');
+	}
     switch ($_POST['ChoosePayment']) {
         case '711':
             $PaymentType = '3';
@@ -157,7 +161,8 @@ try {
         }
         if ($_Verified == false) {
             $FormHtml = '<form name="data" method="post">';
-            while (list ($key, $val) = each ($_POST)) 
+            foreach($_POST as $key => $val)
+            //while (list ($key, $val) = each ($_POST)) 
             {
                 $FormHtml .= '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
             };	
@@ -249,7 +254,8 @@ try {
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                     fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -269,7 +275,8 @@ try {
                     $fp = fopen('Log/711/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -329,7 +336,8 @@ try {
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                         fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -349,7 +357,8 @@ try {
                         $fp = fopen('Log/Lihuo/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -441,7 +450,8 @@ try {
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                         fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -461,7 +471,8 @@ try {
                         $fp = fopen('Log/Family/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -526,7 +537,8 @@ try {
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                     fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -546,7 +558,8 @@ try {
                     $fp = fopen('Log/BesPay/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -606,7 +619,8 @@ try {
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                         fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -626,7 +640,8 @@ try {
                         $fp = fopen('Log/Lihuo/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                        while (list ($key, $val) = each ($SendPOST)) 
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
                         {
                             fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                         };
@@ -688,7 +703,8 @@ try {
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                     fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -708,7 +724,8 @@ try {
                     $fp = fopen('Log/HiLife/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                   // while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -770,7 +787,8 @@ try {
                 fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                 fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                 fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                while (list ($key, $val) = each ($SendPOST)) 
+                foreach($SendPOST as $key => $val)
+                //while (list ($key, $val) = each ($SendPOST)) 
                 {
                     fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                 };
@@ -790,7 +808,8 @@ try {
                 $fp = fopen('Log/OKMart/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                 fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                 fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                while (list ($key, $val) = each ($SendPOST)) 
+                foreach($SendPOST as $key => $val)
+                //while (list ($key, $val) = each ($SendPOST)) 
                 {
                     fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                 };
@@ -1144,7 +1163,9 @@ function build_mysign($sort_array, $HashKey, $HashIV, $sign_type = 'MD5')
 function create_linkstring($array)
 {
     $arg = '';
-    while (list($key, $val) = each($array)) {
+    foreach($array as $key => $val)
+    {
+    //while (list($key, $val) = each($array)) {
         $arg .= $key.'='.$val.'&';
     }
     $arg = substr($arg, 0, count($arg) - 2);             //去掉最后一个&字符

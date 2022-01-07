@@ -157,7 +157,8 @@ try {
         }
         if ($_Verified == false) {
             $FormHtml = '<form name="data" method="post">';
-            while (list ($key, $val) = each ($_POST)) 
+            foreach($_POST as $key => $val)
+            //while (list ($key, $val) = each ($_POST)) 
             {
                 $FormHtml .= '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
             };	
@@ -410,7 +411,8 @@ EOF;
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                     fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -430,7 +432,8 @@ EOF;
                     $fp = fopen('Log/Family/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
-                    while (list ($key, $val) = each ($SendPOST)) 
+                    foreach($SendPOST as $key => $val)
+                    //while (list ($key, $val) = each ($SendPOST)) 
                     {
                         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
                     };
@@ -455,7 +458,9 @@ EOF;
             "VD_PINCODE"			=> $result->TX_WEB->AP->PIN_CODE,
         );
         $sHtml = "<form id='rongpaysubmit' name='rongpaysubmit' action='https://ecb.famiport.com.tw/familyec/barcode_guide2.aspx' method='POST'>";
-        while (list($key, $val) = each($parameter)) {
+        foreach($parameter as $key => $val)
+        {
+        //while (list($key, $val) = each($parameter)) {
             $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
         }
         

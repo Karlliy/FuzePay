@@ -30,7 +30,7 @@ class JSModule {
 	static function ErrorMessage($value, $url=""){ //
 		header("Content-type: text/html; charset=utf-8");
 		
-		$js .= "<script type='text/javascript' src='../jquery/jquery-1.11.0.js'></script>";	
+		$js .= "<script type='text/javascript' src='../jquery/jquery-3.6.0.min.js'></script>";	
 		$js .= "<script type='text/javascript' src='../box/jBox.min.js'></script>";	
 		$js .= "<script type='text/javascript' src='../box/jBox.js'></script>";	
 		$js .= "<link type='text/css' rel='stylesheet' href='../box/jBox.css'/>";	

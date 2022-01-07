@@ -11,7 +11,8 @@
 	//print_r($_POST);
 	$fp = fopen('Log/Fubon/Notify_LOG_'.date("YmdHi").'.txt', 'a');
 	fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-	while (list ($key, $val) = each ($_POST)) 
+	foreach($_POST as $key => $val)
+	//while (list ($key, $val) = each ($_POST)) 
 	{
 		fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 	};
@@ -216,7 +217,8 @@
 	function create_linkstring($array) 
 	{
 	    $arg  = "";
-	    while (list ($key, $val) = each ($array)) 
+	    foreach($array as $key => $val)
+	    //while (list ($key, $val) = each ($array)) 
 		{
 	        $arg.=$key."=".$val."&";
 	    }

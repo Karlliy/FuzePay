@@ -27,12 +27,14 @@
 		fwrite($fp, " ---------------- 開始php://input ----------------".PHP_EOL);
 		fwrite($fp, "XmlFile =>".iconv("big5", "UTF-8", $XmlFile).PHP_EOL);	
 		fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-		while (list ($key, $val) = each ($_POST)) 
+		foreach($_POST as $key => $val)
+		//while (list ($key, $val) = each ($_POST)) 
 		{
 			fwrite($fp, "key =>".$key."  val=>".iconv("big5", "UTF-8", $val).PHP_EOL);
 		};	
 		fwrite($fp, " ---------------- 開始GET ---------------- ".PHP_EOL);
-		while (list ($key, $val) = each ($_GET)) 
+		foreach($_GET as $key => $val)
+		//while (list ($key, $val) = each ($_GET)) 
 		{
 			fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 		};	
@@ -120,12 +122,14 @@
 		fwrite($fp, " ---------------- 開始php://input ----------------".PHP_EOL);
 		fwrite($fp, "XmlFile =>".iconv("big5", "UTF-8", $XmlFile).PHP_EOL);	
 		fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-		while (list ($key, $val) = each ($_POST)) 
+		foreach($_POST as $key => $val)
+		//while (list ($key, $val) = each ($_POST)) 
 		{
 			fwrite($fp, "key =>".$key."  val=>".iconv("big5", "UTF-8", $val).PHP_EOL);
 		};	
 		fwrite($fp, " ---------------- 開始GET ---------------- ".PHP_EOL);
-		while (list ($key, $val) = each ($_GET)) 
+		foreach($_GET as $key => $val)
+		//while (list ($key, $val) = each ($_GET)) 
 		{
 			fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
 		};
@@ -235,7 +239,9 @@
 						$fp = fopen('Log/OKMart/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
 						fwrite($fp, ' ---------------- Send_Notify開始 ---------------- '.PHP_EOL);
 						fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
-						while (list($key, $val) = each($SendPOST)) {
+						foreach($SendPOST as $key => $val)
+						{
+						//while (list($key, $val) = each($SendPOST)) {
 							fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
 						}
 						fwrite($fp, '$strReturn =>'.$strReturn.PHP_EOL);
@@ -246,7 +252,9 @@
 						$fp = fopen('Log/OKMart/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 						fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 						fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
-						while (list($key, $val) = each($SendPOST)) {
+						foreach($SendPOST as $key => $val)
+						{
+						//while (list($key, $val) = each($SendPOST)) {
 							fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
 						}
 						fwrite($fp, '$strReturn =>'.$e->getMessage().PHP_EOL);
@@ -369,7 +377,8 @@
 	function create_linkstring($array) 
 	{
 	    $arg  = "";
-	    while (list ($key, $val) = each ($array)) 
+	    foreach($array as $key => $val)
+	    //while (list ($key, $val) = each ($array)) 
 		{
 	        $arg.=$key."=".$val."&";
 	    }

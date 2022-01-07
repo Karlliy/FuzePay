@@ -9,7 +9,8 @@
 
     $fp = fopen('../Log/GASH/Notify_LOG_'.date("YmdHis").'.txt', 'a');
     fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-    while (list ($key, $val) = each ($_POST)) 
+    //while (list ($key, $val) = each ($_POST)) 
+    foreach($_POST as $key => $val)
     {
         fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
     };	
@@ -105,7 +106,9 @@
                         $fp = fopen('../Log/GASH/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
                         fwrite($fp, ' ---------------- Send_Notify開始 ---------------- '.PHP_EOL);
                         fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
-                        while (list($key, $val) = each($SendPOST)) {
+                        //while (list($key, $val) = each($SendPOST)) {
+                        foreach($SendPOST as $key => $val)
+                        {
                             fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
                         }
                         fwrite($fp, '$strReturn =>'.$strReturn.PHP_EOL);
@@ -115,7 +118,9 @@
                         $fp = fopen('../Log/GASH/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
                         fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
                         fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
-                        while (list($key, $val) = each($SendPOST)) {
+                        //while (list($key, $val) = each($SendPOST)) {
+                        foreach($SendPOST as $key => $val)
+                        {
                             fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
                         }
                         fwrite($fp, '$strReturn =>'.$e->getMessage().PHP_EOL);
@@ -131,7 +136,9 @@
                         $fp = fopen('../Log/GASH/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
                         fwrite($fp, ' ---------------- Send_Notify開始 ---------------- '.PHP_EOL);
                         fwrite($fp, 'NotifyURL =>'.$NotifyURL.PHP_EOL);
-                        while (list($key, $val) = each($SendPOST)) {
+                        //while (list($key, $val) = each($SendPOST)) {
+                        foreach($SendPOST as $key => $val)
+                        {
                             fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
                         }
                         fwrite($fp, '$strReturn =>'.$strReturn.PHP_EOL);
@@ -141,7 +148,9 @@
                         $fp = fopen('../Log/GASH/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
                         fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
                         fwrite($fp, 'NotifyURL =>'.$NotifyURL.PHP_EOL);
-                        while (list($key, $val) = each($SendPOST)) {
+                        //while (list($key, $val) = each($SendPOST)) {
+                        foreach($SendPOST as $key => $val)
+                        {
                             fwrite($fp, 'key =>'.$key.'  val=>'.$val.PHP_EOL);
                         }
                         fwrite($fp, '$strReturn =>'.$e->getMessage().PHP_EOL);

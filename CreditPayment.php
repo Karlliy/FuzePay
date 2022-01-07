@@ -121,7 +121,8 @@ try {
         }
         if ($_Verified == false) {
             $FormHtml = '<form name="data" method="post">';
-            while (list ($key, $val) = each ($_POST)) 
+            foreach($_POST as $key => $val)
+            //while (list ($key, $val) = each ($_POST)) 
             {
                 $FormHtml .= '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
             };
@@ -389,7 +390,8 @@ function build_mysign($sort_array, $HashKey, $HashIV, $sign_type = "MD5")
 function create_linkstring($array) 
 {
     $arg  = "";
-    while (list ($key, $val) = each ($array)) 
+    foreach($array as $key => $val)
+    //while (list ($key, $val) = each ($array)) 
 	{
         $arg.=$key."=".$val."&";
     }
