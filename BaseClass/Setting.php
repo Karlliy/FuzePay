@@ -16,7 +16,7 @@
 	define("Base_FAX", " ");
 	define("SMS_Mobile", "");
 	//define("SMS_Mobile", "0987123456,0931123456");
-	define("Receive_URL", "https://fuze-pay.com/");
+	define("Receive_URL", "https://pay.fueastpay.com/");
 	#國泰		
 	define("Cathay_Code", "4513");
 	#新光

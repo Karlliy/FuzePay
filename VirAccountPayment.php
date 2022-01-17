@@ -576,6 +576,12 @@ try {
         exit;
         
     }else if (is_numeric(mb_strpos($PaymentMode, "凱基", "0", "UTF-8"))) {
+
+        if (floatval($_POST["Amount"]) > 50000) {
+            $ErrCode = "9180016";
+            throw new exception("交易金額己大於50,000元交易額度");
+        }
+
         $passchars  = array('3','7','1','3','7','1','3','7','1','3','7','1','3');
         Again6:
         $WaterAccount =  str_pad(rand(0, 1000000), 6, '0', STR_PAD_LEFT);

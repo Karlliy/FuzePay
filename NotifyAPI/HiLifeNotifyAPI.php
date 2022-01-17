@@ -7,8 +7,11 @@
 	include_once("../BaseClass/CDbShell.php");
 	include_once("../BaseClass/CommonElement.php");
 
-	preg_match('/(\/)(\w+)$/', $_SERVER["UNENCODED_URL"], $_Searched);
+	preg_match('/(\/)(\w+)\?/', $_SERVER["UNENCODED_URL"], $_Searched);
 
+	$fp = fopen('../Log/HiLife/_LOG_'.date("YmdHis").'.txt', 'a');
+	fwrite($fp, "UNENCODED_URL =>".$_SERVER["UNENCODED_URL"].PHP_EOL);
+	fclose($fp);		
     //echo $_Searched[COUNT($_Searched)-1];
     //exit;
 
@@ -51,6 +54,7 @@
 					$Response .= "MMK_ID=".$_GET["MMK_ID"].PHP_EOL;
 					$Response .= "ORDER_NO=".$_GET["ORDER_NO"].PHP_EOL;
 					$Response .= "ACCOUNT=".PHP_EOL;
+					$Response .= "RESULT_CODE=1001".PHP_EOL;
 					$Response .= "RESULT=該代碼已繳費".PHP_EOL;
 					$Response .= "RECEIPT=1".PHP_EOL;
 					$Response .= "PRD_ITEM=".Simplify_Company.PHP_EOL;
@@ -67,7 +71,8 @@
 					$Response .= "MMK_ID=".$_GET["MMK_ID"].PHP_EOL;
 					$Response .= "ORDER_NO=".$_GET["ORDER_NO"].PHP_EOL;
 					$Response .= "ACCOUNT=".PHP_EOL;
-					$Response .= "RESULT=0000".PHP_EOL;
+					$Response .= "RESULT_CODE=0000".PHP_EOL;
+					$Response .= "RESULT=".PHP_EOL;
 					$Response .= "RECEIPT=1".PHP_EOL;
 					$Response .= "PRD_ITEM=".Simplify_Company.PHP_EOL;
 					$Response .= "PRD_NAME=".Simplify_Company."代收".PHP_EOL;
@@ -84,6 +89,7 @@
 				$Response .= "MMK_ID=".$_GET["MMK_ID"].PHP_EOL;
 				$Response .= "ORDER_NO=".$_GET["ORDER_NO"].PHP_EOL;
 				$Response .= "ACCOUNT=".PHP_EOL;
+				$Response .= "RESULT_CODE=1002".PHP_EOL;
 				$Response .= "RESULT=查無該代碼".PHP_EOL;
 				$Response .= "RECEIPT=1".PHP_EOL;
 				$Response .= "PRD_ITEM=".Simplify_Company.PHP_EOL;

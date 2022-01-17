@@ -2,14 +2,14 @@
 class CDbShell {
 	public static $magic = "on";
     public static $type = "mysql";
-    /*public static $host = "182.16.101.132"; //sql server hostname
+    /*public static $host = "127.0.0.1"; //sql server hostname
     public static $user = "fuzepay"; // username
     public static $pass = "?CFP@!]JF<=U[<6uCD}8"; // password
     public static $db 	= "fuzepay"; // database*/
 
-	public static $host = "127.0.0.1"; //sql server hostname
+	public static $host = "35.220.228.101"; //sql server hostname
     public static $user = "root"; // username
-    public static $pass = "12345"; // password
+    public static $pass = "1J8-C*aaV.QaXKf90T-+"; // password
     public static $db 	= "fuzepay"; // database
 
 	public static $dbh = 0;
@@ -45,8 +45,29 @@ class CDbShell {
 	}
 	// -----------------------------------------------------------------------------------
 	function __construct($db = '') {
+
+		!empty($_POST)     && self::Add_S($_POST);
+	    !empty($_GET)     	&& self::Add_S($_GET);
+	    !empty($_COOKIE) 	&& self::Add_S($_COOKIE);
+		!empty($_SESSION) 	&& self::Add_S($_SESSION);
+		
 		if($db) self::$db = $db;
 		if(!self::$dbh) self::connect();
+	}
+
+	static function Add_S(&$array) {
+	    if (is_array($array)) {
+	        foreach ($array as $key => $value) {
+	            if (!is_array($value)) {
+					$value = @addslashes($value);					
+					$value = htmlentities($value, ENT_QUOTES, 'UTF-8');
+					$value = filter_var($value, FILTER_SANITIZE_STRING);
+	                $array[$key] =  @htmlspecialchars($value,ENT_QUOTES);
+	            } else {
+	                self::Add_S($array[$key]);
+	            }
+	        }
+	    }
 	}
 	// -----------------------------------------------------------------------------------
 	static function Connect() {

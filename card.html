@@ -226,7 +226,7 @@
             <div class="order">
             </div>
             <p class="blue">輸入以下資訊</p>
-            <form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/VirAccountPayment.php">
+            <form id="form1" name="form1" method="post" action="https://pay.fueastpay.com/VirAccountPayment.php">
                 <!--<form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">-->
                 <div class="express_inner">
                     <input type="hidden" name="HashKey" id="HashKey" value="<?php echo $FirmRow["HashKey"]?>">
@@ -318,8 +318,8 @@
         </div>
     </div>
     <script type='text/javascript'>
-        var posturi = 'http://127.0.0.1/FuzePay/';
-        // var posturi = 'https://fuze-pay.com/';
+        // var posturi = 'http://127.0.0.1/FuzePay/';
+        var posturi = 'https://pay.fueastpay.com/';
     </script>
     <script type='text/javascript' src='card.js?v=4.4'></script>
 </body>
