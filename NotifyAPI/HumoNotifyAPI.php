@@ -7,7 +7,7 @@
 	include_once("../BaseClass/CDbShell.php");
 	include_once("../BaseClass/CommonElement.php");
 
-    $fp = fopen('../Log/BesPay/CheckCode_LOG_'.date("YmdHis").'.txt', 'a');
+    $fp = fopen('../Log/Humo/CheckCode_LOG_'.date("YmdHis").'.txt', 'a');
     fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
     foreach($_POST as $key => $val)
     //while (list ($key, $val) = each ($_POST)) 
@@ -18,7 +18,7 @@
     fwrite($fp, " ---------------- 開始php://input ----------------".PHP_EOL);
     fwrite($fp, "XmlFile =>".$XmlFile.PHP_EOL);	
     fclose($fp);
-    $Validate = MD5("ValidateKey=9TM87TPEK47&RtnCode=".$_POST["RtnCode"]."&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]);
+    $Validate = MD5("ValidateKey=N3VN8CA6CR&RtnCode=".$_POST["RtnCode"]."&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]);
         
     if (0 == strcmp($_POST['Validate'], $Validate)) {
         @CDbShell::connect();
@@ -39,10 +39,10 @@
 			$FCRow = CDbShell::fetch_array();
 		}else {
 			if ($_POST["Foreign"] == "Y") {
-				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND PF.Mode = '百適匯[國外卡]' LIMIT 1");  
+				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND PF.Mode = '幽默[國外卡]' LIMIT 1");  
 				$PaymentName = $FirmRow["PaymentName"]."[國外卡]";
 			}else {
-				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND PF.Mode = '百適匯' LIMIT 1");  
+				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND PF.Mode = '幽默' LIMIT 1");  
 				
 			}
 			$FCRow = CDbShell::fetch_array();
@@ -91,8 +91,8 @@
         }
 
         if ($_POST["RtnCode"] == "1") {
-            $field = array("PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-			$value = array( $PaymentName, $Period, $ClosingDate, $ExpectedRecordedDate, intval($_POST["Amount"]), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_POST["PayInfo"]);
+            $field = array("PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "Fee", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
+			$value = array( $PaymentName, $Period, $ClosingDate, $ExpectedRecordedDate, intval($_POST["Amount"]), $Fee, $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_POST["PayInfo"]);
 			CDbShell::update("ledger", $field, $value, "CashFlowID = '".$_POST["MerTradeID"]."'");
 
             if (CDbShell::affected_rows() == 1) {
@@ -114,7 +114,7 @@
 						try {
 							$strReturn = SockPost($SuccessURL, $SendPOST, $curlerror);
 
-							$fp = fopen('../Log/BesPay/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
+							$fp = fopen('../Log/Humo/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
 							fwrite($fp, ' ---------------- Send_Notify開始 ---------------- '.PHP_EOL);
 							fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
 							foreach($SendPOST as $key => $val) 
@@ -126,7 +126,7 @@
 							fwrite($fp, '$curlerror =>'.$curlerror.PHP_EOL);
 							fclose($fp);
 						} catch (Exception $e) {
-							$fp = fopen('../Log/BesPay/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
+							$fp = fopen('../Log/Humo/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 							fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 							fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
 							foreach($SendPOST as $key => $val) 
@@ -144,7 +144,7 @@
 						try {
 							$strReturn = SockPost($NotifyURL, $SendPOST, $curlerror);
 
-							$fp = fopen('../Log/BesPay/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
+							$fp = fopen('../Log/Humo/Send_Notify_LOG_'.date('YmdHi').'.txt', 'a');
 							fwrite($fp, ' ---------------- Send_Notify開始 ---------------- '.PHP_EOL);
 							fwrite($fp, 'NotifyURL =>'.$NotifyURL.PHP_EOL);
 							foreach($SendPOST as $key => $val) 
@@ -156,7 +156,7 @@
 							fwrite($fp, '$curlerror =>'.$curlerror.PHP_EOL);
 							fclose($fp);
 						} catch (Exception $e) {
-							$fp = fopen('../Log/BesPay/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
+							$fp = fopen('../Log/Humo/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 							fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 							fwrite($fp, 'NotifyURL =>'.$NotifyURL.PHP_EOL);
 							foreach($SendPOST as $key => $val) 
@@ -170,7 +170,7 @@
 						}
 					}
 				} else {
-					$fp = fopen('../Log/BesPay/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
+					$fp = fopen('../Log/Humo/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 					fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 					fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
 					fwrite($fp, '$strReturn => 回傳網址是空的'.PHP_EOL);
@@ -182,12 +182,12 @@
             }
         }
     }else {
-        $fp = fopen('../Log/BesPay/Err_LOG_'.date("YmdHis").'.txt', 'a');
+        $fp = fopen('../Log/Humo/Err_LOG_'.date("YmdHis").'.txt', 'a');
         fwrite($fp, " ---------------- 開始 ---------------- ".PHP_EOL);
         fwrite($fp, " Validate              >> ".$Validate .PHP_EOL);
         fwrite($fp, " \$_POST['Validate'] >> ". $_POST['Validate'] .PHP_EOL);
         fclose($fp);
-	}
+	}	
 	function SockPost($URL, $Query, &$curlerror){
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_URL, $URL);

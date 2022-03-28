@@ -20,7 +20,8 @@ if (strlen(trim($_POST["HashKey"])) < 10 || strlen(trim($_POST["HashIV"])) < 10)
     exit;
 }
 @CDbShell::connect();
-CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '" . $_POST["HashKey"] . "' AND BINARY HashIV = '" . $_POST["HashIV"] . "'");
+//CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '" . $_POST["HashKey"] . "' AND BINARY HashIV = '" . $_POST["HashIV"] . "'");
+CDbShell::query("SELECT * FROM Firm WHERE HashKey = '" . $_POST["HashKey"] . "' AND HashIV = '" . $_POST["HashIV"] . "'");
 if (CDbShell::num_rows() != 1) {
     echo "<center>錯誤：9180002</center>";
     exit;
@@ -96,7 +97,7 @@ try {
         throw new exception("請傳入商品名稱");
     }*/
     
-    CDbShell::query("SELECT * FROM Ledger WHERE FirmSno = " . $FirmRow["Sno"] . " AND MerTradeID = '" . trim($_POST["MerTradeID"]) . "'");
+    CDbShell::query("SELECT Sno FROM Ledger WHERE FirmSno = " . $FirmRow["Sno"] . " AND MerTradeID = '" . trim($_POST["MerTradeID"]) . "'");
     if (CDbShell::num_rows() >= 1) {
         $ErrCode = "9180009";
         throw new exception("店家交易編號重複");
@@ -212,8 +213,8 @@ try {
         $_POST['NotifyURL'],
         $_POST['TakeNumberURL']
     );
-    CDbShell::insert("ledger", $field, $value);
-    $LedgerId = CDbShell::insert_id();
+    //CDbShell::insert("ledger", $field, $value);
+    //$LedgerId = CDbShell::insert_id();
     if (is_numeric(mb_strpos($PaymentMode, "國泰", "0", "UTF-8"))) {
         
         if ($FirmRow["Sno"] == 65) {
@@ -348,7 +349,7 @@ try {
                 fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                 fclose($fp);
             }
-            if ($_POST['ReturnJosn'] == "Y") {
+            if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                 echo json_encode($SendPOST);
             }else {     
                 include("ATMPay.html");
@@ -465,7 +466,7 @@ try {
             fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
             fclose($fp);
         }
-        if ($_POST['ReturnJosn'] == "Y") {
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {     
             include("ATMPay.html");
@@ -568,7 +569,7 @@ try {
             fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
             fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
             fclose($fp);
-        }if ($_POST['ReturnJosn'] == "Y") {
+        }if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {     
             include("ATMPay.html");
@@ -702,7 +703,7 @@ try {
             fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
             fclose($fp);
         }
-        if ($_POST['ReturnJosn'] == "Y") {
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {            
             include("ATMPay.html");
@@ -751,7 +752,7 @@ try {
         $SendPOST["ExpireDatetime"] = $obj->ExpireTime ;
         $SendPOST["Validate"] = $Validate;
 
-        if ($_POST['ReturnJosn'] == "Y") {
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {
             include("ATMPay.html");
@@ -869,7 +870,7 @@ try {
         $MerProductID = $_POST['MerProductID'];
         $MerUserID    = $_POST['MerUserID'];
         $Amount       = $_POST['Amount'];
-        $VatmBankCode = "812 (中國信託)";
+        $VatmBankCode = "822 (中國信託)";
         $split        = "-";
         $VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 4);
         
@@ -882,7 +883,7 @@ try {
         $SendPOST["MerUserID"] = $_POST["MerUserID"];
 
         $SendPOST["BankName"] = "中國信託";
-        $SendPOST["VatmBankCode"] = "812";
+        $SendPOST["VatmBankCode"] = "822";
         $SendPOST["VatmAccount"] = $VatmAccount;
         $SendPOST["Amount"] = $_POST['Amount'];
         $SendPOST["ExpireDatetime"] = $ExpireDatetime ;
@@ -921,7 +922,7 @@ try {
             fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
             fclose($fp);
         }
-        if ($_POST['ReturnJosn'] == "Y") {
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {            
             include("ATMPay.html");
@@ -1016,7 +1017,7 @@ try {
                 catch (Exception $e) {
                     
                 }
-            }if ($_POST['ReturnJosn'] == "Y") {
+            }if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                 echo json_encode($SendPOST);
             }else {  
                 include("ATMPay.html");
@@ -1041,6 +1042,39 @@ try {
         $Response                        = json_decode(APIService("OrderCreate", $Service));*/
 
 
+    
+    }else if (is_numeric(mb_strpos($PaymentMode, "黑貓Pay", "0", "UTF-8"))) {
+        $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+
+        $parameter = array(	
+            "grant_type"        => "password",
+            "username"          => Ccat_ID,
+            "password"          => Ccat_Passwoed
+        );
+        //$strReturn = SockPost(Ccat_URL."/Token", http_build_query($parameter,'','&'), $curlerror);
+        $server_url = "https://4128888card.com.tw";
+        $token = get_token($server_url, "834385980001", "83438598Aa@");
+        var_dump($token);
+        $strReturn = SockPost("https://4128888card.com.tw//Token", "grant_type=password&username=834385980001&password=83438598Aa@", $curlerror);
+        var_dump($strReturn );
+        
+        $SendPOST = array(	
+            "cmd"		        => "CvsOrderAppend",
+            "cust_id"           => Ccat_ID,
+            "cust_order_no"     => $CashFlowID,
+            "order_amount"      => $_POST['Amount'],
+            "expire_date"       => $ExpireDatetime,      
+            "payer_name"        => "王大明",
+            "payer_postcode"    => "260",
+            "payer_address"	    => "宜蘭市中山路 111 號",
+            "payer_mobile"      => "0936123456",
+            "payer_email"       => "abc@abc.com",
+            "payment_type"		=> "1"
+        );
+
+        
+        //$strReturn = SockPost2(Ccat_URL."/api/Collect", json_encode($SendPOST), $curlerror);
+        //var_dump($strReturn );
     }else {
         throw new exception("虛擬帳戶未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
     }
@@ -1058,7 +1092,25 @@ catch (Exception $e) {
     }*/
     exit;
 }
-
+function get_token($server_url, $username, $password) {
+    $cl = curl_init("$server_url/token");
+    curl_setopt($cl, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt($cl, CURLOPT_SSLVERSION, 6); //TLS v1.2
+    curl_setopt($cl, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($cl, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-formurlencoded"));
+    curl_setopt($cl, CURLOPT_POST, true);
+    curl_setopt($cl, CURLOPT_POSTFIELDS,"grant_type=password&username=$username&password=$password");
+    $auth_response = curl_exec($cl);
+    if ($auth_response === false) {
+        echo "Failed to authenticate\n";
+        var_dump(curl_getinfo($cl));
+        curl_close($cl);
+        return NULL;
+    }
+    curl_close($cl);
+    return json_decode($auth_response, true);
+   }
+   
 function SockPost($URL, $Query, &$curlerror){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
@@ -1070,6 +1122,7 @@ function SockPost($URL, $Query, &$curlerror){
     if ($SSL) {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+        curl_setopt($ch, CURLOPT_SSLVERSION, 6); //TLS v1.2
     }
     $strReturn = curl_exec($ch);
     

@@ -16,7 +16,13 @@ try {
     $sql = "SELECT * FROM smscheck WHERE CheckCode = '".$_POST["VerifyCode"]."' AND Token = '' AND EffectiveTime >= '".date("Y-m-d H:i:s")."'";
     $result = CDbShell::query($sql);
     if (CDbShell::num_rows($result) == 1) {
+        Again:
         GetRandom(50, $_Token);
+        $sql = "SELECT RowId FROM smscheck WHERE Token = '".$_Token."'";
+        CDbShell::query($sql);
+        if (CDbShell::num_rows() > 0) {
+            goto Again;
+        }
 
         $sql = "UPDATE smscheck SET Token = '".$_Token."' WHERE CheckCode = '".$_POST["VerifyCode"]."' AND EffectiveTime >= '".date("Y-m-d H:i:s")."'";
         CDbShell::query($sql);

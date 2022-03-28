@@ -226,8 +226,8 @@
             <div class="order">
             </div>
             <p class="blue">輸入以下資訊</p>
-            <form id="form1" name="form1" method="post" action="https://pay.fueastpay.com/VirAccountPayment.php">
-                <!--<form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">-->
+            <!--<form id="form1" name="form1" method="post" action="https://fuzepay.info/VirAccountPayment.php">-->
+                <form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">
                 <div class="express_inner">
                     <input type="hidden" name="HashKey" id="HashKey" value="<?php echo $FirmRow["HashKey"]?>">
                     <input type="hidden" name="HashIV" id="HashIV" value="<?php echo $FirmRow["HashIV"]?>">
@@ -269,7 +269,7 @@
                         <li id="AmountLayout"> 
                             <span class="star">＊</span>
                             <label style="font-size: 22px;">交易金額(<span id="Currency">新台幣</span>) </label>
-                            <input name="Amount" type="number" placeholder="請填寫金額" id="Amount" min="5"
+                            <input name="Amount" type="number" placeholder="請填寫金額" id="Amount" min="1"
                                 onChange="document.getElementById('MerProductID').value = 'B'+this.value;">
                         </li>
                         <li id="ChoosePayment" style="display: none;">
@@ -280,7 +280,7 @@
                                 <option value="711">7-11</option>
                                 <option value="Family">全家</option>
                                 <option value="OK">OK</option>
-                                -<option value="HiLife">萊爾富</option>
+                                <option value="HiLife">萊爾富</option>
                             </select>
                         </li>
 
@@ -318,8 +318,8 @@
         </div>
     </div>
     <script type='text/javascript'>
-        // var posturi = 'http://127.0.0.1/FuzePay/';
-        var posturi = 'https://pay.fueastpay.com/';
+        var posturi = 'http://127.0.0.1/FuzePay/';
+        // var posturi = 'https://fuzepay.info/';
     </script>
     <script type='text/javascript' src='card.js?v=4.4'></script>
 </body>

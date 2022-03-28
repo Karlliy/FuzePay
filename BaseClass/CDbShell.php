@@ -2,15 +2,15 @@
 class CDbShell {
 	public static $magic = "on";
     public static $type = "mysql";
-    /*public static $host = "127.0.0.1"; //sql server hostname
-    public static $user = "fuzepay"; // username
-    public static $pass = "?CFP@!]JF<=U[<6uCD}8"; // password
-    public static $db 	= "fuzepay"; // database*/
+    public static $host = "127.0.0.1"; //sql server hostname
+    public static $user = "root"; // username
+    public static $pass = "12345"; // password
+    public static $db 	= "fuzepay"; // database
 
-	public static $host = "35.220.228.101"; //sql server hostname
+	/*public static $host = "35.220.228.101"; //sql server hostname
     public static $user = "root"; // username
     public static $pass = "1J8-C*aaV.QaXKf90T-+"; // password
-    public static $db 	= "fuzepay"; // database
+    public static $db 	= "fuzepay"; // database*/
 
 	public static $dbh = 0;
 	public static $rs = 0;

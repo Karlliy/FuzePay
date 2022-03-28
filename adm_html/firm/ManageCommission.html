@@ -95,7 +95,7 @@
                       <input type="submit" name="button" id="button" class="pull btn btn-info btn" value=" 搜 尋 " />
                       <?php if ((CSession::getVar("IsChild") == 0 || (CSession::getVar("IsChild") == 1 &&  array_search("FirmAdd", CSession::getVar("Purview")) != false)) && CSession::getVar("AdminLevel") <= 2) {?>
                       <div class="cnavbar" style="float:right;"> <span class="pull-right btn btn-info btn" rel="tooltip"
-                          title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER[" PHP_SELF "] ?>?func=Added');">
+                          title="更改搜尋條件" id="CaseReq" onclick="javascript:jBox2('<?php echo $_SERVER["PHP_SELF "] ?>?func=Added');">
                           <i class="icon-edit"></i> 新增廠商資料</span> </div>
                       <?php }?>
                     </div>

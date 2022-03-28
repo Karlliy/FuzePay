@@ -335,7 +335,7 @@ class CFirm {
 	    	$PageBar = self::showPageBar($_GET["ipage"], $Pages, "");
 	    	$Keyword = (strlen(trim($_POST["Keyword"])) > 0) ? $_POST["Keyword"] : $_GET["Keyword"];
 	    	if (strlen(trim($Keyword)) > 0 ) {
-	    		$this->SearchKeyword = " where (FirmCode like '%".$Keyword."%' or Name like '%".$Keyword."%' or ResponsiblePerson like '%".$Keyword."%')";
+	    		$this->SearchKeyword = " AND (F.FirmCode like '%".$Keyword."%' or F.Name like '%".$Keyword."%' or F.ResponsiblePerson like '%".$Keyword."%')";
 	    	}
 	    	
 	    	// $Result = CDbShell::query("SELECT * FROM $this->DB_Table ". $this->SearchKeyword ." ORDER BY Sno LIMIT ".$nowitem."," . $this->PageItems); 
@@ -375,7 +375,7 @@ class CFirm {
 	    	// }
 
 			CDbShell::query('SET @@group_concat_max_len = 1000000;');
-			$Result = CDbShell::query('SELECT F.Sno, F.Name, F.FirmCode, GROUP_CONCAT("<span style=font-weight:bold;>",PF.Kind,"(<font color=db8a00>", PF.Mode,"</font>)[<font color=#ff0080>手續費</font> <font color=blue>固定", FC.FixedFee ,"+", FC.FeeRatio,"%</font>]</span>" ORDER BY PF.Type) AS channel, F.Remark FROM firm AS F INNER JOIN firmcommission AS FC LEFT JOIN paymentflow AS PF ON F.Sno = FC.FirmSno AND FC.PaymentFlowSno = PF.Sno WHERE FC.Enable = 1 GROUP BY F.Sno ORDER BY F.Sno, PF.Type');
+			$Result = CDbShell::query('SELECT F.Sno, F.Name, F.FirmCode, GROUP_CONCAT("<span style=font-weight:bold;>",PF.Kind,"(<font color=db8a00>", PF.Mode,"</font>)[<font color=#ff0080>手續費</font> <font color=blue>固定", FC.FixedFee ,"+", FC.FeeRatio,"%</font>]</span>" ORDER BY PF.Type) AS channel, F.Remark FROM firm AS F INNER JOIN firmcommission AS FC LEFT JOIN paymentflow AS PF ON F.Sno = FC.FirmSno AND FC.PaymentFlowSno = PF.Sno WHERE FC.Enable = 1 '. $this->SearchKeyword .' GROUP BY F.Sno ORDER BY F.FirmCode, F.Sno, PF.Type');
 			
 			while ($Row = CDbShell::fetch_array($Result)) {
 

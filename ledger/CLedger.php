@@ -715,7 +715,8 @@ class CLedger {
 	        $realindex  = 0;
                   
 	    	while ($Row = CDbShell::fetch_array()) {
-	    		
+	    		if (CSession::getVar("FirmSno") == "93") $Row["Mobile"] = "******".substr($Row["Mobile"], -3);
+
 	    		if ($Row["State"] != -1 && $Row["State"] != -3 && $Row["State"] != -4 && $Row["ClosingTotal"] > 0) {
 		    		$SuccessCount++;
 		    		$SuccessAmount += $Row["ClosingTotal"];

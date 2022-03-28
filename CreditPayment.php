@@ -314,6 +314,30 @@ try {
         echo $sHtml;
         exit;
 
+	}else if (is_numeric(mb_strpos($PaymentMode, "幽默", "0", "UTF-8"))) {
+
+		$parameters = array(
+            "HashKey"		=> "6QTNNMD93JWQN4A6YAUXM96P9Y",
+            "HashIV"		=> "T7B6DYR5QC5MHS7E3KT9NK8J5K",	
+            "MerTradeID"	=> $CashFlowID,
+            "MerProductID"	=> $_POST['MerProductID'],
+            "MerUserID"     => $_POST['MerUserID'],
+            "Amount"        => $_POST["Amount"],
+        );
+
+		$sHtml = "<form id='rongpaysubmit' name='rongpaysubmit' action='https://humo-pay.com/Credit' method='POST'>";
+		foreach($parameters as $key => $val) {
+			//while (list($key, $val) = each($parameter)) {
+            $sHtml .= "<input type='hidden' name='" . $key . "' value='" . $val . "'/>";
+        }
+        
+        //submit按钮控件请不要含有name属性
+        $sHtml = $sHtml . "<input type='submit' value='付款' style='display:none'></form>";
+        $sHtml = $sHtml . "<script>document.forms['rongpaysubmit'].submit();</script>";
+        
+        echo $sHtml;
+        exit;
+
 	}else {
 		throw new exception("線上刷卡未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
 	}

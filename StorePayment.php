@@ -16,7 +16,8 @@ if (strlen(trim($_POST['HashKey'])) < 10 || strlen(trim($_POST['HashIV'])) < 10)
     exit;
 }
 @CDbShell::connect();
-CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '".$_POST['HashKey']."' AND BINARY HashIV = '".$_POST['HashIV']."'");
+//CDbShell::query("SELECT * FROM Firm WHERE BINARY HashKey = '".$_POST['HashKey']."' AND BINARY HashIV = '".$_POST['HashIV']."'");
+CDbShell::query("SELECT * FROM Firm WHERE HashKey = '".$_POST['HashKey']."' AND HashIV = '".$_POST['HashIV']."'");
 if (1 != CDbShell::num_rows()) {
     echo '<center>錯誤：9180002</center>';
     exit;
@@ -58,7 +59,7 @@ try {
         throw new exception('請傳入消費者ID，且消費者ID只能中文英文或數字組合');
     }
 
-    if (!is_numeric($_POST['Amount']) || intval($_POST['Amount']) < 35) {
+    if (!is_numeric($_POST['Amount']) || intval($_POST['Amount']) <= 0) {
         $ErrCode = '9180006';
         throw new exception('請傳入交易金額或金額小於35元');
     }
@@ -83,16 +84,16 @@ try {
         throw new exception('請傳入正確繳費超商代碼');
     }*/
 
-    CDbShell::query('SELECT * FROM Ledger WHERE FirmSno = '.$FirmRow['Sno']." AND MerTradeID = '".trim($_POST['MerTradeID'])."'");
+    CDbShell::query('SELECT Sno FROM Ledger WHERE FirmSno = '.$FirmRow['Sno']." AND MerTradeID = '".trim($_POST['MerTradeID'])."'");
     if (CDbShell::num_rows() >= 1) {
         $ErrCode = '9180009';
         throw new exception('店家交易編號重複');
     }
 
-	if ($_POST['ChoosePayment'] == "HiLife"){
+	/*if ($_POST['ChoosePayment'] == "HiLife"){
 		$ErrCode = '9180011';
         throw new exception('請傳入正確繳費超商代碼');
-	}
+	}*/
     switch ($_POST['ChoosePayment']) {
         case '711':
             $PaymentType = '3';
@@ -241,7 +242,7 @@ try {
             $SendPOST["CodeNo"] = $VatmAccount;
             $SendPOST['Validate'] = $Validate;
 
-            if ($_POST['ReturnJosn'] == "Y") {
+            if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                 echo json_encode($SendPOST);
             }else {
                 include("StorePayFor711.html");
@@ -323,7 +324,7 @@ try {
                 $SendPOST["CodeNo"] = $obj->payCode;
                 $SendPOST['Validate'] = $Validate;
         
-                if ($_POST['ReturnJosn'] == "Y") {
+                if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                     echo json_encode($SendPOST);
                 }else {
                     include("StorePayFor711.html");
@@ -392,7 +393,7 @@ try {
                     'HEADER' => array(
                         "XML_VER"   => "05.01",
                         "XML_FROM"  => "83438598",
-                        "TERMINO"   => "QKKUKKU",
+                        "TERMINO"   => "7KKVKKV",       //舊的QKKUKKU
                         "XML_TO"    => "99027",
                         "BUSINESS"  => "B000001",
                         "XML_DATE"  => DATE("Ymd"),
@@ -437,7 +438,7 @@ try {
                 $SendPOST["CodeNo"] = $result->TX_WEB->AP->PIN_CODE;
                 $SendPOST['Validate'] = $Validate;
     
-                if ($_POST['ReturnJosn'] == "Y") {
+                if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                     echo json_encode($SendPOST);
                 }else {
                     include("StorePayForFamily.html");
@@ -524,7 +525,7 @@ try {
             $SendPOST["CodeNo"] = $VatmAccount;
             $SendPOST['Validate'] = $Validate;
     
-            if ($_POST['ReturnJosn'] == "Y") {
+            if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                 echo json_encode($SendPOST);
             }else {
                 include("StorePayForFamily.html");
@@ -606,7 +607,7 @@ try {
                 $SendPOST["CodeNo"] = $obj->payCode;
                 $SendPOST['Validate'] = $Validate;
         
-                if ($_POST['ReturnJosn'] == "Y") {
+                if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                     echo json_encode($SendPOST);
                 }else {
                     include("StorePayForFamily.html");
@@ -664,8 +665,8 @@ try {
     }elseif ($_POST['ChoosePayment'] == "HiLife") {
         $_ExpireDate   = date('Y-m-d 23:59:59', strtotime(date('Ymd') . " +7 day"));
         Again4:
-            $Water = str_pad(rand(0, 1000000000), 9, '0', STR_PAD_LEFT);
-            $VatmAccount = "YAN".date("md").$Water;
+            $Water = str_pad(rand(0, 100000000), 8, '0', STR_PAD_LEFT);
+            $VatmAccount = "YAN".date("md")."3".$Water;
             $sql = "SELECT Sno FROM ledger WHERE VatmAccount = '" . $VatmAccount . "'";
             CDbShell::query($sql);
             if (CDbShell::num_rows() > 0) {
@@ -690,7 +691,7 @@ try {
             $SendPOST["CodeNo"] = $VatmAccount;
             $SendPOST['Validate'] = $Validate;
 
-            if ($_POST['ReturnJosn'] == "Y") {
+            if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
                 echo json_encode($SendPOST);
             }else {
                 include("StorePayForHiLife.html");
@@ -774,7 +775,7 @@ try {
         $SendPOST["CodeNo"] = $VatmAccount;
         $SendPOST['Validate'] = $Validate;
     
-        if ($_POST['ReturnJosn'] == "Y") {
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
             echo json_encode($SendPOST);
         }else {
             include("StorePay3.html");

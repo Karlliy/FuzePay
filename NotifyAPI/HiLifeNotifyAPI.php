@@ -123,8 +123,9 @@
 		fwrite($fp, "XmlFile =>".$XmlFile.PHP_EOL);	
 		fclose($fp);		
 		if (preg_match("/^(YAN)[0-9]{13,13}$/", $_GET["ORDER_NO"])) {
-			$_PaymentDate = date("Y-m-d H:i:s");
-
+			//$_PaymentDate = date("Y-m-d H:i:s");
+			$_PaymentDate = date("Y-m-d H:i:s", strtotime($_GET["PAY_DATE"].$_GET["PAY_TIME"]));
+	
 			@CDbShell::connect();
 			CDbShell::query("SELECT F.*, L.PaymentName, L.MerTradeID, L.MerProductID, L.MerUserID, L.Total, L.Fee, L.NotifyURL FROM Ledger AS L INNER JOIN Firm AS F ON L.FirmSno = F.Sno WHERE L.VatmAccount = '".$_GET["ORDER_NO"]."'"); 
 			$FirmRow = CDbShell::fetch_array();
@@ -161,7 +162,7 @@
 			$ExpectedRecordedDate = CommonElement::CountHoliday($ClosingDate, $FCRow["Day"], true);
 			
 			if (floatval($FCRow["FeeRatio"]) > 0){
-				$Fee = floatval($FirmRow['Total']) * floatval($FCRow["FeeRatio"] / 100);
+				$Fee = floatval($_GET["AMOUNT"]) * floatval($FCRow["FeeRatio"] / 100);
 			}
 			if ($FCRow["FixedFee"] != 0) {
 				$Fee = $Fee + $FCRow["FixedFee"];
@@ -180,8 +181,8 @@
 			}
 
 			//if ($xml->STATUS_CODE == "0000") {
-			$field = array("OrderID", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-			$value = array($_GET["TRANS_NO"], "超商繳款-[萊爾富]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($FirmRow['Total']), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", "");
+			$field = array("OrderID", "PaymentType", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
+			$value = array($_GET["TRANS_NO"], "6", "超商-萊爾富", "超商繳款-[萊爾富]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($_GET["AMOUNT"]), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_GET["SHOP_ID"]);
 			CDbShell::update("ledger", $field, $value, "VatmAccount = '".$_GET["ORDER_NO"]."'" );
 		
 			if (CDbShell::affected_rows() == 1) {
@@ -195,8 +196,8 @@
 				$Response .= "B_COUNT=0".PHP_EOL;
 				$Response .= "C_COUNT=0".PHP_EOL;
 				$Response .= "PRN_COUNT=0".PHP_EOL;                
-				$Response .= "AMOUNT=".$LRow["Total"].PHP_EOL;
-				$Response .= "PAY_AMOUNT=".$LRow["Total"].PHP_EOL;
+				$Response .= "AMOUNT=".$_GET["AMOUNT"].PHP_EOL;
+				$Response .= "PAY_AMOUNT=".$_GET["AMOUNT"].PHP_EOL;
 				$Response .= "PAY_KIND=2".PHP_EOL;
 				$Response .= "CARD_NO=".PHP_EOL;
 				$Response .= "CON_F=1".PHP_EOL;
@@ -211,8 +212,8 @@
 					$SendPOST['MerTradeID'] = $FirmRow['MerTradeID'];
 					$SendPOST['MerProductID'] = $FirmRow['MerProductID'];
 					$SendPOST['MerUserID'] = $FirmRow['MerUserID'];
-					$SendPOST['PayInfo'] = "";
-					$SendPOST['Amount'] = intval($LRow["Total"]);
+					$SendPOST['PayInfo'] = $_GET["SHOP_ID"];
+					$SendPOST['Amount'] = intval($_GET["AMOUNT"]);
 					$SendPOST['PaymentDate'] = $_PaymentDate;
 					$SendPOST['Validate'] = $Validate;
 					if ($SuccessURL != '') {							
@@ -292,8 +293,8 @@
 				$Response .= "B_COUNT=0".PHP_EOL;
 				$Response .= "C_COUNT=0".PHP_EOL;
 				$Response .= "PRN_COUNT=0".PHP_EOL;                
-				$Response .= "AMOUNT=".$LRow["Total"].PHP_EOL;
-				$Response .= "PAY_AMOUNT=".$LRow["Total"].PHP_EOL;
+				$Response .= "AMOUNT=".$_GET["AMOUNT"].PHP_EOL;
+				$Response .= "PAY_AMOUNT=".$_GET["AMOUNT"].PHP_EOL;
 				$Response .= "PAY_KIND=2".PHP_EOL;
 				$Response .= "CARD_NO=".PHP_EOL;
 				$Response .= "CON_F=0".PHP_EOL;
