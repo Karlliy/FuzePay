@@ -9,8 +9,8 @@ include_once("BaseClass/CDbShell.php");
 
 for ($i = 0; $i < $_GET['q']; $i++) {
     Again3:
-    $WaterAccount = date('md', strtotime($ExpireDatetime)) . str_pad(rand(0, 100000), 5, '0', STR_PAD_LEFT);
-
+    //$WaterAccount = date('md', strtotime($ExpireDatetime)) . str_pad(rand(0, 100000), 5, '0', STR_PAD_LEFT);
+    $WaterAccount = $_GET['fs'] . str_pad(rand(0, 100000), 6, '0', STR_PAD_LEFT);
     $InitialAccount = TCBBank_Code . $WaterAccount;
 
     $chars          = str_split($InitialAccount);
@@ -44,6 +44,6 @@ for ($i = 0; $i < $_GET['q']; $i++) {
         goto Again3;
     }
 
-    echo "<pre/>";
+    echo "<br/>";
     echo $VatmAccount;
 }

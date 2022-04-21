@@ -292,6 +292,114 @@ try {
                 fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
                 fclose($fp);
             }
+        }else if ($PaymentMode == "黑貓7-11") {
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+
+            $parameter = array(	
+                "grant_type"        => "password",
+                "username"          => Ccat_ID,
+                "password"          => Ccat_Passwoed
+            );
+            $strReturn = SockPost(Ccat_URL."/Token", http_build_query($parameter,'','&'), $curlerror);
+
+            $Data = json_decode($strReturn);
+            $_token = $Data->access_token;
+
+            $SendPOST = array(	
+                "cmd"		        => "CvsOrderAppend",
+                "cust_id"           => Ccat_ID,
+                "cust_order_no"     => $CashFlowID,
+                "order_amount"      => $_POST['Amount'],
+                "expire_date"       => $ExpireDatetime,      
+                "payer_name"        => "揚盛有限公司",
+                //"payer_postcode"    => "260",
+                "payer_address"	    => "台北市信義區信義路5段7號37樓",
+                //"payer_mobile"      => "0989455428",
+                "payer_mobile"      => "0277533533",
+                "payer_email"       => "abc@abc.com",
+                "payment_type"		=> "0"
+            );
+
+            
+            $strReturn = SockPost3(Ccat_URL."/api/Collect", json_encode($SendPOST), $_token, $curlerror);
+            //var_dump($strReturn );
+            //echo $strReturn;
+
+            $Obj = json_decode($strReturn);
+
+            if ($Obj->status == "OK") {
+
+                $VatmAccount = $Obj->ibon_shopid.$Obj->ibon_code;
+
+                $field = array('VatmAccount', 'ExpireDatetime');
+                $value = array($VatmAccount, $_ExpireDate);
+                CDbShell::update('ledger', $field, $value, "Sno = '".$LedgerId."'");
+
+                $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+                    
+                $SendPOST['RtnCode'] = '1';
+                $SendPOST['RtnMessage'] = '取號成功';
+                $SendPOST['MerTradeID'] = $_POST['MerTradeID'];
+                $SendPOST['MerProductID'] = $_POST['MerProductID'];
+                $SendPOST['MerUserID'] = $_POST['MerUserID'];
+
+                $SendPOST['Amount'] = intval($_POST['Amount']);
+                $SendPOST['ExpireDatetime'] = $_ExpireDate;
+                $SendPOST['Store'] = "711";
+                $SendPOST["CodeNo"] = $VatmAccount;
+                $SendPOST['Validate'] = $Validate;
+
+                if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
+                    echo json_encode($SendPOST);
+                }else {
+                    include("StorePayFor711.html");
+                }
+
+                if ($TakeNumberURL != '' || $_POST['TakeNumberURL'] != '') {
+                        
+                    try {
+                        $fp = fopen('Log/711/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                        fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                        fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                        fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
+                        {
+                            fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                        };
+                        
+                        if ($TakeNumberURL != '') {
+                            $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                        }
+                        if ($_POST['TakeNumberURL'] != '') {
+                            $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
+                        }
+                        
+                        fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                        fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                        fclose($fp);
+                    } catch (Exception $e) {
+            
+                        $fp = fopen('Log/711/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                        fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                        fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
+                        foreach($SendPOST as $key => $val)
+                        //while (list ($key, $val) = each ($SendPOST)) 
+                        {
+                            fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
+                        };
+                        fwrite($fp, "\$strReturn =>".$e->getMessage().PHP_EOL);
+                        fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                        fclose($fp);
+                    }
+                }else {
+                    $fp = fopen('Log/711/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
+                    fclose($fp);
+                }
+            }
         }else {
             $parameters = array(
                 "merchantNo"		=> Lihuo_Id,
@@ -1113,6 +1221,35 @@ function SockPost($URL, $Query, &$curlerror){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
     curl_setopt($ch, CURLOPT_HEADER, false);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $Query);
+    $SSL = (substr($URL, 0, 8) == "https://" ? true : false); 
+    if ($SSL) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    }
+    $strReturn = curl_exec($ch);
+    
+    if(curl_errno($ch)){
+        $curlerror = "Request Error(".curl_errno($ch)."):" . curl_error($ch) ;
+    }else {
+        $curlerror = "Request OK(".curl_errno($ch)."):" . curl_error($ch);
+    }
+    
+    curl_close ($ch);
+    
+    return $strReturn;
+    
+}
+
+function SockPost3($URL, $Query, $token, &$curlerror){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    $authorization = "Authorization: Bearer ".$token; // Prepare the authorisation token
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization )); // Inject the token into the header
+    //curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json; charset=utf-8"));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
     curl_setopt($ch, CURLOPT_POST, 1);
     curl_setopt($ch, CURLOPT_POSTFIELDS, $Query);

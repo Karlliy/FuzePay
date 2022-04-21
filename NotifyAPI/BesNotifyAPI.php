@@ -91,8 +91,8 @@
         }
 
         if ($_POST["RtnCode"] == "1") {
-            $field = array("PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-			$value = array( $PaymentName, $Period, $ClosingDate, $ExpectedRecordedDate, intval($_POST["Amount"]), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_POST["PayInfo"]);
+            $field = array("PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "Fee", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
+			$value = array( $PaymentName, $Period, $ClosingDate, $ExpectedRecordedDate, intval($_POST["Amount"]), $Fee, $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_POST["PayInfo"]);
 			CDbShell::update("ledger", $field, $value, "CashFlowID = '".$_POST["MerTradeID"]."'");
 
             if (CDbShell::affected_rows() == 1) {

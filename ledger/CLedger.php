@@ -527,7 +527,7 @@ class CLedger {
 			$objPHPExcel->getActiveSheet()->getRowDimension(1)->setRowHeight(25);
 			$row_index = 3;
 			
-			$objPHPExcel->getActiveSheet()->getCell("A2")->setValue("授權單號\n交易編號");
+			$objPHPExcel->getActiveSheet()->getCell("A2")->setValue("訂單編號\n授權單號\n交易編號");
 			$objPHPExcel->getActiveSheet()->getStyle("A2")->getAlignment()->setWrapText(true); 
 			$objPHPExcel->getActiveSheet()->getCell("B2")->setValue("交易日期");
 			$objPHPExcel->getActiveSheet()->getCell("C2")->setValue("付款管道");
@@ -646,7 +646,7 @@ class CLedger {
 	    			$Row["_Fee"] = 0;
 	    		}
 	    		
-				$objPHPExcel->getActiveSheet()->getCell("A{$row_index}")->setValueExplicit($Row["AuthorizeNumber"]."\n".$Row["OrderID"] , PHPExcel_Cell_DataType::TYPE_STRING);
+				$objPHPExcel->getActiveSheet()->getCell("A{$row_index}")->setValueExplicit($Row["CashFlowID"]."\n".$Row["AuthorizeNumber"]."\n".$Row["OrderID"] , PHPExcel_Cell_DataType::TYPE_STRING);
 				$objPHPExcel->getActiveSheet()->getStyle("A{$row_index}")->getAlignment()->setWrapText(true); 
 				$objPHPExcel->getActiveSheet()->getCell("B{$row_index}")->setValueExplicit($Row["LedgerDate"] , PHPExcel_Cell_DataType::TYPE_STRING);
 				$objPHPExcel->getActiveSheet()->getCell("C{$row_index}")->setValueExplicit($Row["PaymentCode"], PHPExcel_Cell_DataType::TYPE_STRING);
@@ -670,7 +670,7 @@ class CLedger {
 				$row_index++;
 			}
 			
-			$objPHPExcel->getActiveSheet()->getColumnDimension("A")->setWidth(20);
+			$objPHPExcel->getActiveSheet()->getColumnDimension("A")->setWidth(30);
 	    	$objPHPExcel->getActiveSheet()->getColumnDimension("B")->setWidth(25);
 	    	$objPHPExcel->getActiveSheet()->getColumnDimension("C")->setWidth(20);
 	    	$objPHPExcel->getActiveSheet()->getColumnDimension("D")->setWidth(10);
@@ -1603,6 +1603,12 @@ class CLedger {
 						$_arrange = " ORDER BY Chief.Period, Chief.FirmSno DESC";
 						break;
 				}
+			}else {
+				if (strlen($this->SearchKeyword) == 0) $this->SearchKeyword .= " WHERE ";
+	    		else $this->SearchKeyword .= " AND ";
+
+				$this->SearchKeyword = " WHERE Chief.ExpectedRecordedDate >= '".Date("Y-m-d")."'";
+				$_arrange = " ORDER BY Chief.ExpectedRecordedDate, Chief.FirmSno DESC, Chief.Period ";
 			}
 			
 			if ($AdminLevel == 3) {
@@ -1824,6 +1830,10 @@ class CLedger {
 				//else $this->SearchKeyword = " WHERE ";
 					
 				$this->SearchKeyword .= " AND Chief.State = " . $_POST["State"];
+			}
+
+			if (strlen($this->SearchKeyword) == 0) {
+				$this->SearchKeyword .= " AND Chief.ExpectedRecordedDate >= '".Date("Y-m-d")."'";
 			}
 			
 			if ($AdminLevel == 3) {

@@ -213,8 +213,8 @@ try {
         $_POST['NotifyURL'],
         $_POST['TakeNumberURL']
     );
-    //CDbShell::insert("ledger", $field, $value);
-    //$LedgerId = CDbShell::insert_id();
+    CDbShell::insert("ledger", $field, $value);
+    $LedgerId = CDbShell::insert_id();
     if (is_numeric(mb_strpos($PaymentMode, "國泰", "0", "UTF-8"))) {
         
         if ($FirmRow["Sno"] == 65) {
@@ -1042,7 +1042,6 @@ try {
         $Response                        = json_decode(APIService("OrderCreate", $Service));*/
 
 
-    
     }else if (is_numeric(mb_strpos($PaymentMode, "黑貓Pay", "0", "UTF-8"))) {
         $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
 
@@ -1051,30 +1050,89 @@ try {
             "username"          => Ccat_ID,
             "password"          => Ccat_Passwoed
         );
-        //$strReturn = SockPost(Ccat_URL."/Token", http_build_query($parameter,'','&'), $curlerror);
-        $server_url = "https://4128888card.com.tw";
-        $token = get_token($server_url, "834385980001", "83438598Aa@");
-        var_dump($token);
-        $strReturn = SockPost("https://4128888card.com.tw//Token", "grant_type=password&username=834385980001&password=83438598Aa@", $curlerror);
-        var_dump($strReturn );
+        $strReturn = SockPost(Ccat_URL."/Token", http_build_query($parameter,'','&'), $curlerror);
+        // $server_url = "https://4128888card.com.tw/";
+        // $token = get_token($server_url, "834385980001", "83438598Aa@");
+        // var_dump($token);
+        // $strReturn = SockPost("https://4128888card.com.tw//Token", "grant_type=password&username=834385980001&password=83438598Aa@", $curlerror);
+        //var_dump($strReturn );
         
+        $Data = json_decode($strReturn);
+        $_token = $Data->access_token;
+
         $SendPOST = array(	
             "cmd"		        => "CvsOrderAppend",
             "cust_id"           => Ccat_ID,
             "cust_order_no"     => $CashFlowID,
             "order_amount"      => $_POST['Amount'],
             "expire_date"       => $ExpireDatetime,      
-            "payer_name"        => "王大明",
-            "payer_postcode"    => "260",
-            "payer_address"	    => "宜蘭市中山路 111 號",
-            "payer_mobile"      => "0936123456",
+            "payer_name"        => "揚盛有限公司",
+            //"payer_postcode"    => "260",
+            "payer_address"	    => "台北市信義區信義路5段7號37樓",
+            "payer_mobile"      => "0277533533",
             "payer_email"       => "abc@abc.com",
             "payment_type"		=> "1"
         );
 
         
-        //$strReturn = SockPost2(Ccat_URL."/api/Collect", json_encode($SendPOST), $curlerror);
+        $strReturn = SockPost3(Ccat_URL."/api/Collect", json_encode($SendPOST), $_token, $curlerror);
         //var_dump($strReturn );
+        //echo $strReturn;
+
+        $Obj = json_decode($strReturn);
+
+        if ($Obj->status == "OK") {
+            $field = array("VatmAccount");
+		    $value = array($Obj->virtual_account);
+		    CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
+
+            $VatmAccount = $Obj->virtual_account;
+            $VatmBankCode = '808';
+            $OrderNo      = $CashFlowID;
+            $MerProductID = $_POST['MerProductID'];
+            $MerUserID    = $_POST['MerUserID'];
+            $Amount       = $_POST['Amount'];
+
+            $split        = "-";
+            $VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 2);
+                    
+            if (strlen(trim($TakeNumberURL)) != 0 || strlen(trim($_POST['TakeNumberURL'])) != 0) {
+                $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+        
+                $SendPOST["RtnCode"]      = "1";
+                $SendPOST["RtnMessage"]   = "取號成功";
+                $SendPOST["MerTradeID"]   = $_POST["MerTradeID"];
+                $SendPOST["MerProductID"] = $_POST["MerProductID"];
+                $SendPOST["MerUserID"]    = $_POST["MerUserID"];
+                
+                $SendPOST["Amount"]       = $_POST['Amount'];
+                $SendPOST["ExpireTime"]   = $ExpireDatetime;
+                $SendPOST["BankName"]     = "玉山銀行";
+                $SendPOST["VatmBankCode"] = $VatmBankCode;
+                $SendPOST["VatmAccount"]  = $VatmAccount;
+                $SendPOST["Validate"]     = $Validate;
+                try {
+                    if ($TakeNumberURL != '') {
+                        $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);
+                    }
+                    if ($_POST['TakeNumberURL'] != '') {
+                        $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);
+                    }
+                }
+                catch (Exception $e) {
+                    
+                }
+            }if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
+                echo json_encode($SendPOST);
+            }else {  
+                include("ATMPay.html");
+            }
+
+
+        }else {
+            echo $Obj->msg;
+        }
+    
     }else {
         throw new exception("虛擬帳戶未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
     }
@@ -1092,25 +1150,7 @@ catch (Exception $e) {
     }*/
     exit;
 }
-function get_token($server_url, $username, $password) {
-    $cl = curl_init("$server_url/token");
-    curl_setopt($cl, CURLOPT_SSL_VERIFYPEER, 0);
-    curl_setopt($cl, CURLOPT_SSLVERSION, 6); //TLS v1.2
-    curl_setopt($cl, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($cl, CURLOPT_HTTPHEADER, array("Content-Type: application/x-www-formurlencoded"));
-    curl_setopt($cl, CURLOPT_POST, true);
-    curl_setopt($cl, CURLOPT_POSTFIELDS,"grant_type=password&username=$username&password=$password");
-    $auth_response = curl_exec($cl);
-    if ($auth_response === false) {
-        echo "Failed to authenticate\n";
-        var_dump(curl_getinfo($cl));
-        curl_close($cl);
-        return NULL;
-    }
-    curl_close($cl);
-    return json_decode($auth_response, true);
-   }
-   
+
 function SockPost($URL, $Query, &$curlerror){
     $ch = curl_init();
     curl_setopt($ch, CURLOPT_URL, $URL);
@@ -1122,7 +1162,6 @@ function SockPost($URL, $Query, &$curlerror){
     if ($SSL) {
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
-        curl_setopt($ch, CURLOPT_SSLVERSION, 6); //TLS v1.2
     }
     $strReturn = curl_exec($ch);
     
@@ -1164,6 +1203,34 @@ function SockPost2($URL, $Query, &$curlerror){
     
 }
 
+function SockPost3($URL, $Query, $token, &$curlerror){
+    $ch = curl_init();
+    curl_setopt($ch, CURLOPT_URL, $URL);
+    curl_setopt($ch, CURLOPT_HEADER, false);
+    $authorization = "Authorization: Bearer ".$token; // Prepare the authorisation token
+    curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json' , $authorization )); // Inject the token into the header
+    //curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-type: application/json; charset=utf-8"));
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER,true);
+    curl_setopt($ch, CURLOPT_POST, 1);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $Query);
+    $SSL = (substr($URL, 0, 8) == "https://" ? true : false); 
+    if ($SSL) {
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+    }
+    $strReturn = curl_exec($ch);
+    
+    if(curl_errno($ch)){
+        $curlerror = "Request Error(".curl_errno($ch)."):" . curl_error($ch) ;
+    }else {
+        $curlerror = "Request OK(".curl_errno($ch)."):" . curl_error($ch);
+    }
+    
+    curl_close ($ch);
+    
+    return $strReturn;
+    
+}
 //取得 Hash ID 計算方法
 function getHashID(){
 

@@ -30,7 +30,7 @@ if (strlen(trim($_POST["MerTradeID"])) == 0) {
 
 try {
 	
-	CDbShell::query("SELECT L.* FROM Ledger AS L INNER JOIN Firm AS F ON F.Sno = L.FirmSno WHERE BINARY HashKey = '".$_POST["HashKey"]."' AND BINARY HashIV = '".$_POST["HashIV"]."' AND L.MerTradeID = '".$_POST["MerTradeID"]."'"); 	
+	CDbShell::query("SELECT L.* FROM Ledger AS L INNER JOIN Firm AS F ON F.Sno = L.FirmSno WHERE HashKey = '".$_POST["HashKey"]."' AND BINARY HashIV = '".$_POST["HashIV"]."' AND L.MerTradeID = '".$_POST["MerTradeID"]."'"); 	
 	if (CDbShell::num_rows() == 0) {
 		$ErrCode = "7030004";
 		throw new exception("查詢不到店家交易編號資料");
@@ -45,25 +45,31 @@ try {
 	
 	switch ($LedgerRow["State"]) {
 		case "-3":
+			$TradeState = "-3";
 			$RtnMessage = "已退款";
 			break;
 		case "-2":
+			$TradeState = "-2";
 			$RtnMessage = "退款處理中";
 			break;
-		case -1:
+		case "-1":
+			$TradeState = "-1";
 			$RtnMessage = "未完成交易";
 			break;
 		case "0":
 		case "1":
+			$TradeState = "1";
 			$RtnMessage = $LedgerRow["ResultMesg"];
 			break;
 		case "2":
+			$TradeState = "-1";
 			$RtnMessage = "未入款[".$LedgerRow["ResultMesg"]."]";
 			break;
 	}
 	$parameter = array(
 		"RtnCode"				=> $RtnCode,
 		"RtnMessage"			=> $RtnMessage,
+		"TradeState"			=> $TradeState,
 		"MerTradeID"			=> $LedgerRow["MerTradeID"],
 		"MerProductID"			=> $LedgerRow["MerProductID"],
 		"MerUserID"				=> $LedgerRow["MerUserID"],
@@ -72,7 +78,7 @@ try {
 		"PaymentDate"			=> $LedgerRow["PaymentDate"]
 	);	
 	
-	echo json_encode($parameter);
+	echo json_encode($parameter, JSON_UNESCAPED_UNICODE );
 	exit;
 } catch(Exception $e) {
 	echo "<center>錯誤：".$ErrCode."(".$e->getMessage().")</center>";

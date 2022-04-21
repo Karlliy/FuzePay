@@ -142,39 +142,39 @@ try {
 	}else {
 		CDbShell::query("SELECT PF.Mode FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '1' AND PF.Kind = '信用卡' AND FC.Enable = 1 LIMIT 1"); 
 	}*/
-	CDbShell::query("SELECT PF.Kind, PF.Mode FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 LIMIT 1"); 
+	// CDbShell::query("SELECT PF.Kind, PF.Mode FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 LIMIT 1"); 
+	// $PayModeRow = CDbShell::fetch_array();
+	// $PaymentMode = $PayModeRow["Mode"];
+
+	CDbShell::query("SELECT FC.*, PF.Kind, PF.Mode FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
 	$PayModeRow = CDbShell::fetch_array();
-	$PaymentMode = $PayModeRow["Mode"];
+	if (CDbShell::num_rows() >= 1) {
+		$PaymentMode = $PayModeRow["Mode"];
 
-	CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND FC.Enable = 1 AND (FC.FeeRatio > 0 OR FC.FixedFee) LIMIT 1"); 
-		$Row = CDbShell::fetch_array();
-		if (CDbShell::num_rows() >= 1) {
-			$PaymentMode = $PayModeRow["Mode"];
-
-			$PaymentName = $PayModeRow["Kind"] . "-". $PayModeRow["Mode"];
-			$Fee = 0;
-			if (floatval($PayModeRow["FeeRatio"]) > 0){
-				$Fee = floatval($_POST['Amount']) * floatval($PayModeRow["FeeRatio"] / 100);
-			}
-			if ($PayModeRow["FixedFee"] != 0) {
-				$Fee = $Fee + $PayModeRow["FixedFee"];
-			} 
-				
-			if (is_numeric($PayModeRow["MinFee"]) && $PayModeRow["MinFee"] > 0) {
-				
-				if ($Fee < floatval($PayModeRow["MinFee"]))
-					$Fee = $PayModeRow["MinFee"];
-			}
-			
-			if (is_numeric($PayModeRow["MaxFee"]) && $PayModeRow["MaxFee"] > 0) {
-				
-				if ($Fee > floatval($PayModeRow["MaxFee"]))
-					$Fee = $PayModeRow["MaxFee"];
-			}
-		}else {
-			$ErrCode = "9180010";
-			throw new exception("未設定系統介接或此金流已被關閉，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
+		$PaymentName = $PayModeRow["Kind"] . "-". $PayModeRow["Mode"];
+		$Fee = 0;
+		if (floatval($PayModeRow["FeeRatio"]) > 0){
+			$Fee = floatval($_POST['Amount']) * floatval($PayModeRow["FeeRatio"] / 100);
 		}
+		if ($PayModeRow["FixedFee"] != 0) {
+			$Fee = $Fee + $PayModeRow["FixedFee"];
+		} 
+			
+		if (is_numeric($PayModeRow["MinFee"]) && $PayModeRow["MinFee"] > 0) {
+			
+			if ($Fee < floatval($PayModeRow["MinFee"]))
+				$Fee = $PayModeRow["MinFee"];
+		}
+		
+		if (is_numeric($PayModeRow["MaxFee"]) && $PayModeRow["MaxFee"] > 0) {
+			
+			if ($Fee > floatval($PayModeRow["MaxFee"]))
+				$Fee = $PayModeRow["MaxFee"];
+		}
+	}else {
+		$ErrCode = "9180010";
+		throw new exception("未設定系統介接或此金流已被關閉，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
+	}
 	    
 	    $ValidDate = date('Y-m-d', strtotime(date('Y-m-d') . " +20 day"));
 		/*switch ($Row["Closing"]) {
@@ -204,8 +204,8 @@ try {
 		}
 	
 		//$CashFlowID = "21060318371780499593";
-		$field = array("FirmSno", "CashFlowID", "MerTradeID", "MerProductID", "MerUserID", "PaymentType", "PaymentName", "Total", "Fee", "ValidDate", "IP", "FeeRatio", "State");
-		$value = array($FirmRow["Sno"], $CashFlowID, $_POST['MerTradeID'], $_POST['MerProductID'], $_POST['MerUserID'], "7", $PaymentName, $_POST['Amount'], $Fee, $ValidDate, $myip, $FirmRow["FeeRatio"], "-1");
+		$field = array("FirmSno", "CashFlowID", "MerTradeID", "MerProductID", "MerUserID", "PaymentType", "PaymentName", "Total", "Fee", "ValidDate", "IP", "FeeRatio", "State", 'NotifyURL', 'TakeNumberURL');
+		$value = array($FirmRow["Sno"], $CashFlowID, $_POST['MerTradeID'], $_POST['MerProductID'], $_POST['MerUserID'], "7", $PaymentName, $_POST['Amount'], $Fee, $ValidDate, $myip, $FirmRow["FeeRatio"], "-1", $_POST['NotifyURL'], $_POST['TakeNumberURL']);
 		CDbShell::insert("ledger", $field, $value);
 	
 	if ($PaymentMode == "GASH") {  

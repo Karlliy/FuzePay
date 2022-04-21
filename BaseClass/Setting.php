@@ -77,8 +77,8 @@
 	define('Seven_URL', "http://61.57.234.95/CPMobiService/CPMOBI_PayService.asmx?wsdl");
 
 	#黑貓Pay
-	define('Ccat_URL', "http://test.4128888card.com.tw/app");
-	#define('Ccat_URL', "https://4128888card.com.tw/");
+	#define('Ccat_URL', "http://test.4128888card.com.tw/app");
+	define('Ccat_URL', "https://4128888card.com.tw");
 	define('Ccat_ID', "834385980001");
-	define('Ccat_Passwoed', "A4105685P^");
+	define('Ccat_Passwoed', "83438598Aa@");
 ?>
