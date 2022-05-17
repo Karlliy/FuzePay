@@ -219,13 +219,22 @@
                                     <input name='MerUserIDKeyword' type='text' class="form-control" id="FirmCodeKeyword"
                                         placeholder="" style="width:100px;"
                                         value="<?php echo $_POST["MerUserIDKeyword"]?>" maxlength="30" />
-                                    <input type="checkbox" name="Condition[]" id="radio9" value="Remark"
+                                    <!--<input type="checkbox" name="Condition[]" id="radio9" value="Parameter2"
+                                        class="css-checkbox"
+                                        <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("Parameter2" , $_POST["Condition"]))) { echo "checked"; }?> />
+                                    <label for="radio9" class="rulelist2">第二段代碼</label>
+                                    <input name='Parameter2Keyword' type='text' class="form-control" id="Parameter2Keyword"
+                                        placeholder="" style="width:100px;" value="<?php echo $_POST["Parameter2Keyword"]?>"
+                                        maxlength="30" />
+                                    -->
+                                    <input type="checkbox" name="Condition[]" id="radio10" value="Remark"
                                         class="css-checkbox"
                                         <?php if (is_array($_POST["Condition"]) && is_numeric(array_search("Remark" , $_POST["Condition"]))) { echo "checked"; }?> />
-                                    <label for="radio9" class="rulelist2">備註字串</label>
+                                    <label for="radio10" class="rulelist2">備註字串</label>
                                     <input name='RemarkKeyword' type='text' class="form-control" id="FirmCodeKeyword"
                                         placeholder="" style="width:100px;" value="<?php echo $_POST["RemarkKeyword"]?>"
                                         maxlength="30" />
+                                    <br />
                                     <input type="checkbox" name="State[]" id="radio11" value="Success"
                                         class="css-checkbox"
                                         <?php echo (@in_array("Success", $_POST['State'])) ? "checked" : ""?> />
@@ -238,8 +247,12 @@
                                     <input type="checkbox" name="State[]" id="radio14" value="Block"
                                         class="css-checkbox"
                                         <?php echo (@in_array("Block", $_POST['State'])) ? "checked" : ""?> />
-                                    <label for="radio14" class="rulelist2">圈存</label>
-                                    &nbsp;&nbsp;
+                                    <label for="radio14" class="rulelist2">銀行圈存</label>
+                                    <input type="checkbox" name="State[]" id="radio15" value="Block2"
+                                    class="css-checkbox"
+                                    <?php echo (@in_array("Block2", $_POST['State'])) ? "checked" : ""?> />
+                                    <label for="radio15" class="rulelist2">警察圈存</label>
+                                    <br />
                                     <input type="submit" name="button" id="button" class="pull btn btn-info btn"
                                         value=" 查 詢 "
                                         onclick="$('#form1').attr('action', 'admin.php'); $('#form1').attr('target', '');" />

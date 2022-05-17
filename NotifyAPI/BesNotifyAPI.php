@@ -30,14 +30,21 @@
         
 		$PaymentName = $FirmRow["PaymentName"];
 		
-		if ($FirmRow["PaymentType"] == "4") {
+		if ($FirmRow["PaymentType"] == "1") {			#虛擬帳號
+			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '1' AND FC.Enable = '1' AND PF.Mode = '百適匯' LIMIT 1");  
+			if (CDbShell::num_rows() == 0) {
+				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '1' AND (FC.FeeRatio > 0 OR FC.FixedFee > 0) LIMIT 1");  
+			
+			}
+			$FCRow = CDbShell::fetch_array();
+		}else if ($FirmRow["PaymentType"] == "4") {		#全家
 			CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '4' AND FC.Enable = '1' AND PF.Mode = '全家[百適匯]' LIMIT 1");  
 			if (CDbShell::num_rows() == 0) {
 				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '4' AND (FC.FeeRatio > 0 OR FC.FixedFee > 0) LIMIT 1");  
 			
 			}
 			$FCRow = CDbShell::fetch_array();
-		}else {
+		}else {											#信用卡
 			if ($_POST["Foreign"] == "Y") {
 				CDbShell::query("SELECT FC.* FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = ".$FirmRow["Sno"]." AND PF.Type = '7' AND PF.Mode = '百適匯[國外卡]' LIMIT 1");  
 				$PaymentName = $FirmRow["PaymentName"]."[國外卡]";

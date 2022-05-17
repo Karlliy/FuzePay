@@ -28,7 +28,8 @@
     $NotifyURL = $FirmRow["NotifyURL"];
 
     //$_PaymentDate =  date('Y-m-d H:i:s', strtotime($Obj->modify_time));
-    $_PaymentDate = date('Y-m-d H:i:s', strtotime($Obj->modify_time . " +8 hours")); 
+    //$_PaymentDate = date('Y-m-d H:i:s', strtotime($Obj->modify_time . " +8 hours")); 
+    $_PaymentDate = date('Y-m-d H:i:s', strtotime($Obj->pay_date . " +8 hours")); 
 
     
     //$Obj2 = json_decode($Obj->payment_detail);
@@ -93,8 +94,8 @@
     }
 
     if ($Obj->status == "B") {
-        $field = array("OrderID", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "Fee", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-        $value = array($Obj->trans_id, $PaymentName, $PaymentCode, $Period, $ClosingDate, $ExpectedRecordedDate, intval($Obj->amount), $Fee, $_PaymentDate, $_PaymentDate, $Obj->status, "交易成功", "0", $_CardNumber);
+        $field = array("OrderID", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "Fee", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber", "Parameter1", "Parameter2", "Parameter3");
+        $value = array($Obj->trans_id, $PaymentName, $PaymentCode, $Period, $ClosingDate, $ExpectedRecordedDate, intval($Obj->amount), $Fee, $_PaymentDate, $_PaymentDate, $Obj->status, "交易成功", "0", $_CardNumber, $Obj->payment_detail->ibon_barcode1, $Obj->payment_detail->ibon_barcode2, $Obj->payment_detail->ibon_barcode3);
         CDbShell::update("ledger", $field, $value, "CashFlowID = '".$Obj->order_no."'" );
     
         if (CDbShell::affected_rows() == 1) {

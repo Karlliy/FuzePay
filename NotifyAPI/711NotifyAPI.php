@@ -236,8 +236,8 @@
 		}
 
 		if ($xml->STATUS_CODE == "0000") {
-			$field = array("OrderID", "PaymentType", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-			$value = array($xml->DETAIL_NUM, "3", "超商-711", "超商繳款-[7-11]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($xml->AMOUNT), $_PaymentDate, $_PaymentDate, $xml->STATUS_CODE, "交易成功", "0", $xml->STOREID);
+			$field = array("OrderID", "PaymentType", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber", "Parameter1", "Parameter2", "Parameter3");
+			$value = array($xml->DETAIL_NUM, "3", "超商-711", "超商繳款-[7-11]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($xml->AMOUNT), $_PaymentDate, $_PaymentDate, $xml->STATUS_CODE, "交易成功", "0", $xml->STOREID, $xml->BARCODE1, $xml->BARCODE2, $xml->BARCODE3);
 			CDbShell::update("ledger", $field, $value, "Sno = '".$xml->USERDATA1."'" );
 		
 			if (CDbShell::affected_rows() == 1) {

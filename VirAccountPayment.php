@@ -725,6 +725,8 @@ try {
         //var_dump($BesstrReturn);
         $VatmAccount = $obj->VatmAccount;
 
+        $ExpireDatetime = $obj->ExpireTime;
+
         $field = array("VatmAccount");
 		$value = array($VatmAccount);
 		CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
@@ -1066,10 +1068,10 @@ try {
             "cust_order_no"     => $CashFlowID,
             "order_amount"      => $_POST['Amount'],
             "expire_date"       => $ExpireDatetime,      
-            "payer_name"        => "揚盛有限公司",
+            "payer_name"        => "王大明",
             //"payer_postcode"    => "260",
-            "payer_address"	    => "台北市信義區信義路5段7號37樓",
-            "payer_mobile"      => "0277533533",
+            "payer_address"	    => "宜蘭市中山路 111 號",
+            "payer_mobile"      => "0936123456",
             "payer_email"       => "abc@abc.com",
             "payment_type"		=> "1"
         );

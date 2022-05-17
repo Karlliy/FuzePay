@@ -336,7 +336,7 @@ try {
                 CDbShell::update('ledger', $field, $value, "Sno = '".$LedgerId."'");
 
                 $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
-                    
+                unset($SendPOST);    
                 $SendPOST['RtnCode'] = '1';
                 $SendPOST['RtnMessage'] = '取號成功';
                 $SendPOST['MerTradeID'] = $_POST['MerTradeID'];
@@ -358,7 +358,7 @@ try {
                 if ($TakeNumberURL != '' || $_POST['TakeNumberURL'] != '') {
                         
                     try {
-                        $fp = fopen('Log/711/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                        $fp = fopen('Log/Ccat/Send_TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                         fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
@@ -380,7 +380,7 @@ try {
                         fclose($fp);
                     } catch (Exception $e) {
             
-                        $fp = fopen('Log/711/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                        $fp = fopen('Log/Ccat/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                         fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                         fwrite($fp, "\$SuccessURL =>".$SuccessURL.PHP_EOL);
                         foreach($SendPOST as $key => $val)
@@ -393,7 +393,7 @@ try {
                         fclose($fp);
                     }
                 }else {
-                    $fp = fopen('Log/711/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
+                    $fp = fopen('Log/Ccat/Send_TakeNumber_ErrLOG_'.date("YmdHi").'.txt', 'a');
                     fwrite($fp, " ---------------- Send_TakeNumber開始 ---------------- ".PHP_EOL);                
                     fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
                     fwrite($fp, "\$strReturn => 回傳網址是空的".PHP_EOL);
@@ -493,9 +493,11 @@ try {
         if ($PaymentMode == "全家") {
             //測試URL
             //$client = new SoapClient("https://ect.familynet.com.tw/pin/webec.asmx?wsdl");
-            //正式URL
-            $client = new SoapClient("https://ec.famiport.com.tw/pin/webec.asmx?wsdl");
-
+            //舊正式URL
+            //$client = new SoapClient("https://ec.famiport.com.tw/pin/webec.asmx?wsdl");
+            //新正式URL
+            $client = new SoapClient("https://ec.fami.life/pin/webec.asmx?wsdl");
+            $client->__setLocation("https://ec.fami.life/pin/webec.asmx?wsdl");
             $parameter = array(
                 "TX_WEB" 	    => array(
                     'HEADER' => array(

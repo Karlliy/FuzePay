@@ -181,8 +181,8 @@
 			}
 
 			//if ($xml->STATUS_CODE == "0000") {
-			$field = array("OrderID", "PaymentType", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber");
-			$value = array($_GET["TRANS_NO"], "6", "超商-萊爾富", "超商繳款-[萊爾富]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($_GET["AMOUNT"]), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_GET["SHOP_ID"]);
+			$field = array("OrderID", "PaymentType", "PaymentName", "PaymentCode", "Period", "ClosingDate", "ExpectedRecordedDate", "ClosingTotal", "TransactionDate", "PaymentDate", "ResultCode", "ResultMesg", "State", "CardNumber", "Parameter1", "Parameter2", "Parameter3");
+			$value = array($_GET["TRANS_NO"], "6", "超商-萊爾富", "超商繳款-[萊爾富]", $Period, $ClosingDate, $ExpectedRecordedDate, intval($_GET["AMOUNT"]), $_PaymentDate, $_PaymentDate, "0000", "交易成功", "0", $_GET["SHOP_ID"], $_GET["BAR_CODE1"], $_GET["BAR_CODE2"], $_GET["BAR_CODE3"]);
 			CDbShell::update("ledger", $field, $value, "VatmAccount = '".$_GET["ORDER_NO"]."'" );
 		
 			if (CDbShell::affected_rows() == 1) {

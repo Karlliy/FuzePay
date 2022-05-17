@@ -10,6 +10,9 @@ class CLedger {
 	var $SearchKeyword2		= "";
 	
 	public function	__construct () {
+		ini_set('max_execution_time','300'); //max_execution_time','0' <- unlimited time
+		ini_set('memory_limit','512M');
+
 		$db = new CDbShell();    
 		$Session = new CSession;	
 		$JSModule = new JSModule();
@@ -297,6 +300,10 @@ class CLedger {
     } 
     
     function Manage() {
+
+		ini_set('max_execution_time','300'); //max_execution_time','0' <- unlimited time
+		ini_set('memory_limit','512M');
+		
     	$AdminLevel = CSession::getVar("AdminLevel");
         $Boss 		= CSession::getVar("Boss");
             	
@@ -320,6 +327,30 @@ class CLedger {
 	    	//print_r($_POST["PaymentCode"]);
 	    	//exit;
 	    	if (self::CheckDateTime($_POST["StartTime"]) && self::CheckDateTime($_POST["EndTime"])) {
+				header("Cache-Control:private");
+				$firstDate  = new DateTime($_POST["StartTime"]." 00:00:00");
+				$secondDate = new DateTime($_POST["EndTime"]." 23:59:59");
+				$intvl = $firstDate->diff($secondDate);
+
+				if ($intvl->days > 31) {
+					JSModule::Message("查詢日期最多不能超過30天");
+					exit;
+				}
+
+				if (is_array($_POST["Condition"]) && Count($_POST["Condition"]) > 0) {
+					foreach($_POST["Condition"] as $key => $val) {
+						if(trim($_POST[$val."Keyword"]) == "") {
+							JSModule::Message("勾選搜尋條件需填入搜尋關鍵字");
+							exit;
+						}
+					}
+				}
+
+				if ($intvl->days > 6 && (@Count($_POST["Condition"]) == 0 && @Count($_POST["PaymentCode"]) == 0 && @Count($_POST['State']) == 0)) {
+					JSModule::Message("查詢7天以上請至少增加搜尋條件(例如：查7-11或繳款帳號/代碼)");
+					exit;
+				}
+
 	    		//$this->SearchKeyword = " WHERE ((Chief.PaymentDate >= '".$_POST["StartTime"]." 00:00:00' AND Chief.PaymentDate <= '".$_POST["EndTime"]." 23:59:59') OR (Chief.ClosingTotal = '0' AND Chief.TransactionDate >= '".$_POST["StartTime"]." 00:00:00' AND Chief.TransactionDate <= '".$_POST["EndTime"]." 23:59:59') OR (Chief.TransactionDate < '1991-01-01 00:00:00' AND Chief.CreationDate >= '".$_POST["StartTime"]." 00:00:00' AND Chief.CreationDate <= '".$_POST["EndTime"]." 23:59:59')) ";
 	    		//$this->SearchKeyword = " WHERE ((Chief.PaymentDate BETWEEN '".$_POST["StartTime"]." 00:00:00' AND '".$_POST["EndTime"]." 23:59:59') OR (Chief.TransactionDate BETWEEN '".$_POST["StartTime"]." 00:00:00' AND'".$_POST["EndTime"]." 23:59:59') OR (Chief.ClosingTotal = '0' AND Chief.CreationDate BETWEEN '".$_POST["StartTime"]." 00:00:00' AND '".$_POST["EndTime"]." 23:59:59')) ";
 				if ($_POST['QueryDate'] == "CreationDate") {
@@ -355,11 +386,11 @@ class CLedger {
 	    		foreach($_POST["Condition"] as $key => $val) {
 	    		//while (list ($key, $val) = each ($_POST["Condition"])) {
 	    			if ($val == "FirmCode" ) {
-	    				$this->SearchKeyword .= "Sec.".$val ." like '%".$_POST[$val."Keyword"]."%'";
+	    				$this->SearchKeyword .= "Sec.".$val ." like '".$_POST[$val."Keyword"]."%'";
 	    			}elseif ($val == "Total") {
 	    				$this->SearchKeyword .= "Chief.".$val ." = '".$_POST[$val."Keyword"]."'";
 	    			}else {
-	    				$this->SearchKeyword .= "Chief.".$val ." like '%".$_POST[$val."Keyword"]."%'";
+	    				$this->SearchKeyword .= "Chief.".$val ." like '".$_POST[$val."Keyword"]."%'";
 	    			}
 	    			
 	    			//if ($i < Count($_POST["Condition"])) $this->SearchKeyword .= " OR ";
@@ -385,13 +416,17 @@ class CLedger {
 						if (strlen($SearchState) != 0) $SearchState .= " OR ";
 						//$SearchState .= " ((Chief.State = -2 OR Chief.State = -3) AND Chief.ClosingTotal > 0)";
 						$SearchState .= " ((Chief.State = -2 OR Chief.State = -3) )";
-					}else if ($_POST["Block"] != "Block") {
+					}else if ($value == "Block") {
 						if (strlen($SearchState) != 0) $SearchState .= " OR ";
-						$SearchState .= " (Chief.State = -4)";
+						$SearchState .= " Chief.State = -4";
+					}else if ($value == "Block2") {
+						if (strlen($SearchState) != 0) $SearchState .= " OR ";
+						$SearchState .= " Chief.State = -5";
 					}
 				}			
 				$this->SearchKeyword .= $SearchState." ) ";
 			}
+			
 
 	    	/*if ($_POST["Success"] == "Success") {
 	    		if (strlen($this->SearchKeyword) == 0) $this->SearchKeyword .= " WHERE ";
@@ -586,8 +621,11 @@ class CLedger {
 	    			$Row["PaymentCode"] = (strlen($Row["PaymentCode"]) == 0) ? $Row["PaymentName"] : $Row["PaymentCode"];
 	    		}
 	    		switch($Row["State"]) {
+					case "-5":
+	    				$Row["StateStr"] = "警察圈存";
+	    				break;
 					case "-4":
-	    				$Row["StateStr"] = "圈存";
+	    				$Row["StateStr"] = "銀行圈存";
 	    				break;
 	    			case "-3":
 	    				$Row["StateStr"] = "已退款";
@@ -632,12 +670,12 @@ class CLedger {
 	    			$Row["Refund"] = "已退款".$Row["RefundDate"]."";
 	    		}
 	    		
-	    		if ($Row["State"] != -1 && $Row["State"] != -3 && $Row["State"] != -4 && $Row["ClosingTotal"] > 0) {
+	    		if ($Row["State"] != -1 && $Row["State"] != -3 && $Row["State"] != -4 && $Row["State"] != -5 && $Row["ClosingTotal"] > 0) {
 		    		$SuccessCount++;
 		    		$SuccessAmount += $Row["ClosingTotal"];
 		    		$FeeAmount += floatval($Row["Fee"]);
 		    		$Row["_Fee"] = $Row["Fee"];
-				}else if ($Row["State"] == -4){
+				}else if ($Row["State"] == -4 || $Row["State"] == -5){
 					$BlockCount++;
 					$BlockAmount += $Row["ClosingTotal"];
 					$FeeAmount += floatval($Row["Fee"]);
@@ -717,12 +755,12 @@ class CLedger {
 	    	while ($Row = CDbShell::fetch_array()) {
 	    		if (CSession::getVar("FirmSno") == "93") $Row["Mobile"] = "******".substr($Row["Mobile"], -3);
 
-	    		if ($Row["State"] != -1 && $Row["State"] != -3 && $Row["State"] != -4 && $Row["ClosingTotal"] > 0) {
+	    		if ($Row["State"] != -1 && $Row["State"] != -3 && $Row["State"] != -4 && $Row["State"] != -5 && $Row["ClosingTotal"] > 0) {
 		    		$SuccessCount++;
 		    		$SuccessAmount += $Row["ClosingTotal"];
 		    		$FeeAmount += floatval($Row["Fee"]);
 		    		$Row["_Fee"] = $Row["Fee"];
-	    		}else if ($Row["State"] == -4){
+	    		}else if ($Row["State"] == -4 || $Row["State"] == -5){
 					$BlockCount++;
 					$BlockAmount += $Row["ClosingTotal"];
 					$FeeAmount += floatval($Row["Fee"]);
@@ -780,8 +818,11 @@ class CLedger {
 						$Row["PaymentCode"] = (strlen($Row["PaymentCode"]) == 0) ? $Row["PaymentName"] : $Row["PaymentCode"];
 					}
 					switch($Row["State"]) {
+						case "-5":
+							$Row["StateStr"] = "警察圈存";
+							break;
 						case "-4":
-							$Row["StateStr"] = "圈存";
+							$Row["StateStr"] = "銀行圈存";
 							break;
 						case "-3":
 							$Row["StateStr"] = "已退款";
@@ -818,7 +859,7 @@ class CLedger {
 					
 					if ($Row["State"] == "-2") $Row["background"] = "background-color:#FFEEFA;";
 					if ($Row["State"] == "-3") $Row["background"] = "background-color:#EEE;";
-					if ($Row["State"] == "-4") $Row["background"] = "background-color:#FFAAD5;";
+					if ($Row["State"] == "-4" || $Row["State"] == "-5") $Row["background"] = "background-color:#FFAAD5;";
 					
 					if ((CSession::getVar("IsChild") == 0) || (CSession::getVar("IsChild") == 1 && array_search("LedgerRefund", CSession::getVar("Purview")) != false)) {
 						if ($AdminLevel == 3 &&  $Row["ClosingTotal"] != 0 && ($Row["State"] == 0 || $Row["State"] == 1 ) && ($Row["PaymentType"] == 1 || $Row["PaymentType"] == 2)) {
@@ -1054,10 +1095,10 @@ class CLedger {
 			, Sec.BankAccount
 			, Sec.AccountName
 			, Count(Chief.Sno) AS Num
-			, SUM(IF(Chief.State != -3 && Chief.State != -4, Chief.ClosingTotal, 0)) AS TotalAmount
+			, SUM(IF(Chief.State != -3 && Chief.State != -4 && Chief.State != -5, Chief.ClosingTotal, 0)) AS TotalAmount
 			, SUM(IF(Chief.State = -3 , 1, 0)) AS DeductNum
 			, SUM(IF(Chief.State = -3, Chief.ClosingTotal, 0)) AS DeductAmount
-			, SUM(IF(Chief.State != -3, Chief.Fee, 0)) AS TotalFee
+			, SUM(IF(Chief.State != -3 && Chief.State != -1, Chief.Fee, 0)) AS TotalFee
 			, Chief.Period 
 				FROM $this->DB_Table AS Chief INNER JOIN $this->SecDB_Table AS Sec ON Chief.FirmSno = Sec.Sno INNER JOIN Funding AS F ON Chief.FundingSno = F.Sno WHERE Chief.FundingSno = ". $_GET["Sno"] ." GROUP BY Chief.FirmSno, Chief.FundingSno");
 			//echo "SELECT F.FundingID FROM $this->DB_Table AS Chief INNER JOIN $this->SecDB_Table AS Sec ON Chief.FirmSno = Sec.Sno INNER JOIN Funding AS F ON Chief.FundingSno = F.Sno WHERE Chief.FundingSno = ". $_GET["Sno"] ." GROUP BY Chief.FirmSno, Chief.FundingSno";
@@ -1096,7 +1137,7 @@ class CLedger {
 	    		$RefundHtml[] = $Row2;
 	    	}
 
-	    	CDbShell::query("SELECT * FROM $this->DB_Table AS Chief WHERE Chief.State = -4 AND Chief.FundingSno = ". $_GET["Sno"] ." ORDER BY TransactionDate DESC, Sno DESC");
+	    	CDbShell::query("SELECT * FROM $this->DB_Table AS Chief WHERE (Chief.State = -4 OR Chief.State = -5) AND Chief.FundingSno = ". $_GET["Sno"] ." ORDER BY TransactionDate DESC, Sno DESC");
 			//echo "SELECT F.FundingID FROM $this->DB_Table AS Chief INNER JOIN $this->SecDB_Table AS Sec ON Chief.FirmSno = Sec.Sno INNER JOIN Funding AS F ON Chief.FundingSno = F.Sno WHERE Chief.FundingSno = ". $_GET["Sno"] ." GROUP BY Chief.FirmSno, Chief.FundingSno";
 	    	while ($Row2 = CDbShell::fetch_array()) {
 	    		$DeductHtml[] = $Row2;
@@ -1328,7 +1369,7 @@ class CLedger {
 			, Sec.BankAccount
 			, Sec.AccountName
 			, SUM(IF(Chief.State != -1 , 1, 0)) AS Num
-			, SUM(IF(Chief.State != -3 && Chief.State != -4 && Chief.State != -1, Chief.ClosingTotal, 0)) AS TotalAmount
+			, SUM(IF(Chief.State != -3 && Chief.State != -4 && Chief.State != -5 && Chief.State != -1, Chief.ClosingTotal, 0)) AS TotalAmount
 			, SUM(IF(Chief.State = -3 , 1, 0)) AS DeductNum
 			, SUM(IF(Chief.State = -3, Chief.ClosingTotal, 0)) AS DeductAmount
 			, SUM(IF(Chief.State != -3 && Chief.State != -1, Chief.Fee, 0)) AS TotalFee
@@ -1370,7 +1411,7 @@ class CLedger {
 	    		$RefundHtml[] = $Row2;
 	    	}
 
-	    	CDbShell::query("SELECT * FROM $this->DB_Table AS Chief WHERE Chief.State = -4 AND Chief.FirmSno = ". $_GET["Sno"]." AND Period = '".$_GET["Period"]."' AND Chief.ExpectedRecordedDate = '".$_GET["ExpectedRecordedDate"]."' ORDER BY TransactionDate DESC, Sno DESC");
+	    	CDbShell::query("SELECT * FROM $this->DB_Table AS Chief WHERE (Chief.State = -4 OR Chief.State = -5) AND Chief.FirmSno = ". $_GET["Sno"]." AND Period = '".$_GET["Period"]."' AND Chief.ExpectedRecordedDate = '".$_GET["ExpectedRecordedDate"]."' ORDER BY TransactionDate DESC, Sno DESC");
 			//echo "SELECT F.FundingID FROM $this->DB_Table AS Chief INNER JOIN $this->SecDB_Table AS Sec ON Chief.FirmSno = Sec.Sno INNER JOIN Funding AS F ON Chief.FundingSno = F.Sno WHERE Chief.FundingSno = ". $_GET["Sno"] ." GROUP BY Chief.FirmSno, Chief.FundingSno";
 	    	while ($Row2 = CDbShell::fetch_array()) {
 	    		$DeductHtml[] = $Row2;
@@ -1646,10 +1687,10 @@ class CLedger {
 			, Chief.ActualRecordedDate
 			, MAX(Chief.State)
 			, Chief.FundingSno
-			, SUM(IF(Chief.State != -3 AND Chief.State != -4, 1, 0)) AS Num
-			, SUM(IF(Chief.State != -3 AND Chief.State != -4 , Chief.ClosingTotal, 0)) AS TotalAmount
-			, SUM(IF(Chief.State = -4 , 1, 0)) AS DeductNum
-			, SUM(IF(Chief.State = -4, Chief.ClosingTotal, 0)) AS DeductAmount
+			, SUM(IF(Chief.State = 0 OR Chief.State = 1, 1, 0)) AS Num
+			, SUM(IF(Chief.State = 0 OR Chief.State = 1, Chief.ClosingTotal, 0)) AS TotalAmount
+			, SUM(IF(Chief.State = -4 OR Chief.State = -5, 1, 0)) AS DeductNum
+			, SUM(IF(Chief.State = -4 OR Chief.State = -5, Chief.ClosingTotal, 0)) AS DeductAmount
 			, SUM(IF(Chief.State != -3, Chief.Fee, 0)) AS TotalFee
 			, Sec.Sno AS FirmSno
 			, Sec.Name
@@ -2204,8 +2245,8 @@ class CLedger {
 			}
 			
 			CDbShell::query("SELECT Chief.FirmSno,
-			 	SUM(IF(Chief.State != -3 AND Chief.State != -4, 1, 0)) AS Num,
-			  	SUM(IF(Chief.State != -3 AND Chief.State != -4, Chief.ClosingTotal, 0)) AS TotalAmount,
+			 	SUM(IF(Chief.State != -3 AND Chief.State != -4 AND Chief.State != -5, 1, 0)) AS Num,
+			  	SUM(IF(Chief.State != -3 AND Chief.State != -4 AND Chief.State != -5, Chief.ClosingTotal, 0)) AS TotalAmount,
 				SUM(IF(Chief.State = -3 , 1, 0)) AS DeductNum, 
 				SUM(IF(Chief.State = -3, Chief.ClosingTotal, 0)) AS DeductAmount, 
 				SUM(IF(Chief.State != -3 , Chief.Fee, 0)) AS TotalFee, 
@@ -2599,7 +2640,10 @@ class CLedger {
 						$StateStr = "己退款";
 						break;
 					case -4:
-						$StateStr = "圈存";
+						$StateStr = "銀行圈存";
+						break;
+					case -5:
+						$StateStr = "警察圈存";
 						break;
 				}
 				CDbShell::query("SELECT L.*, F.FirmCode, F.Points, F.OBPoints, F.UPoints, F.QPoints, F.QQPoints, F.Country FROM Ledger AS L INNER JOIN Firm AS F ON L.FirmSno = F.Sno WHERE L.Sno = '".$_POST["Sno"]."'"); 
@@ -2706,7 +2750,7 @@ class CLedger {
 				$value = array($_POST["AuthorizeNumber"], $_POST["OrderID"], $_POST["CreationDate"], $_POST["PaymentDate"], $_POST["PaymentDate"], $_POST["PaymentType"], $_PaymentName, $_POST["MerProductID"], $_POST["MerUserID"], $_POST["MerTradeID"], $_POST["CardNumber"], $_POST["VatmAccount"], $_POST["Total"], $_POST["ClosingTotal"], $_ResultMesg, $_POST["State"], $_POST["Remark"]);
 				CDbShell::update("ledger", $field, $value, "Sno = ". $_POST["Sno"]);
 				
-				if ($_POST["State"] == -4) {
+				if ($_POST["State"] == -4 || $_POST["State"] == -5) {
 					$field = array("BlockDate");
 					$value = array(Date("Y-m-d H:i:s"));
 					CDbShell::update("ledger", $field, $value, "Sno = ". $_POST["Sno"]);

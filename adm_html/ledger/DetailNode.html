@@ -94,7 +94,7 @@
                   <td class="nowrap"><?php echo $value["PaymentName"] . $value["PaymentCode"]?></td>
                   <td class="nowrap"><?php echo $value["TransactionDate"]?></td>
                   <td class="nowrap"><?php echo $value["ClosingTotal"]?></td>
-                  <td class="nowrap"><?php echo round($value["Fee"])?></td>
+                  <td class="nowrap"><?php echo round($value["Fee"], 2)?></td>
                 </tr>
               </tbody>
               <?php }?>
