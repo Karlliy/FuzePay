@@ -29,7 +29,17 @@
     $obj = json_decode($XmlFile);
 
     $_PaymentDate = date("Y-m-d H:i:s", strtotime($obj->TDATE.$obj->TTIME));
-    $_VatmAccount = substr($obj->ACCNO, -12); ;
+    $_VatmAccount = substr($obj->ACCNO, -12);
+
+	if (strlen(trim($_VatmAccount)) < 4 ) {
+		$fp = fopen('../Log/KGI12/VatmAccountFail_LOG_'.date('YmdHi').'.txt', 'a');
+		fwrite($fp, ' ---------------- Fail_LOG開始 ---------------- '.PHP_EOL);
+		fwrite($fp, 'VatmAccount =>'.$_VatmAccount.PHP_EOL);
+		fclose($fp);
+		$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+		header($protocol . ' 200 ');
+		exit;
+	}
 
     @CDbShell::connect();
 	CDbShell::query("SELECT F.*, L.PaymentName, L.MerTradeID, L.MerProductID, L.MerUserID, L.Total, L.Fee, L.NotifyURL FROM Ledger AS L INNER JOIN Firm AS F ON L.FirmSno = F.Sno WHERE L.VatmAccount = '".$_VatmAccount."' ORDER BY Sno LIMIT 1"); 
@@ -151,7 +161,7 @@
 						fwrite($fp, '$curlerror =>'.$curlerror.PHP_EOL);
 						fclose($fp);
 					} catch (Exception $e) {
-						$fp = fopen('../Log/KGI12/CHB/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
+						$fp = fopen('../Log/KGI12/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 						fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 						fwrite($fp, '$SuccessURL =>'.$SuccessURL.PHP_EOL);
 						//while (list($key, $val) = each($SendPOST)) {
@@ -181,7 +191,7 @@
 						fwrite($fp, '$curlerror =>'.$curlerror.PHP_EOL);
 						fclose($fp);
 					} catch (Exception $e) {
-						$fp = fopen('../Log/KGI12/CHB/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
+						$fp = fopen('../Log/KGI12/Send_Notify_ErrLOG_'.date('YmdHi').'.txt', 'a');
 						fwrite($fp, ' ---------------- Send_Notify_Err開始 ---------------- '.PHP_EOL);
 						fwrite($fp, 'NotifyURL =>'.$NotifyURL.PHP_EOL);
 						//while (list($key, $val) = each($SendPOST)) {

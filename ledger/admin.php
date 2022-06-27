@@ -6,6 +6,7 @@ ini_set('error_reporting',E_ALL & ~E_NOTICE);
 header('Content-Type: text/html; charset=utf-8');
 
 if (!class_exists('CDbShell'))			include_once("../BaseClass/CDbShell.php");
+if (!class_exists('CDbShellRead'))		include_once("../BaseClass/CDbShellRead.php");
 if (!class_exists('CSession'))			include_once("../BaseClass/CSession.php");  
 if (!class_exists('CUrlQuery'))			include_once("../BaseClass/CUrlQuery.php");
 if (!class_exists('JSModule'))			include_once("../BaseClass/JSModule.php");

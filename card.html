@@ -226,8 +226,8 @@
             <div class="order">
             </div>
             <p class="blue">輸入以下資訊</p>
-            <!--<form id="form1" name="form1" method="post" action="https://fuzepay.info/VirAccountPayment.php">-->
-                <form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">
+            <form id="form1" name="form1" method="post" action="https://pay.fueastpay.com/VirAccountPayment.php">
+                <!--<form id="form1" name="form1" method="post" action="http://127.0.0.1/PayFlow/CreditPayment.php">-->
                 <div class="express_inner">
                     <input type="hidden" name="HashKey" id="HashKey" value="<?php echo $FirmRow["HashKey"]?>">
                     <input type="hidden" name="HashIV" id="HashIV" value="<?php echo $FirmRow["HashIV"]?>">
@@ -253,6 +253,13 @@
                             <font style="font-size: 20px; position: relative;top: 10px;">虛擬帳戶<span style="color: brown;">(可重覆繳款、不限金額)</span></font>
                             <br/>
                             <?php }?>
+                            <?php if ($_VirAccount2 == true) {?>
+                            <input name="PaymentType" id="PaymentType" type="radio" value="4" class="radio"
+                                style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                            <font style="font-size: 20px; position: relative;top: 10px;">第一銀行虛擬帳戶<span style="color: brown;">(可重覆繳款、不限金額)</span></font>
+                            <br/>
+                            <?php }?>
+
                             <input name="PaymentType" id="PaymentType" type="radio" value="2" class="radio"
                                 style="position: relative; top: 10px;" onChange="SelPaymentType()">
                             <font style="font-size: 20px; position: relative;top: 10px;">超商代碼</font>
@@ -260,6 +267,16 @@
                                 <input name="PaymentType" id="PaymentType" type="radio" value="4" class="radio"
                                     style="position: relative; top: 10px;" onChange="SelPaymentType()">
                                 <font style="font-size: 20px; position: relative;top: 10px;">超商條碼</font>
+                            <?php }?>
+
+                            <?php if ($FirmRow["Sno"] == 1) {?>
+                                <!--<input name="PaymentTssype" id="PaymentType" type="radio" value="4" class="radio"
+                                    style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                                <font style="font-size: 20px; position: relative;top: 10px;">超商條碼</font>-->
+							
+								<input name="PaymentType" id="PaymentType" type="radio" value="5" class="radio"
+                                    style="position: relative; top: 10px;" onChange="SelPaymentType()">
+                                <font style="font-size: 20px; position: relative;top: 10px;">小額電信</font>
                             <?php }?>
                             <!--<input name="PaymentType" id="PaymentType" type="radio" value="3" class="radio"
                                     style="position: relative; top: 10px;" onChange="SelPaymentType()">
@@ -281,6 +298,19 @@
                                 <option value="Family">全家</option>
                                 <option value="OK">OK</option>
                                 <option value="HiLife">萊爾富</option>
+                            </select>
+                        </li>
+
+                        <li id="ChoosePayment2" style="display: none;">
+                            <span class="star">＊</span>
+                            <label style="font-size: 22px;">繳費電信</label>
+                            <select id="ChannelPayment" name="ChannelPayment">
+                                <option value="OTPCHT">中華市話</option>
+                                <option value="OTP839">中華839</option>
+                                <option value="FET">遠傳/和信電信</option>
+                                <option value="APT">亞太電信</option>
+                                <option value="HINET">HiNet</option>
+                                <option value="TSTART">台灣之星</option>
                             </select>
                         </li>
 
@@ -318,10 +348,10 @@
         </div>
     </div>
     <script type='text/javascript'>
-        var posturi = 'http://127.0.0.1/FuzePay/';
-        // var posturi = 'https://fuzepay.info/';
+        // var posturi = 'http://127.0.0.1/FuzePay/';
+        var posturi = 'https://pay.fueastpay.com/';
     </script>
-    <script type='text/javascript' src='card.js?v=4.4'></script>
+    <script type='text/javascript' src='card.js?v=4.6'></script>
 </body>
 
 </html>

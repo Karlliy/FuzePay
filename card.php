@@ -21,11 +21,17 @@
 		}
 		$FirmRow = CDbShell::fetch_array();
 		$_VirAccount = false;
+		$_VirAccount2 = false;
 		//echo "SELECT FC.*, PF.Mode, PF.Kind FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = " . $Sno . " AND PF.Type = '1' AND PF.Kind = '虛擬帳號12碼' LIMIT 1";
 		//exit;
 		CDbShell::query("SELECT FC.*, PF.Mode, PF.Kind FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = '" . $Sno . "' AND PF.Type = '1' AND PF.Kind = '虛擬帳號12碼' AND Enable = 1 LIMIT 1");
 		if (CDbShell::num_rows() >= 1) {
 			$_VirAccount = true;
+		}
+
+		CDbShell::query("SELECT FC.*, PF.Mode, PF.Kind FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = '" . $Sno . "' AND PF.Type = '1' AND PF.Kind = '第一銀行固定' AND Enable = 1 LIMIT 1");
+		if (CDbShell::num_rows() >= 1) {
+			$_VirAccount2 = true;
 		}
 		include("card.html");
 	} catch(Exception $e) {

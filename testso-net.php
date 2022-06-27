@@ -55,7 +55,7 @@ if($rtMsg == "00000"){
     echo $sHtml;
     exit;
 }
-var_dump($rtMsg);
+var_dump($finalAry);
 
 /*
 */

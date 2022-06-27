@@ -5,15 +5,6 @@ ini_set('error_reporting', E_ALL & ~E_NOTICE);
 header('Content-Type: text/html; charset=utf-8');
 include_once("BaseClass/Setting.php");
 include_once("BaseClass/CDbShell.php");
-/*$fp = fopen('Log/_LOG_'.date("YmdHis").'.txt', 'a');
-fwrite($fp, " ---------------- 開始POST ---------------- ".PHP_EOL);
-while (list ($key, $val) = each ($_POST)) 
-{
-    fwrite($fp, "key =>".$key."  val=>".$val.PHP_EOL);
-};	
-fclose($fp);*/
-//print_r($_POST);
-
 
 if (strlen(trim($_POST["HashKey"])) < 10 || strlen(trim($_POST["HashIV"])) < 10) {
     echo "<center>錯誤：9180001</center>";
@@ -63,35 +54,26 @@ try {
         throw new exception("請傳入消費者ID，且消費者ID只能英文或數字組合");
     }
     
-    
+    /*
     if (!is_numeric($_POST["Amount"]) || intval($_POST["Amount"]) <= 0) {
         $ErrCode = "9180006";
         throw new exception("請傳入交易金額");
-    }
+    }*/
     
-    /*if ($FirmRow["VirtualATMDisburse"] != "-1") {
+    if ($FirmRow["VirtualATMDisburse"] != "-1") {
         if (floatval($_POST["Amount"]) > floatval($FirmRow["VirtualATMDisburse"])) {
             $ErrCode = "9180015";
             throw new exception("交易金額己大於單筆交易額度");
         }
-    }*/
-
-    $channel = array("OTPCHT", "OTP839", "FET", "TCC", "APT", "HINET", "TSTART");
-
-    if (array_search($_POST['ChannelPayment'], $channel) === false) {
-        $ErrCode = '9180011';
-        throw new exception('請選擇正確繳費方式');
     }
 
     CDbShell::query("SELECT Sno FROM Ledger WHERE FirmSno = " . $FirmRow["Sno"] . " AND MerTradeID = '" . trim($_POST["MerTradeID"]) . "'");
     if (CDbShell::num_rows() >= 1) {
         $ErrCode = "9180009";
         throw new exception("店家交易編號重複");
-    }
-
+    }    
     
-    
-    CDbShell::query("SELECT FC.*, PF.Mode, PF.Kind FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = " . $FirmRow["Sno"] . " AND PF.Type = '12' AND FC.Enable = 1 AND PF.Kind = '小額電信' LIMIT 1");
+    CDbShell::query("SELECT FC.*, PF.Mode, PF.Kind FROM FirmCommission AS FC INNER JOIN PaymentFlow AS PF ON FC.PaymentFlowSno = PF.Sno WHERE FC.FirmSno = " . $FirmRow["Sno"] . " AND PF.Type = '1' AND FC.Enable = 1 AND PF.Kind = '第一銀行固定' LIMIT 1");
     $PayModeRow = CDbShell::fetch_array();
     if (CDbShell::num_rows() >= 1) {
         $PaymentMode = $PayModeRow["Mode"];
@@ -121,40 +103,13 @@ try {
         throw new exception("未設定系統介接，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
     }
 
-    if ($FirmRow["SMSCheck"] == 1) {
-        $_Verified = false;
-
-        if (trim($_POST["Token"]) == "") {
-            $_Verified = false;
-        }else {
-            $sql = "SELECT * FROM smscheck WHERE Token = '".$_POST["Token"]."' AND Status = 0";
-            $result = CDbShell::query($sql);
-            if (CDbShell::num_rows($result) == 1) {
-                $_Verified = true;
-            }
-        }
-        if ($_Verified == false) {
-            $FormHtml = '<form name="data" method="post">';
-            foreach($_POST as $key => $val)
-            //while (list ($key, $val) = each ($_POST)) 
-            {
-                $FormHtml .= '<input type="hidden" name="'.$key.'" id="'.$key.'" value="'.$val.'">';
-            };	
-            $FormHtml .= '<input type="hidden" name="filename" id="filename" value="TelecomPayment.php">';
-            $FormHtml .= '</form>';
-            
-            include("VerifyCode.html");
-            echo $FormHtml;
-            exit;
-        }
-    }
-    Again99:
-    //echo $PaymentMode;
-
     $CashFlowID = Date("ymdHis") . str_pad(floor(microtime() * 10000), 4, '0', STR_PAD_LEFT) . str_pad(rand(0, 9999), 4, '0', STR_PAD_LEFT);
-    if ($_Verified == true) {        
-        $sql = "UPDATE smscheck SET CashFlowID = '".$CashFlowID."', Status = 1 WHERE Token = '".$_POST["Token"]."'";
-        CDbShell::query($sql);
+        
+    if (empty($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        $myip = $_SERVER['REMOTE_ADDR'];
+    } else {
+        $myip = explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+        $myip = $myip[0];
     }
     
     $ValidDate = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
@@ -171,9 +126,7 @@ try {
         "ValidDate",
         "IP",
         "FeeRatio",
-        "State", 
-        'NotifyURL', 
-        'TakeNumberURL'
+        "State"
     );
     $value = array(
         $FirmRow["Sno"],
@@ -181,74 +134,125 @@ try {
         $_POST['MerTradeID'],
         $_POST['MerProductID'],
         $_POST['MerUserID'],
-        "12",
+        "1",
         $PaymentName,
         $_POST['Amount'],
         $Fee,
         $ValidDate,
         $myip,
         $PayModeRow["FeeRatio"],
-        "-1",
-        $_POST['NotifyURL'],
-        $_POST['TakeNumberURL']
+        "-1"
     );
     CDbShell::insert("ledger", $field, $value);
     $LedgerId = CDbShell::insert_id();
 
-    if (is_numeric(mb_strpos($PaymentMode, "sonet", "0", "UTF-8"))) {
-        $parameter = array(	
-            "icpId"             => "regentcp",
-            "icpOrderId"        => $CashFlowID,
-            "icpProdId"         => "rcp0001",
-            "mpId"              => $_POST['ChannelPayment'],
-            "memo"              => "   ",
-            "icpUserId"         => "User123",
-            "icpProdDesc"       => "3C",
-            "price"             => $_POST['Amount'],
-            "returnUrl"         => "https://pay.fueastpay.com/TelecomNotify",
-            "doAction"          => "authOrder"
-        );
+    if (is_numeric(mb_strpos($PaymentMode, "第一銀行", "0", "UTF-8"))) {
+
+        $passchars      = array('4','3','2','8','7','6','5','4','3','2');
         
-        
-        //$strReturn = SockPost("https://mpay-dev.so-net.net.tw/paymentRule.php", $parameter, $curlerror);
-        $strReturn = SockPost("https://mpapi-dev.so-net.net.tw/microPaymentPost.php", http_build_query($parameter,'','&'), $curlerror);
-        
-        $finalAry = getResult($strReturn);
-                        
-        $rtMsg = (string)$finalAry['resultCode'];
-        
-        if($rtMsg == "00000"){
-        
-            $parameter = array(	
-                "icpId"             => "regentcp",
-                "icpOrderId"        => $CashFlowID,
-                "icpProdId"         => "rcp0001",
-                "mpId"              => $_POST['ChannelPayment'],
-                "memo"              => "   ",
-                "icpUserId"         => "User123",
-                "icpProdDesc"       => "3C",
-                "authCode"          => $finalAry['authCode']
-            );
-        
-            $sHtml = "<form id='rongpaysubmit' name='rongpaysubmit' action='https://mpay-dev.so-net.net.tw/paymentRule.php' method='POST'>";
-            foreach($parameter as $key => $value) 
-            {
-                $sHtml = $sHtml."<input type='hidden' name='".$key."' value='".$value."'/>";
-            }
-            $sHtml = $sHtml."<input type='submit' value='付款' style='display:none'></form>";
-            $sHtml = $sHtml."<script>document.forms['rongpaysubmit'].submit();</script>";
-            echo $sHtml;
-            exit;
-        }else {
-            var_dump($finalAry);
+        Again:
+        srand((double)microtime()*1000000); 
+        $WaterAccount =  str_pad(rand(0, 100000000), 8, '0', STR_PAD_LEFT);
+
+        $chars     = str_split(substr(First_Code.$WaterAccount, -10));
+
+        $x = 0;
+        foreach ($chars as $char) {
+            //echo $char."|".$passchars[$x] . "|". ($char * $passchars[$x])."<pre />";
+            //$CheckCode1 += (($char * $passchars[$x]) % 10);
+            $CheckCode1 += ($char * $passchars[$x]);
+            
+            $x++;
         }
+
+        //echo $CheckCode1."<pre />";
+        $_Code1 = ($CheckCode1 / 11);
+        //echo $_Code1."|". intval($_Code1)."<pre />";
+        $_Code2 = ((intval($_Code1) + 1) * 11) - $CheckCode1;
+        //echo $_Code2."<pre />";
+        $_Code3 = ($_Code2 % 10);
+        //echo $_Code3."<pre />";
+
+        $VatmAccount = First_Code.$WaterAccount. $_Code3;
+
+        CDbShell::query("SELECT Sno FROM ledger WHERE VatmAccount = '" . $VatmAccount . "'");
+        if (CDbShell::num_rows() > 0) {
+            goto Again;
+        }
+
+        $field = array("VatmAccount");
+		$value = array($VatmAccount);
+		CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
+
+        $OrderNo      = $CashFlowID;
+        $MerProductID = $_POST['MerProductID'];
+        $MerUserID    = $_POST['MerUserID'];
+        $Amount       = $_POST['Amount'];
+        $VatmBankCode = "007 (第一銀行)";
+        $split        = "-";
+        $VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 4);
+        
+        $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+            
+        $SendPOST["RtnCode"] = "1";
+        $SendPOST["RtnMessage"] = "取號成功";
+        $SendPOST["MerTradeID"] = $_POST["MerTradeID"];
+        $SendPOST["MerProductID"] = $_POST["MerProductID"];
+        $SendPOST["MerUserID"] = $_POST["MerUserID"];
+
+        $SendPOST["BankName"] = "第一銀行";
+        $SendPOST["VatmBankCode"] = "007";
+        $SendPOST["VatmAccount"] = $VatmAccount;
+        $SendPOST["Amount"] = $_POST['Amount'];
+        $SendPOST["ExpireDatetime"] = $ExpireDatetime ;
+        $SendPOST["Validate"] = $Validate;
+        
+        if (strlen(trim($TakeNumberURL)) != 0 || strlen(trim($_POST['TakeNumberURL'])) != 0) {
+            
+            try {
+                if ($TakeNumberURL != '') {
+                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/CTBC/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+                if ($_POST['TakeNumberURL'] != '') {
+                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/CTBC/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+            }
+            catch (Exception $e) {  
+                
+            }
+        }else {
+            $fp = fopen('Log/CTBC/TakeNumberErr_LOG_'.date("YmdHi").'.txt', 'a');
+            fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+            fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+            fclose($fp);
+        }
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
+            echo json_encode($SendPOST);
+        }else {            
+            include("ATMPay.html");
+        }
+        exit;
+
     }else {
-        throw new exception("電信小額未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
+        throw new exception("虛擬帳戶未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
     }
 }
 catch (Exception $e) {
     echo "<center>錯誤！ErrCode：" . $ErrCode . " ErrMessage：" . $e->getMessage() . "</center>";
-    exit;
 }
 
 function SockPost($URL, $Query, &$curlerror){
@@ -275,15 +279,4 @@ function SockPost($URL, $Query, &$curlerror){
     
     return $strReturn;
     
-}
-
-function getResult($result,$method = "post"){
-    $rtAry = explode("\t",$result);
-    $keyAry = explode("|",$rtAry[0]);
-    $valueAry = explode("|",$rtAry[1]);
-    $finalAry = array();
-    for ($i=0; $i<count($keyAry); $i++) {
-        $finalAry[$keyAry[$i]] = $valueAry[$i];
-    }
-    return $finalAry;
 }

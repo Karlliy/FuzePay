@@ -85,7 +85,8 @@
               <?php }?>
               <?php if ((CSession::getVar("IsChild") == 0  || (CSession::getVar("IsChild") == 1 && array_search("InvoiceLayout", CSession::getVar("Purview")) != false)) && CSession::getVar("AdminLevel") <= 2) {?>
               <a class="collapse-item" href="../ledger/admin.php?func=invoice">發票管理</a>
-              <?php }?>
+              <?php }?>              
+              <a class="collapse-item" href="../ledger/admin.php?func=statistics">資料統計</a>
             </div>
           </div>
         </li>

@@ -31,6 +31,16 @@
     $_PaymentDate = date("Y-m-d H:i:s", strtotime($obj->TDATE.$obj->TTIME));
     $_VatmAccount = substr($obj->ACCNO, -14); ;
 
+	if (strlen(trim($_VatmAccount)) < 4 ) {
+		$fp = fopen('../Log/KGI/VatmAccountFail_LOG_'.date('YmdHi').'.txt', 'a');
+		fwrite($fp, ' ---------------- Fail_LOG開始 ---------------- '.PHP_EOL);
+		fwrite($fp, 'VatmAccount =>'.$_VatmAccount.PHP_EOL);
+		fclose($fp);
+		$protocol = (isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP/1.0');
+		header($protocol . ' 200 ');
+		exit;
+	}
+
     @CDbShell::connect();
 	CDbShell::query("SELECT F.*, L.PaymentName, L.MerTradeID, L.MerProductID, L.MerUserID, L.Total, L.Fee, L.NotifyURL FROM Ledger AS L INNER JOIN Firm AS F ON L.FirmSno = F.Sno WHERE L.VatmAccount = '".$_VatmAccount."'"); 
 	$FirmRow = CDbShell::fetch_array();

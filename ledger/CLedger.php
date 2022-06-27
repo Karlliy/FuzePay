@@ -1634,6 +1634,16 @@ class CLedger {
 			$nowitem = $_GET["ipage"] * $this->PageItems;
 			$_arrange = " ORDER BY Chief.ExpectedRecordedDate, Chief.FirmSno DESC";
 			if (self::CheckDateTime($_POST["StartTime"]) && self::CheckDateTime($_POST["EndTime"])) {
+
+				$firstDate  = new DateTime($_POST["StartTime"]." 00:00:00");
+				$secondDate = new DateTime($_POST["EndTime"]." 23:59:59");
+				$intvl = $firstDate->diff($secondDate);
+
+				if ($intvl->days > 10) {
+					JSModule::Message("查詢日期最多不能超過10天", "admin.php?func=reconcile");
+					exit;
+				}
+
 				switch ($_POST["DateType"]) {
 					case 1:
 						$this->SearchKeyword = " WHERE (Chief.ExpectedRecordedDate BETWEEN '".$_POST["StartTime"]."' AND '".$_POST["EndTime"]."')";
@@ -1650,6 +1660,13 @@ class CLedger {
 
 				$this->SearchKeyword = " WHERE Chief.ExpectedRecordedDate >= '".Date("Y-m-d")."'";
 				$_arrange = " ORDER BY Chief.ExpectedRecordedDate, Chief.FirmSno DESC, Chief.Period ";
+
+				/*$Layout .= "<tr>";
+	    	
+	    		$Layout .= "<td class=\"nowrap\" style=\"color:red\">請選擇查詢日期</td>";
+				$Layout .= "</tr>";
+				echo $Layout;
+	    		exit;*/
 			}
 			
 			if ($AdminLevel == 3) {
@@ -1863,9 +1880,33 @@ class CLedger {
 			}*/
 			
 			if (self::CheckDateTime($_POST["StartTime"]) && self::CheckDateTime($_POST["EndTime"])) {
+
+				$firstDate  = new DateTime($_POST["StartTime"]." 00:00:00");
+				$secondDate = new DateTime($_POST["EndTime"]." 23:59:59");
+				$intvl = $firstDate->diff($secondDate);
+
+				if ($intvl->days > 10) {
+					JSModule::Message("查詢日期最多不能超過10天", "admin.php?func=delay");
+
+					$Layout .= "<tr>";
+	    	
+					$Layout .= "<td class=\"nowrap\" style=\"color:red\">查詢日期最多不能超過10天</td>";
+					$Layout .= "</tr>";
+					echo $Layout;
+					exit;
+				}
+
 				$this->SearchKeyword .= " AND (Chief.ExpectedRecordedDate BETWEEN '".$_POST["StartTime"]."' AND '".$_POST["EndTime"]."')";
 			}
-			
+			else {
+				//JSModule::Message("請選擇查詢日期");
+				$Layout .= "<tr>";
+	    	
+	    		$Layout .= "<td class=\"nowrap\" style=\"color:red\">請選擇查詢日期</td>";
+				$Layout .= "</tr>";
+				echo $Layout;
+	    		exit;
+			}
 			if ($_POST["State"] != "") {
 				//if (strlen($this->SearchKeyword) > 0) $this->SearchKeyword .= " AND ";
 				//else $this->SearchKeyword = " WHERE ";
@@ -1975,6 +2016,15 @@ class CLedger {
 			$nowitem = $_GET["ipage"] * $this->PageItems;
 			
 			if (self::CheckDateTime($_POST["StartTime"]) && self::CheckDateTime($_POST["EndTime"])) {
+
+				$firstDate  = new DateTime($_POST["StartTime"]." 00:00:00");
+				$secondDate = new DateTime($_POST["EndTime"]." 23:59:59");
+				$intvl = $firstDate->diff($secondDate);
+
+				if ($intvl->days > 31) {
+					JSModule::Message("查詢日期最多不能超過30天", "admin.php?func=funding");
+					exit;
+				}
 				switch ($_POST["DateType"]) {
 					case 1:
 						$this->SearchKeyword = " WHERE (Chief.FundingDate BETWEEN '".$_POST["StartTime"]."' AND '".$_POST["EndTime"]."')";
@@ -1986,6 +2036,14 @@ class CLedger {
 						$this->SearchKeyword = " WHERE (Chief.ActualRecordedDate BETWEEN '".$_POST["StartTime"]."' AND '".$_POST["EndTime"]."')";
 						break;
 				}
+			}else {
+
+				/*$Layout .= "<tr>";
+	    	
+	    		$Layout .= "<td class=\"nowrap\" style=\"color:red\">請選擇查詢日期</td>";
+				$Layout .= "</tr>";
+				echo $Layout;
+	    		exit;*/
 			}
 			
 			if ($_POST["State"] != "-1" && $_POST["State"] != "") {

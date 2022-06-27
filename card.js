@@ -36,6 +36,7 @@ function SelPaymentType() {
 			document.getElementById("form1").action = posturi+"CreditPayment.php";
 			document.getElementsByName('Amount')[0].placeholder='請填寫金額;金額需大30元;分期金額需大於100元';
 			document.getElementById("AmountLayout").style.display = 'flex';
+			document.getElementById("ChoosePayment2").style.display = 'none';
 			document.getElementById("Currency").innerHTML = '新台幣';
 			break;
 		case "1":
@@ -44,6 +45,7 @@ function SelPaymentType() {
 			document.getElementsByName('Amount')[0].placeholder='請填寫金額;金額需大30元';
 			document.getElementById("AmountLayout").style.display = 'flex';
 			document.getElementById("ChoosePayment").style.display = 'none';
+			document.getElementById("ChoosePayment2").style.display = 'none';
 			document.getElementById("Currency").innerHTML = '新台幣';
 			//console.log(document.getElementById("form1").action);
 			break;
@@ -53,6 +55,7 @@ function SelPaymentType() {
 			document.getElementsByName('Amount')[0].placeholder='請填寫金額;金額需大30元';
 			document.getElementById("AmountLayout").style.display = 'flex';
 			document.getElementById("ChoosePayment").style.display = 'flex';
+			document.getElementById("ChoosePayment2").style.display = 'none';
 			document.getElementById("Currency").innerHTML = '新台幣';
 			//console.log(document.getElementById("form1").action);
 			break;
@@ -62,6 +65,7 @@ function SelPaymentType() {
 			document.getElementsByName('Amount')[0].placeholder='請填寫金額';
 			document.getElementById("AmountLayout").style.display = 'none';
 			document.getElementById("ChoosePayment").style.display = 'none';
+			document.getElementById("ChoosePayment2").style.display = 'none';
 			document.getElementById("Currency").innerHTML ='新台幣';
 			//document.getElementById("ChoosePayment").value = 'WebATM';
 			//console.log(document.getElementById("form1").action);
@@ -76,18 +80,24 @@ function SelPaymentType() {
 			break;*/
 		case "4":
 			//document.getElementById("InstallmentDraw").style.display="none";
-			document.getElementById("form1").action = posturi+"BarcodePayment.php";
-			document.getElementById("AmountLayout").style.display = 'flex';
-			document.getElementById("ChoosePayment").style.display = 'flex';
+			document.getElementById("form1").action =  posturi+"FirstPayment.php";
+			document.getElementsByName('Amount')[0].placeholder='請填寫金額';
+			document.getElementById("AmountLayout").style.display = 'none';
+			document.getElementById("ChoosePayment").style.display = 'none';
+			document.getElementById("ChoosePayment2").style.display = 'none';
 			document.getElementById("Currency").innerHTML ='新台幣';
-			//console.log(document.getElementById("form1").action);
-			var drop = document.getElementById("BankCode");
-			for (var i = 0; i < drop.length; i++){
-				var option = drop.options[i];
-				option.removeAttribute("hidden", "");
-			}
 			break;
-		case "4-1":
+		case "5":
+			//document.getElementById("InstallmentDraw").style.display="none";
+			document.getElementById("form1").action = posturi+"TelecomPayment.php";
+			document.getElementsByName('Amount')[0].placeholder='請填寫金額;金額需大30元';
+			document.getElementById("AmountLayout").style.display = 'flex';
+			document.getElementById("ChoosePayment").style.display = 'none';
+			document.getElementById("ChoosePayment2").style.display = 'flex';
+			document.getElementById("Currency").innerHTML = '新台幣';
+			//console.log(document.getElementById("form1").action);
+			break;
+		/*case "4-1":
 			document.getElementById("InstallmentDraw").style.display="none";
 			document.getElementById("form1").action =  posturi+"OnlineBankPayment.php?mobile=1";
 			document.getElementsByName('Amount')[0].placeholder='請填寫金額';
@@ -145,7 +155,7 @@ function SelPaymentType() {
 			document.getElementById("OnlineBank").style.display = 'none';
 			document.getElementById("Currency").innerHTML ='人民幣';
 			//console.log(document.getElementById("form1").action);
-			break;
+			break;*/
 		case "10":
 			document.getElementById("InstallmentDraw").style.display="none";
 			document.getElementById("form1").action =  posturi+"QuickPayment.php";

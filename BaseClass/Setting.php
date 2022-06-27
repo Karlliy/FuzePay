@@ -29,6 +29,12 @@
 	define("KGI12_Code", "79183");
 	#中信台幣
 	define("CTBC_Code", "92401");
+
+	#第一銀行
+	define("First_Code", "41665");
+	#第一銀行
+	define("First_Code2", "0041666");
+
 	#永豐
 	define("SinoPac_ShopNo", "NA0251_001");
 	#樂力活

@@ -590,7 +590,7 @@ try {
         if ($FirmRow["Sno"] == 65) {
             $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
         }else {
-            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +21 day"));
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
         }
 
         #$GetYear = mb_substr((date("Y", strtotime($ExpireDatetime))-1911), -1);
@@ -1135,6 +1135,199 @@ try {
             echo $Obj->msg;
         }
     
+    
+    }else if (is_numeric(mb_strpos($PaymentMode, "第一銀行", "0", "UTF-8"))) {
+
+        $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+        /*$passchars      = array('3','7','1','3','7','1','3','7','1','3','7','1','3','7','1','3','7','1','3','7','1','3');
+        $passchars2     = array('8','7','6','5','4','3','2','1','8','7','6','5','4','3','2','1','8','7','6','5','4','3');
+        
+        Again8:
+        $WaterAccount =  str_pad(rand(0, 10000), 4, '0', STR_PAD_LEFT);
+        
+        if ($FirmRow["Sno"] == 65) {
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +1 day"));
+        }else {
+            $ExpireDatetime = date('Y-m-d', strtotime(date('Y-m-d') . " +14 day"));
+        }
+
+        $chars     = str_split(First2_Code.$WaterAccount.date('md', strtotime($ExpireDatetime)).str_pad($_POST['Amount'], 8, '0', STR_PAD_LEFT));
+
+        $x = 0;
+        foreach ($chars as $char) {
+            #echo $char."|".$passchars[$x] . "|". (($char * $passchars[$x]) % 10)."<pre />";
+            //$CheckCode1 += (($char * $passchars[$x]) % 10);
+            //$CheckCode1 += ($char * $passchars[$x]);
+            
+            $x++;
+        }
+
+        $_CheckCode1 = ($CheckCode1 % 10);
+
+        if ($_CheckCode1 == 0) {        
+            $O = 0;
+        }else {
+            $O = 10 - $_CheckCode1;
+        }
+
+        $x = 0;
+        foreach ($chars as $char) {
+            #echo $char."|".$passchars[$x] . "|". (($char * $passchars[$x]) % 10)."<pre />";
+            //$CheckCode1 += (($char * $passchars[$x]) % 10);
+            //$CheckCode2 += ($char * $passchars2[$x]);
+            
+            $x++;
+        }
+
+        $_CheckCode2 = ($CheckCode2 % 10);
+
+        if ($_CheckCode2 == 0) {        
+            $P = 0;
+        }else {
+            $P = 10 - $_CheckCode2;
+        }
+
+        $VatmAccount = First_Code.$WaterAccount.date('md', strtotime($ExpireDatetime)).$P;   */     
+
+        Again8:
+        srand((double)microtime()*1000000); 
+        $WaterAccount =  str_pad(rand(0, 100000), 5, '0', STR_PAD_LEFT);
+
+        $VatmAccount = First_Code2.date('md', strtotime($ExpireDatetime)).$WaterAccount;
+        //$VatmAccount = First_Code2.$WaterAccount;
+
+        $VatmAccount2 = $VatmAccount;
+        $sql = "SELECT Sno FROM ledger WHERE VatmAccount = '" . $VatmAccount . "' AND CreationDate BETWEEN '" . date('Y-m-d') . " 00:00:00' AND '" . date('Y-m-d') . " 23:59:59'";
+        CDbShell::query($sql);
+        if (CDbShell::num_rows() > 0) {
+            goto Again8;
+        }
+
+        $parameter = array(	
+            "PlatFormId"		=> "FCB008343859801",
+            "PayType"           => "REG",
+            "OrderId"           => $CashFlowID,
+            "Amount"            => intval($_POST['Amount']),
+            "ShippingFee"       => 0,
+            "ProductName"       => "3C商品",
+            "PayTitle"          => "請確認無誤再進行繳費",
+            "ClientIP"          => get_client_ip(0, true),
+            "TimeZone"          => "+0800",
+            "CreateTime"        => date('Y/m/d H:i:s'),
+            "TransTime"         => date('Y/m/d H:i:s'),
+            "InAccountNo"       => $VatmAccount,
+            "Apply"             => "Y",
+            "DueDate"           => date('Ymd', strtotime($ExpireDatetime))
+            /*"Description"       => "3C商品",
+            "Quantity"          => 1,
+            "UnitPrice"         => intval($_POST['Amount']),
+            "Amount"            => intval($_POST['Amount']),
+            "TaxType"           => 1*/
+        );
+
+        $md5str = "";
+    
+        ksort($parameter);
+        
+        $i = 0;
+        foreach ($parameter as $key => $val) {
+            if ($i < Count($parameter) -1) {
+                $md5str = $md5str . $key . "=" . $val . "&";
+            }else {
+                $md5str = $md5str . $key . "=" . $val;
+            }
+            $i++;
+        }
+
+        $md5st = "664fd94f32ee24530f1f0e7ab5e3b44f".$md5str;
+        $HashKey = hash('sha256', $md5st);
+
+        $parameter["HashKey"] = $HashKey;
+
+        $strReturn = SockPost("https://pay.firstbank.com.tw/PayServerOnline/REG", $parameter, $curlerror);   
+
+        $field = array("VatmAccount");
+		$value = array($VatmAccount);
+		CDbShell::update("ledger", $field, $value, "Sno = '".$LedgerId."'" );
+
+        /*$sHtml = "<form id='rongpaysubmit' name='rongpaysubmit' action='https://pay.firstbank.com.tw/PayServerOnline/OrderProcessOnline' method='POST'>";
+        foreach ($parameter as $key => $val) 
+		{
+		    $sHtml .= "<input type='hidden' name='".$key."' value='".$val."'/>";
+		}
+		$sHtml = $sHtml."<input type='submit' value='付款' style='display:none'></form>";
+		$sHtml = $sHtml."<script>document.forms['rongpaysubmit'].submit();</script>";
+		
+		/*$fp = fopen('Log/AP_CreditPay_'.date("Ymd His").'.txt', 'a');
+		fwrite($fp, $sHtml."\n\r");
+		fclose($fp);*/
+	
+		//echo $sHtml;
+        //exit;
+
+        $OrderNo      = $CashFlowID;
+        $MerProductID = $_POST['MerProductID'];
+        $MerUserID    = $_POST['MerUserID'];
+        $Amount       = $_POST['Amount'];
+        $VatmBankCode = "007 (第一銀行)";
+        $split        = "-";
+        $VatmAccount  = substr($VatmAccount, 0, 4) . $split . substr($VatmAccount, 4, 4) . $split . substr($VatmAccount, 8, 4) . $split . substr($VatmAccount, 12, 4);
+        
+        $Validate = MD5("ValidateKey=".$FirmRow["ValidateKey"]."&RtnCode=1&MerTradeID=".$_POST["MerTradeID"]."&MerUserID=".$_POST["MerUserID"]."");
+            
+        $SendPOST["RtnCode"] = "1";
+        $SendPOST["RtnMessage"] = "取號成功";
+        $SendPOST["MerTradeID"] = $_POST["MerTradeID"];
+        $SendPOST["MerProductID"] = $_POST["MerProductID"];
+        $SendPOST["MerUserID"] = $_POST["MerUserID"];
+
+        $SendPOST["BankName"] = "第一銀行";
+        $SendPOST["VatmBankCode"] = "007";
+        $SendPOST["VatmAccount"] = $VatmAccount;
+        $SendPOST["Amount"] = $_POST['Amount'];
+        $SendPOST["ExpireDatetime"] = $ExpireDatetime ;
+        $SendPOST["Validate"] = $Validate;
+        
+        if (strlen(trim($TakeNumberURL)) != 0 || strlen(trim($_POST['TakeNumberURL'])) != 0) {
+            
+            try {
+                if ($TakeNumberURL != '') {
+                    $strReturn = SockPost($TakeNumberURL, $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/First/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+                if ($_POST['TakeNumberURL'] != '') {
+                    $strReturn = SockPost($_POST['TakeNumberURL'], $SendPOST, $curlerror);                    
+                
+                    $fp = fopen('Log/First/TakeNumber_LOG_'.date("YmdHi").'.txt', 'a');
+                    fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+                    fwrite($fp, "\$_POST['TakeNumberURL'] =>".$_POST['TakeNumberURL'].PHP_EOL);
+                    fwrite($fp, "\$strReturn =>".$strReturn.PHP_EOL);
+                    fwrite($fp, "\$curlerror =>".$curlerror.PHP_EOL);
+                    fclose($fp);
+                }
+            }
+            catch (Exception $e) {  
+                
+            }
+        }else {
+            $fp = fopen('Log/First/TakeNumberErr_LOG_'.date("YmdHi").'.txt', 'a');
+            fwrite($fp, " ---------------- TakeNumber開始 ---------------- ".PHP_EOL);                
+            fwrite($fp, "\$TakeNumberURL =>".$TakeNumberURL.PHP_EOL);
+            fclose($fp);
+        }
+        if ($_POST['ReturnJosn'] == "Y" || $_POST['ReturnJson'] == "Y") {
+            echo json_encode($SendPOST);
+        }else {            
+            include("ATMPay.html");
+        }
+        exit;
+
     }else {
         throw new exception("虛擬帳戶未啟用，請接洽".Simplify_Company."，".Simplify_Company."客服專線：".Base_TEL);
     }
@@ -1428,6 +1621,30 @@ function addpadding($string, $blocksize = 32)
     $string .= str_repeat(chr($pad), $pad);
     //echo $string;
     return $string;
+}
+
+function get_client_ip($type = 0,$adv=false) {
+    $type       =  $type ? 1 : 0;
+    static $ip  =   NULL;
+    if ($ip !== NULL) return $ip[$type];
+    if($adv){
+        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+            $arr    =   explode(',', $_SERVER['HTTP_X_FORWARDED_FOR']);
+            $pos    =   array_search('unknown',$arr);
+            if(false !== $pos) unset($arr[$pos]);
+            $ip     =   trim($arr[0]);
+        }elseif (isset($_SERVER['HTTP_CLIENT_IP'])) {
+            $ip     =   $_SERVER['HTTP_CLIENT_IP'];
+        }elseif (isset($_SERVER['REMOTE_ADDR'])) {
+            $ip     =   $_SERVER['REMOTE_ADDR'];
+        }
+    }elseif (isset($_SERVER['REMOTE_ADDR'])) {
+        $ip     =   $_SERVER['REMOTE_ADDR'];
+    }
+    // IP地址合法驗證
+    $long = sprintf("%u",ip2long($ip));
+    $ip   = $long ? array($ip, $long) : array('0.0.0.0', 0);
+    return $ip[$type];
 }
 
 ?>

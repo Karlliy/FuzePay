@@ -1,8 +1,8 @@
 <?php 
-class CDbShell {
+class CDbShellRead {
 	public static $magic = "on";
     public static $type = "mysql";
-    /*public static $host = "10.127.5.2"; //sql server hostname
+    /*public static $host = "10.127.9.2"; //sql server hostname
     public static $user = "root"; // username
     public static $pass = "1J8-C*aaV.QaXKf90T-+"; // password
     public static $db 	= "fuzepay"; // database*/
@@ -69,7 +69,6 @@ class CDbShell {
 	        }
 	    }
 	}
-
 	// -----------------------------------------------------------------------------------
 	static function Connect() {
 		self::$dbh = mysqli_connect(self::$host, self::$user, self::$pass) or die ("DB無法連線");
